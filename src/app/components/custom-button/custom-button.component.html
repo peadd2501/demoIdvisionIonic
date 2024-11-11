@@ -1,0 +1,7 @@
+<ion-button expand="block"
+[disabled]="disabled"
+(click)="onClick()">
+<ion-icon *ngIf="showIcon && icon" [name]="icon" slot="start"></ion-icon>
+  {{texto}}
+</ion-button>
+

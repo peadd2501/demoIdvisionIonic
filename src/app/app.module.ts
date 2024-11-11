@@ -1,0 +1,20 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
+
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { IdVisionComponent } from './pages/id-vision/id-vision.component';
+import { CustomButtonComponent } from './components/custom-button/custom-button.component';
+import { CameraWithOverlayComponent } from './pages/id-vision/components/camera-with-overlay/camera-with-overlay.component';
+
+@NgModule({
+  declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IdVisionComponent,],
+  exports: [],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}

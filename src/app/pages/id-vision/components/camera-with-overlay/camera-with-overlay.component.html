@@ -1,0 +1,35 @@
+<ion-content color="dark">
+  <div class="camera-container">
+    <!-- Muestra la imagen capturada o la vista de la cámara web -->
+    <ion-content>
+      <div class="camera-container" *ngIf="isCameraEnabled">
+        <video #captureElement></video>
+      </div>
+    
+      <div *ngIf="capturedImage">
+        <h3>Imagen Capturada:</h3>
+        <img [src]="capturedImage" alt="Foto capturada" />
+      </div>
+    
+      <ion-button expand="block" (click)="initCamera()">Iniciar Cámara</ion-button>
+      <ion-button expand="block" (click)="capturePhoto()" [disabled]="!isCameraEnabled">Capturar Foto</ion-button>
+      <ion-button expand="block" color="danger" (click)="stopCamera()" [disabled]="!isCameraEnabled">Detener Cámara</ion-button>
+    </ion-content>
+
+    <!-- Vista previa de la cámara y overlay -->
+    <ng-template #cameraPreview>
+      <video #videoElement class="video-element"></video>
+      <img [src]="overlaySrc" #overlayImage class="overlay-image" />
+      <div class="overlay-text">
+        <p>{{ text1 }}</p>
+        <p>{{ text2 }}</p>
+      </div>
+      <ion-button expand="block" (click)="captureWebPhoto()">Tomar Foto</ion-button>
+    </ng-template>
+
+    <!-- Botón de cerrar -->
+    <ion-button fill="clear" (click)="closeOverlay()" class="close-button">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>

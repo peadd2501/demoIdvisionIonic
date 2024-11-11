@@ -1,0 +1,7 @@
+{
+  "name": "idVisionIonic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
