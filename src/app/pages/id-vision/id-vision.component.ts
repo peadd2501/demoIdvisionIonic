@@ -50,7 +50,7 @@ export class IdVisionComponent  implements OnInit {
       componentProps: {
         text1: 'Parte frontal: Identificación Nacional ',
         text2: 'Guatemala',
-        overlaySrc: 'assets/overlay-image.png',
+        overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
       },
       backdropDismiss: false,
     });
@@ -69,7 +69,7 @@ export class IdVisionComponent  implements OnInit {
       componentProps: {
         text1: 'Parte trasera: Identificación Nacional ',
         text2: 'Guatemala',
-        overlaySrc: 'assets/overlay-image.png',
+        overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
       },
       backdropDismiss: false,
     });

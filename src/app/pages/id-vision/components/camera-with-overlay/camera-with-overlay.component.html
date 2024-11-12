@@ -8,7 +8,9 @@
     <!-- Video de la cámara con el overlay centrado -->
     <div class="camera-container">
       <video #videoElement autoplay muted playsinline></video>
-      <!-- <img [src]="overlaySrc" alt="Overlay" class="overlay-frame" /> -->
+      <div class="overlay-mask"></div>
+
+      <img [src]="overlaySrc" alt="Overlay" class="overlay-frame" />
     </div>
 
     <!-- Botón de captura centrado en la parte inferior -->

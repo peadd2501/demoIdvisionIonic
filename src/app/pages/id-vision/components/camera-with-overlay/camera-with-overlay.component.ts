@@ -15,6 +15,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
 
   @Input() text1: string = '';
   @Input() text2: string = '';
+  @Input() overlaySrc: string = '';
 
   capturedImage: SafeUrl | null = null;
   stream: MediaStream | null = null;
@@ -22,7 +23,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   private isAndroid: boolean;
   private isIOS: boolean;
 
-  overlaySrc: String = '';
+  // overlaySrc: String = '';
 
   constructor(
     private platform: Platform,
