@@ -4,6 +4,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
+import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
 
 
 register();
@@ -67,6 +68,26 @@ export class IdVisionComponent  implements OnInit {
       component: CameraWithOverlayComponent,
       componentProps: {
         text1: 'Parte trasera: Identificación Nacional ',
+        text2: 'Guatemala',
+        overlaySrc: 'assets/overlay-image.png',
+      },
+      backdropDismiss: false,
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      console.log('Imagen capturada:', data.imagePath);
+    }
+  }
+
+
+  async openAcuerdoVideo () {
+    const modal = await this.modalController.create({
+      component: CamaraVideoSelfieComponent,
+      componentProps: {
+        text1: 'Video Selfie',
         text2: 'Guatemala',
         overlaySrc: 'assets/overlay-image.png',
       },
