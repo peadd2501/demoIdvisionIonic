@@ -43,15 +43,34 @@ export class IdVisionComponent  implements OnInit {
   }
 
 
-  async openCameraOverlay() {
+  async openCameraOverlayFrontal () {
     const modal = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
-        text1: 'Texto superior',
-        text2: 'Texto inferior',
+        text1: 'Parte frontal: Identificación Nacional ',
+        text2: 'Guatemala',
         overlaySrc: 'assets/overlay-image.png',
       },
-      backdropDismiss: false, // Evita que el modal se cierre al hacer clic fuera de él
+      backdropDismiss: false,
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      console.log('Imagen capturada:', data.imagePath);
+    }
+  }
+
+  async openCameraOverlayTrasero () {
+    const modal = await this.modalController.create({
+      component: CameraWithOverlayComponent,
+      componentProps: {
+        text1: 'Parte trasera: Identificación Nacional ',
+        text2: 'Guatemala',
+        overlaySrc: 'assets/overlay-image.png',
+      },
+      backdropDismiss: false,
     });
 
     await modal.present();

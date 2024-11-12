@@ -1,33 +1,24 @@
 <ion-content color="dark">
-  <div class="camera-container">
-    <!-- Muestra la imagen capturada o la vista de la cámara web -->
-    <ion-content>
-      <div class="camera-container" *ngIf="isCameraEnabled">
-        <video #captureElement></video>
-      </div>
-    
-      <div *ngIf="capturedImage">
-        <h3>Imagen Capturada:</h3>
-        <img [src]="capturedImage" alt="Foto capturada" />
-      </div>
-    
-      <ion-button expand="block" (click)="initCamera()">Iniciar Cámara</ion-button>
-      <ion-button expand="block" (click)="capturePhoto()" [disabled]="!isCameraEnabled">Capturar Foto</ion-button>
-      <ion-button expand="block" color="danger" (click)="stopCamera()" [disabled]="!isCameraEnabled">Detener Cámara</ion-button>
-    </ion-content>
+  <div class="camera-overlay">
+    <div class="header-text">
+      <p>{{text1}}</p>
+      <p class="country">{{text2}}</p>
+    </div>
 
-    <!-- Vista previa de la cámara y overlay -->
-    <ng-template #cameraPreview>
-      <video #videoElement class="video-element"></video>
-      <img [src]="overlaySrc" #overlayImage class="overlay-image" />
-      <div class="overlay-text">
-        <p>{{ text1 }}</p>
-        <p>{{ text2 }}</p>
-      </div>
-      <ion-button expand="block" (click)="captureWebPhoto()">Tomar Foto</ion-button>
-    </ng-template>
+    <!-- Video de la cámara con el overlay centrado -->
+    <div class="camera-container">
+      <video #videoElement autoplay muted playsinline></video>
+      <!-- <img [src]="overlaySrc" alt="Overlay" class="overlay-frame" /> -->
+    </div>
 
-    <!-- Botón de cerrar -->
+    <!-- Botón de captura centrado en la parte inferior -->
+    <div class="button-container">
+      <ion-button (click)="capturePhoto()" class="capture-button" expand="block">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Botón de cerrar en la esquina superior derecha -->
     <ion-button fill="clear" (click)="closeOverlay()" class="close-button">
       <ion-icon name="close-outline"></ion-icon>
     </ion-button>

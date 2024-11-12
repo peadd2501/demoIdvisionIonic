@@ -1,0 +1,83 @@
+ion-content {
+    --background: black;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .camera-overlay {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .camera-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  
+    .overlay-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  
+  .header-text {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    z-index: 10; // Asegura que el texto esté encima del video
+  
+    p {
+      margin: 0;
+      font-size: 18px;
+    }
+  
+    .country {
+      font-weight: bold;
+    }
+  }
+  
+  .button-container {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; // Asegura que el botón esté encima del video
+  }
+  
+  .capture-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    --background: #ffaa00;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    z-index: 10; // Asegura que el botón de cerrar esté encima del video
+  }
+  
