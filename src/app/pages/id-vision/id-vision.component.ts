@@ -19,14 +19,14 @@ register();
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
 })
-export class IdVisionComponent  implements OnInit {
+export class IdVisionComponent implements OnInit {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
-  
+
   constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
     private loadingController: LoadingController
     /*private storage: Storage*/,) {
-     // this.init();
-     }
+    // this.init();
+  }
 
   swiperElement = signal<SwiperContainer | null>(null);
   // async init() {
@@ -49,16 +49,17 @@ export class IdVisionComponent  implements OnInit {
 
   handleClick() {
     this.InitProccess();
-    
+
   }
 
 
 
-async InitProccess() {
-  try {
-      this.dpiService.InitProccess(this.dpi.value+'', '673259d3f027711b51e71202').subscribe({
+  async InitProccess() {
+    try {
+      this.dpiService.InitProccess(this.dpi.value + '', '673259d3f027711b51e71202').subscribe({
         next: (response: any) => {
-          if(!response['error']){
+          if (!response['error']) {
+            localStorage.setItem('codigo', response['details']);
             this.swiperElement()?.swiper?.slideNext();
           }
         },
@@ -66,30 +67,79 @@ async InitProccess() {
           console.error('Error al llamar al servicio:', error);
         }
       });
-  } catch (error) {
-    alert("error");
-    console.log(error)
+    } catch (error) {
+      alert("error");
+      console.log(error)
+    }
   }
-}
 
-//Frontal dpi services
 
-async validateDPIFront(filePath: File): Promise<boolean> {
-this.modalController.dismiss();
-this.handleClick();
-  return true;
-}
+  async DpiFrontProccess(filePath: string) {
+    try {
+      const file = await this.convertImagePathToFile(filePath, 'imagen_temporal.jpg');
+      console.log('Archivo temporal creado:', file);
+      const codigo = localStorage.getItem('codigo') ?? "";
+      this.dpiService.uploadFrontDPI(file, codigo).subscribe({
+        next: (response: any) => {
+          if (!response['error']) {
+            this.swiperElement()?.swiper?.slideNext();
+          }
+        },
+        error: (error) => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      });
+    } catch (error) {
+      alert("error");
+      console.log(error)
+    }
+  }
 
-private async showAlert(header: string, message: string, subMessage?: string) {
-  const alert = await this.alertController.create({
-    header,
-    message: message + (subMessage ? `<br/><small>${subMessage}</small>` : ''),
-    buttons: ['Continuar']
-  });
-  await alert.present();
-}
+  async convertImagePathToFile(imagePath: string, fileName: string): Promise<File> {
+    const response = await fetch(imagePath);
+    const blob = await response.blob();
+    return new File([blob], fileName, { type: blob.type });
+  }
 
-  async openCameraOverlayFrontal () {
+  async DpiBackProccess(filePath: string) {
+    try {
+      const file = await this.convertImagePathToFile(filePath, 'imagen_temporal_back.jpg');
+      console.log('Archivo temporal creado:', file);
+      const codigo = localStorage.getItem('codigo') ?? "";
+      this.dpiService.uploadBackDPI(file, codigo).subscribe({
+        next: (response: any) => {
+          if (!response['error']) {
+            this.swiperElement()?.swiper?.slideNext();
+          }
+        },
+        error: (error) => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      });
+    } catch (error) {
+      alert("error");
+      console.log(error)
+    }
+  }
+
+  //Frontal dpi services
+
+  async validateDPIFront(filePath: File): Promise<boolean> {
+    this.modalController.dismiss();
+    // this.handleClick();
+    return true;
+  }
+
+  private async showAlert(header: string, message: string, subMessage?: string) {
+    const alert = await this.alertController.create({
+      header,
+      message: message + (subMessage ? `<br/><small>${subMessage}</small>` : ''),
+      buttons: ['Continuar']
+    });
+    await alert.present();
+  }
+
+  async openCameraOverlayFrontal() {
     const modal = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
@@ -105,18 +155,18 @@ private async showAlert(header: string, message: string, subMessage?: string) {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      console.log('Imagen capturada:', data.imagePath);
+     await this.DpiFrontProccess(data.imagePath)
     }
   }
 
   //Trasero dpi services
   async validateDPIBack(filePath: File): Promise<boolean> {
     this.modalController.dismiss();
-    this.handleClick();
-      return true;
-    }
-    
-  async openCameraOverlayTrasero () {
+   // this.handleClick();
+    return true;
+  }
+
+  async openCameraOverlayTrasero() {
     const modal = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
@@ -133,12 +183,12 @@ private async showAlert(header: string, message: string, subMessage?: string) {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      console.log('Imagen capturada:', data.imagePath);
+      await this.DpiBackProccess(data.imagePath)
     }
   }
 
 
-  async openAcuerdoVideo () {
+  async openAcuerdoVideo() {
     const modal = await this.modalController.create({
       component: CamaraVideoSelfieComponent,
       componentProps: {
