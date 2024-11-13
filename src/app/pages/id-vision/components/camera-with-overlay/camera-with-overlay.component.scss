@@ -1,102 +1,110 @@
 ion-content {
-    --background: black;
-    padding: 0;
+  --background: black;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+}
+
+.modal-container {
+  max-width: 400px; // Ajusta el valor según tus necesidades
+
+}
+
+.camera-overlay {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.camera-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.overlay-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 70%;
+  max-height: 70%;
+  z-index: 9;
+}
+
+.header-text {
+  position: absolute;
+  top: 70px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  z-index: 15;
+
+  p {
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .camera-overlay {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
-  
-  .camera-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  
-
-
-
-  }
-  .overlay-frame {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 70%; /* Ajusta según sea necesario */
-    max-height: 70%; /* Ajusta según sea necesario */
-    z-index: 10; /* Asegúrate de que esté encima del video */
-
-
-  }
-  .overlay-mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.6); /* Oscurece el fondo */
-    clip-path: inset(5% 10% 12% 10% round 5% 5% 5% 5%);
-    z-index: 5;
-    pointer-events: none;
+    font-size: 18px;
   }
 
-  .header-text {
-    position: absolute;
-    top: 70px;
-    width: 100%;
-    text-align: center;
-    color: white;
-    z-index: 10; // Asegura que el texto esté encima del video
-  
-    p {
-      margin: 0;
-      font-size: 18px;
-    }
-  
-    .country {
-      font-weight: bold;
-    }
+  .country {
+    font-weight: bold;
   }
+}
+
+.button-container {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.capture-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  --background: #ffaa00;
+}
+
+.close-button {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  color: white;
+  z-index: 10;
+}
+
+.visible-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  // width: 70%; /* Ajusta el tamaño del cuadro */
+  // height: 45%; /* Ajusta el tamaño del cuadro */
+
+  width: 390px; /* Ajusta el tamaño del cuadro */
+  height: 420px;
   
-  .button-container {
-    position: absolute;
-    bottom: 30px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10; // Asegura que el botón esté encima del video
-  }
-  
-  .capture-button {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    --background: #ffaa00;
-  }
-  
-  .close-button {
-    position: absolute;
-    top: 14px;
-    right: 20px;
-    color: white;
-    z-index: 10; // Asegura que el botón de cerrar esté encima del video
-  }
-  
+  max-width: 70%;
+  max-height: 70%;
+  background: transparent;
+  border: 2px solid white; /* Color y grosor del borde */
+  border-radius: 10px; /* Ajusta para redondear las esquinas */
+  z-index: 10; /* Asegúrate de que esté encima del overlay oscuro */
+  box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.6); /* Oscurece fuera del cuadro */
+}

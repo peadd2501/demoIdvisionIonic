@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { AlertController, IonicModule, LoadingController, ModalController } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
+import { DpiService } from './services/dpi/dpi-service.service';
+import { lastValueFrom } from 'rxjs';
 
 
 register();
@@ -20,10 +22,16 @@ register();
 export class IdVisionComponent  implements OnInit {
 
   
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
+    private loadingController: LoadingController
+    /*private storage: Storage*/,) {
+     // this.init();
+     }
 
   swiperElement = signal<SwiperContainer | null>(null);
-
+  // async init() {
+  //   await this.storage['create']; // Inicializa Storage
+  // }
   ngOnInit() {
     const swiperElemConstructor = document.querySelector('swiper-container');
 
@@ -43,6 +51,22 @@ export class IdVisionComponent  implements OnInit {
     this.swiperElement()?.swiper?.slideNext();
   }
 
+//Frontal dpi services
+
+async validateDPIFront(filePath: File): Promise<boolean> {
+this.modalController.dismiss();
+this.handleClick();
+  return true;
+}
+
+private async showAlert(header: string, message: string, subMessage?: string) {
+  const alert = await this.alertController.create({
+    header,
+    message: message + (subMessage ? `<br/><small>${subMessage}</small>` : ''),
+    buttons: ['Continuar']
+  });
+  await alert.present();
+}
 
   async openCameraOverlayFrontal () {
     const modal = await this.modalController.create({
@@ -51,6 +75,7 @@ export class IdVisionComponent  implements OnInit {
         text1: 'Parte frontal: Identificación Nacional ',
         text2: 'Guatemala',
         overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
+        onTakePicture: this.validateDPIFront.bind(this)
       },
       backdropDismiss: false,
     });
@@ -63,6 +88,13 @@ export class IdVisionComponent  implements OnInit {
     }
   }
 
+  //Trasero dpi services
+  async validateDPIBack(filePath: File): Promise<boolean> {
+    this.modalController.dismiss();
+    this.handleClick();
+      return true;
+    }
+    
   async openCameraOverlayTrasero () {
     const modal = await this.modalController.create({
       component: CameraWithOverlayComponent,
@@ -70,6 +102,8 @@ export class IdVisionComponent  implements OnInit {
         text1: 'Parte trasera: Identificación Nacional ',
         text2: 'Guatemala',
         overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
+        onTakePicture: this.validateDPIBack.bind(this)
+
       },
       backdropDismiss: false,
     });

@@ -16,12 +16,16 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   @Input() text1: string = '';
   @Input() text2: string = '';
   @Input() overlaySrc: string = '';
+  @Input() onTakePicture!: (filePath: File) => Promise<boolean>;
 
   capturedImage: SafeUrl | null = null;
   stream: MediaStream | null = null;
 
   private isAndroid: boolean;
   private isIOS: boolean;
+
+  file?: File;
+  capturedImageUrl: string | null = null;
 
   // overlaySrc: String = '';
 
@@ -81,22 +85,52 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     }
   }
 
-  capturePhoto() {
+  async capturePhoto() {
     if (!this.stream) return;
-
+  
     const canvas = document.createElement('canvas');
     const videoElement = this.videoElement.nativeElement;
-
+  
     canvas.width = videoElement.videoWidth;
     canvas.height = videoElement.videoHeight;
-
+  
     const context = canvas.getContext('2d');
     if (context) {
       context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL('image/png');
-      this.capturedImage = this.sanitizer.bypassSecurityTrustUrl(dataUrl);
+      
+      // Convierte el contenido del canvas a un Blob
+      canvas.toBlob((blob) => {
+        if (blob) {
+          this.file = new File([blob], 'dpi.png', { type: 'image/png' });
+          console.log('file', this.file);
+          
+          this.capturedImageUrl = URL.createObjectURL(this.file); // Crea una URL temporal
+
+          
+          // this.uploadPhoto(file); // Llama a una función para enviar el archivo
+        }
+      }, 'image/jpeg', 0.5);
+
+      const resp = await this.onTakePicture(this.file!);
     }
   }
+
+
+  uploadPhoto(file: File) {
+    // const formData = new FormData();
+    // formData.append('file', file);
+  
+    // // Aquí realiza la solicitud HTTP para enviar el archivo
+    // this.http.post('URL_DE_TU_SERVICIO', formData).subscribe(
+    //   (response) => {
+    //     console.log('Foto subida exitosamente:', response);
+    //   },
+    //   (error) => {
+    //     console.error('Error al subir la foto:', error);
+    //   }
+    // );
+  }
+  
 
   stopCamera() {
     if (this.stream) {

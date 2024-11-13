@@ -5,17 +5,18 @@
       <p class="country">{{text2}}</p>
     </div>
 
+    <!-- Capa oscura con recorte en el centro -->
+    <div class="visible-window"></div>
+
     <!-- Video de la cámara con el overlay centrado -->
     <div class="camera-container">
       <video #videoElement autoplay muted playsinline></video>
-      <div class="overlay-mask"></div>
-
-      <img [src]="overlaySrc" alt="Overlay" class="overlay-frame" />
+      <!-- <img [src]="overlaySrc" alt="Overlay" class="overlay-frame" /> -->
     </div>
 
     <!-- Botón de captura centrado en la parte inferior -->
     <div class="button-container">
-      <ion-button (click)="capturePhoto()" class="capture-button" expand="block">
+      <ion-button (click)="capturePhoto()" class="capture-button"  shape="round" expand="block">
         <ion-icon name="camera-outline"></ion-icon>
       </ion-button>
     </div>
@@ -24,5 +25,11 @@
     <ion-button fill="clear" (click)="closeOverlay()" class="close-button">
       <ion-icon name="close-outline"></ion-icon>
     </ion-button>
+  </div>
+
+  <!-- Mostrar la imagen capturada si existe -->
+  <div *ngIf="capturedImageUrl">
+    <h3>Imagen Capturada:</h3>
+    <img [src]="capturedImageUrl" alt="Foto capturada" />
   </div>
 </ion-content>
