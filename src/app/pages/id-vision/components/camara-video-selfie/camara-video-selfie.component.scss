@@ -1,48 +1,53 @@
-/* Estilos para hacer que el contenedor de la cámara sea un círculo */
 .camera-container {
-    margin-top: 10%;
-    width: 350px; /* Ajusta el tamaño según lo necesites */
-    height: 350px;
-    border-radius: 50%; /* Hacerlo circular */
-    overflow: hidden; /* Asegura que el video quede dentro del contenedor circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black; /* Fondo negro para la cámara */
-    position: relative;
-    margin: auto; /* Centrar horizontalmente */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: white;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg); /* Rotamos el círculo para que la animación inicie desde arriba */
+}
+
+.progress-ring__circle {
+  fill: transparent;
+  stroke: purple;
+  stroke-width: 6;
+  stroke-dasharray: 890; /* La circunferencia del círculo */
+  stroke-dashoffset: 880; /* Oculto por completo al inicio */
+  transition: stroke-dashoffset 10s linear; /* Esto controlará el llenado progresivo */
+}
+
+.progress-active .progress-ring__circle {
+  animation: progress-animation 10s linear forwards;
+}
+
+@keyframes progress-animation {
+  from {
+    stroke-dashoffset: 880;
   }
-  
-  /* Estilos para el video dentro del contenedor circular */
-  .camera-container video {
-    width: 100%; /* Hacer que el video se ajuste al contenedor circular */
-    height: 100%;
-    object-fit: cover;
+  to {
+    stroke-dashoffset: 0;
   }
-  
-  /* Otros estilos adicionales */
-  .close-button {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    color: white;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-  }
-  
-  .header-text {
-    text-align: center;
-    color: white;
-  }
-  
-  .country {
-    font-weight: bold;
-  }
-  
+}

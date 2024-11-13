@@ -1,27 +1,21 @@
-<ion-content color="dark">
-  <div class="camera-overlay">
-    <div class="header-text">
-      <p>{{text1}}</p>
-      <p class="country">{{text2}}</p>
-    </div>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Video Selfie</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeOverlay()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <!-- Video de la cámara con el overlay centrado -->
-    <div class="camera-container">
-      <video #videoElement autoplay muted playsinline></video>
-      <!-- <img [src]="overlaySrc" alt="Overlay" class="overlay-frame" /> -->
+<ion-content>
+  <div class="camera-container">
+    <div class="video-wrapper">
+      <video #videoElement muted autoplay playsinline></video>
+      <svg class="progress-ring" #progressRing width="300" height="300">
+        <circle class="progress-ring__circle" cx="150" cy="150" r="140" />
+      </svg>
     </div>
-
-    <!-- Botón de captura centrado en la parte inferior -->
-    <div class="button-container">
-      <!-- <ion-button (click)="capturePhoto()" class="capture-button" expand="block">
-        <ion-icon name="camera-outline"></ion-icon>
-      </ion-button> -->
-    </div>
-    <div id="overlay-selfie">Hola</div>
-
-    <!-- Botón de cerrar en la esquina superior derecha -->
-    <ion-button fill="clear" (click)="closeOverlay()" class="close-button">
-      <ion-icon name="close-outline"></ion-icon>
-    </ion-button>
+    <ion-button (click)="startRecording()">Iniciar Grabación</ion-button>
+    <ion-button (click)="stopRecording()" [disabled]="!isRecording">Detener Grabación</ion-button>
   </div>
 </ion-content>
