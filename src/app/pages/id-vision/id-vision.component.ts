@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal } from '@angular/core';
-import { AlertController, IonicModule, LoadingController, ModalController } from '@ionic/angular';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal, ViewChild } from '@angular/core';
+import { AlertController, IonicModule, IonInput, LoadingController, ModalController } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
@@ -20,7 +20,7 @@ register();
   styleUrls: ['./id-vision.component.scss'],
 })
 export class IdVisionComponent  implements OnInit {
-
+  @ViewChild('dpi', { static: false }) dpi!: IonInput;
   
   constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
     private loadingController: LoadingController
@@ -48,8 +48,29 @@ export class IdVisionComponent  implements OnInit {
   }
 
   handleClick() {
-    this.swiperElement()?.swiper?.slideNext();
+    this.InitProccess();
+    
   }
+
+
+
+async InitProccess() {
+  try {
+      this.dpiService.InitProccess(this.dpi.value+'', '673259d3f027711b51e71202').subscribe({
+        next: (response: any) => {
+          if(!response['error']){
+            this.swiperElement()?.swiper?.slideNext();
+          }
+        },
+        error: (error) => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      });
+  } catch (error) {
+    alert("error");
+    console.log(error)
+  }
+}
 
 //Frontal dpi services
 

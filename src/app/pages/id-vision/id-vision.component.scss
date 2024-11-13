@@ -148,3 +148,16 @@ text-align: center;
 .image-container {
     width: 100px;
 }
+
+
+ion-item.rounded-input {
+  --border-radius: 10px; // Ajusta este valor para el grado de redondez que desees
+  --background: white; // Color de fondo para el input
+  padding: 8px;
+}
+
+ion-input {
+  text-align: center;
+  color: #005da9;
+  --padding-start: 8px; // Ajuste del padding interno del input
+}
