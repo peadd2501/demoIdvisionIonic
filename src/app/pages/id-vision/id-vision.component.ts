@@ -41,7 +41,7 @@ export class IdVisionComponent implements OnInit {
       navigation: {
         enabled: false,
       },
-      allowTouchMove: false, 
+      allowTouchMove: false,
     };
     Object.assign(swiperElemConstructor!, swiperOptions);
     this.swiperElement.set(swiperElemConstructor as SwiperContainer);
@@ -59,7 +59,7 @@ export class IdVisionComponent implements OnInit {
         this.swiperElement()?.swiper.slideTo(slide);
       }
     }, 250);
-    
+
   }
 
   handleGetInit() {
@@ -89,6 +89,7 @@ export class IdVisionComponent implements OnInit {
 
   async DpiFrontProccess(filePath: string) {
     try {
+      console.log('enviando DPI front')
       const file = await this.convertImagePathToFile(filePath, 'imagen_temporal.jpg');
       console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? "";
@@ -135,12 +136,32 @@ export class IdVisionComponent implements OnInit {
     }
   }
 
-  //Frontal dpi services
+  async VideoSelfieProcccess(filePath: string) {
+    try {
+      const file = await this.convertImagePathToFile(filePath, 'video_selfie.mp4');
+      console.log('Archivo temporal creado:', file);
+      const codigo = localStorage.getItem('codigo') ?? "";
+      this.dpiService.videoSelfie(file, codigo).subscribe({
+        next: (response: any) => {
+          if (!response['error']) {
+            this.swiperElement()?.swiper?.slideNext();
+          }
+        },
+        error: (error) => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      });
+    } catch (error) {
+      alert("error");
+      console.log(error)
+    }
+  }
 
-  async validateDPIFront(filePath: File): Promise<boolean> {
+
+
+  async validateDPIFront(filePath: string): Promise<boolean> {
+    await this.DpiFrontProccess(filePath)
     this.modalController.dismiss();
-    this.handleSlide(2);
-    // this.handleClick();
     return true;
   }
 
@@ -154,6 +175,7 @@ export class IdVisionComponent implements OnInit {
   }
 
   async openCameraOverlayFrontal() {
+
     const modal = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
@@ -166,21 +188,18 @@ export class IdVisionComponent implements OnInit {
     });
 
     await modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-     await this.DpiFrontProccess(data.imagePath)
-    }
   }
 
   //Trasero dpi services
-  async validateDPIBack(filePath: File): Promise<boolean> {
+  async validateDPIBack(filePath: string): Promise<boolean> {
     this.modalController.dismiss();
-      this.handleSlide(3);
-      return true;
-    }
-    
-  async openCameraOverlayTrasero () {
+    console.log('dataaaaaa xxx :', filePath)
+    await this.DpiFrontProccess(filePath)
+    //  this.handleSlide(3);
+    return true;
+  }
+
+  async openCameraOverlayTrasero() {
     const modal = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
@@ -194,17 +213,11 @@ export class IdVisionComponent implements OnInit {
     });
 
     await modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-      await this.DpiBackProccess(data.imagePath)
-    }
   }
 
-  getBackModal() {
+  getBackModal(filePath: string) {
     this.modalController.dismiss();
-    this.handleSlide(4);
-// this.handleClick();
+    this.VideoSelfieProcccess(filePath);
   }
 
   async openAcuerdoVideo() {
@@ -220,10 +233,5 @@ export class IdVisionComponent implements OnInit {
     });
 
     await modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-      console.log('Imagen capturada:', data.imagePath);
-    }
   }
 }
