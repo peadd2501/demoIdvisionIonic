@@ -37,3 +37,22 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
+.my-custom-class {
+    ion-content {
+      --background: #ffffff !important;
+      color: #000000;
+    }
+  }
+
+  
+  ion-alert {
+    --background: #ffffff; /* Cambia el fondo a blanco */
+    --color: #000000; /* Cambia el texto a negro */
+  }
+
+  .custom-alert .alert-wrapper {
+    --background: #ffffff; /* Fondo blanco */
+    --header-color: #000000; /* Color del encabezado */
+    --message-color: #333333; /* Color del mensaje */
+    --button-color: #0071ce; /* Color del botón */
+  }

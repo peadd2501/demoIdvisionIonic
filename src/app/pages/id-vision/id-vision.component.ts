@@ -211,6 +211,7 @@ export class IdVisionComponent implements OnInit {
     const modal = await this.modalController.create({
       component: CamaraVideoSelfieComponent,
       componentProps: {
+        cssClass: 'my-custom-class',
         text1: 'Video Selfie',
         text2: 'Guatemala',
         overlaySrc: 'assets/overlay-image.png',

@@ -153,6 +153,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   async showSuccessAlert() {
     const alert = await this.alertController.create({
       header: 'Éxito',
+      cssClass: 'custom-alert', // Aplica una clase personalizada
       message: 'El video se ha capturado satisfactoriamente.',
       buttons: [
         {

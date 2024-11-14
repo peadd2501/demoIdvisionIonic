@@ -129,3 +129,41 @@ ion-header {
     }
   }
 }
+
+
+ion-header {
+  --background: #ffffff; /* Fondo blanco */
+  color: #000000; /* Texto negro */
+}
+
+ion-toolbar {
+  --ion-background-color: #ffffff !important;
+  --background: #ffffff !important;
+  color: #000000;
+}
+
+
+ion-header {
+  --background: #ffffff; /* Fondo blanco */
+}
+
+ion-toolbar {
+  --ion-background-color: #ffffff !important;
+  --background: #ffffff !important;
+  color: #000000;
+  display: flex;
+  justify-content: space-between; /* Espacio entre título y botón */
+  align-items: center;
+}
+
+.centered-title {
+  flex: 1;
+  text-align: center; /* Centrar el título */
+  font-weight: bold;
+  color: #000000;
+  margin: 0; /* Quita cualquier margen del título */
+}
+
+ion-buttons {
+  justify-content: flex-end; /* Alinea el botón a la derecha */
+}
