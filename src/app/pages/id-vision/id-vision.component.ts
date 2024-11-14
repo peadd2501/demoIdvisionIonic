@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal } from '@angular/core';
-import { AlertController, IonicModule, LoadingController, ModalController } from '@ionic/angular';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal, ViewChild } from '@angular/core';
+import { AlertController, IonicModule, IonInput, LoadingController, ModalController } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
@@ -19,14 +19,14 @@ register();
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
 })
-export class IdVisionComponent  implements OnInit {
+export class IdVisionComponent implements OnInit {
+  @ViewChild('dpi', { static: false }) dpi!: IonInput;
 
-  
   constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
     private loadingController: LoadingController
     /*private storage: Storage*/,) {
-     // this.init();
-     }
+    // this.init();
+  }
 
   swiperElement = signal<SwiperContainer | null>(null);
   // async init() {
@@ -49,7 +49,8 @@ export class IdVisionComponent  implements OnInit {
   }
 
   handleClick() {
-    this.swiperElement()?.swiper?.slideNext();
+    this.InitProccess();
+
   }
 
   async handleSlide(slide: number) {
@@ -65,24 +66,93 @@ export class IdVisionComponent  implements OnInit {
     this.swiperElement()?.swiper?.slideTo(0);
   }
 
-//Frontal dpi services
+  async InitProccess() {
+    try {
+      this.dpiService.InitProccess(this.dpi.value + '', '673259d3f027711b51e71202').subscribe({
+        next: (response: any) => {
+          if (!response['error']) {
+            localStorage.setItem('codigo', response['details']);
+            this.swiperElement()?.swiper?.slideNext();
+          }
+        },
+        error: (error) => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      });
+    } catch (error) {
+      alert("error");
+      console.log(error)
+    }
+  }
 
-async validateDPIFront(filePath: File): Promise<boolean> {
-  this.modalController.dismiss();
-     this.handleSlide(2);
-  return true;
-}
 
-private async showAlert(header: string, message: string, subMessage?: string) {
-  const alert = await this.alertController.create({
-    header,
-    message: message + (subMessage ? `<br/><small>${subMessage}</small>` : ''),
-    buttons: ['Continuar']
-  });
-  await alert.present();
-}
+  async DpiFrontProccess(filePath: string) {
+    try {
+      const file = await this.convertImagePathToFile(filePath, 'imagen_temporal.jpg');
+      console.log('Archivo temporal creado:', file);
+      const codigo = localStorage.getItem('codigo') ?? "";
+      this.dpiService.uploadFrontDPI(file, codigo).subscribe({
+        next: (response: any) => {
+          if (!response['error']) {
+            this.swiperElement()?.swiper?.slideNext();
+          }
+        },
+        error: (error) => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      });
+    } catch (error) {
+      alert("error");
+      console.log(error)
+    }
+  }
 
-  async openCameraOverlayFrontal () {
+  async convertImagePathToFile(imagePath: string, fileName: string): Promise<File> {
+    const response = await fetch(imagePath);
+    const blob = await response.blob();
+    return new File([blob], fileName, { type: blob.type });
+  }
+
+  async DpiBackProccess(filePath: string) {
+    try {
+      const file = await this.convertImagePathToFile(filePath, 'imagen_temporal_back.jpg');
+      console.log('Archivo temporal creado:', file);
+      const codigo = localStorage.getItem('codigo') ?? "";
+      this.dpiService.uploadBackDPI(file, codigo).subscribe({
+        next: (response: any) => {
+          if (!response['error']) {
+            this.swiperElement()?.swiper?.slideNext();
+          }
+        },
+        error: (error) => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      });
+    } catch (error) {
+      alert("error");
+      console.log(error)
+    }
+  }
+
+  //Frontal dpi services
+
+  async validateDPIFront(filePath: File): Promise<boolean> {
+    this.modalController.dismiss();
+    this.handleSlide(2);
+    // this.handleClick();
+    return true;
+  }
+
+  private async showAlert(header: string, message: string, subMessage?: string) {
+    const alert = await this.alertController.create({
+      header,
+      message: message + (subMessage ? `<br/><small>${subMessage}</small>` : ''),
+      buttons: ['Continuar']
+    });
+    await alert.present();
+  }
+
+  async openCameraOverlayFrontal() {
     const modal = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
@@ -98,7 +168,7 @@ private async showAlert(header: string, message: string, subMessage?: string) {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      console.log('Imagen capturada:', data.imagePath);
+     await this.DpiFrontProccess(data.imagePath)
     }
   }
 
@@ -126,7 +196,7 @@ private async showAlert(header: string, message: string, subMessage?: string) {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      console.log('Imagen capturada:', data.imagePath);
+      await this.DpiBackProccess(data.imagePath)
     }
   }
 
@@ -136,7 +206,7 @@ private async showAlert(header: string, message: string, subMessage?: string) {
 // this.handleClick();
   }
 
-  async openAcuerdoVideo () {
+  async openAcuerdoVideo() {
     const modal = await this.modalController.create({
       component: CamaraVideoSelfieComponent,
       componentProps: {
