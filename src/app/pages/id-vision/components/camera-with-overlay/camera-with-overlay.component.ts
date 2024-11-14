@@ -16,7 +16,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   @Input() text1: string = '';
   @Input() text2: string = '';
   @Input() overlaySrc: string = '';
-  @Input() onTakePicture!: (filePath: File) => Promise<boolean>;
+  @Input() onTakePicture!: (filePath: String) => Promise<boolean>;
 
   capturedImage: SafeUrl | null = null;
   stream: MediaStream | null = null;
@@ -102,16 +102,16 @@ export class CameraWithOverlayComponent implements AfterViewInit {
       canvas.toBlob((blob) => {
         if (blob) {
           this.file = new File([blob], 'dpi.png', { type: 'image/png' });
-          console.log('file', this.file);
+         
           
           this.capturedImageUrl = URL.createObjectURL(this.file); // Crea una URL temporal
-
+           this.onTakePicture(this.capturedImageUrl);
           
           // this.uploadPhoto(file); // Llama a una función para enviar el archivo
         }
       }, 'image/jpeg', 0.5);
 
-      const resp = await this.onTakePicture(this.file!);
+      
       this.closeOverlay();
     }
   }
