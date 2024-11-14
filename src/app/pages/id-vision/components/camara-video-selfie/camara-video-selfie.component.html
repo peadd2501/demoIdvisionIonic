@@ -1,13 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Video Selfie</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar slot="center" color="light" class="centered-header">
+    <ion-title class="centered-title">Video Selfie</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="closeOverlay()">Cerrar</ion-button>
+      <ion-button (click)="closeOverlay()"><ion-icon name="close"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="light">
   <div class="camera-container">
     <div class="video-wrapper">
       <video #videoElement muted autoplay playsinline></video>
@@ -15,7 +15,9 @@
         <circle class="progress-ring__circle" cx="150" cy="150" r="140" />
       </svg>
     </div>
-    <ion-button (click)="startRecording()">Iniciar Grabación</ion-button>
-    <ion-button (click)="stopRecording()" [disabled]="!isRecording">Detener Grabación</ion-button>
+    <div class="fixed-footer">
+      <ion-button *ngIf="!isRecording" expand="block" (click)="startRecording()">Iniciar Grabación</ion-button>
+      <ion-button *ngIf="isRecording" expand="block" (click)="stopRecording()" [disabled]="!isRecording">Detener Grabación</ion-button>
+    </div>
   </div>
 </ion-content>

@@ -41,6 +41,7 @@ export class IdVisionComponent  implements OnInit {
       navigation: {
         enabled: false,
       },
+      allowTouchMove: false, 
     };
     Object.assign(swiperElemConstructor!, swiperOptions);
     this.swiperElement.set(swiperElemConstructor as SwiperContainer);
@@ -51,11 +52,24 @@ export class IdVisionComponent  implements OnInit {
     this.swiperElement()?.swiper?.slideNext();
   }
 
+  async handleSlide(slide: number) {
+    setTimeout(() => {
+      if (this.swiperElement()?.swiper) {
+        this.swiperElement()?.swiper.slideTo(slide);
+      }
+    }, 250);
+    
+  }
+
+  handleGetInit() {
+    this.swiperElement()?.swiper?.slideTo(0);
+  }
+
 //Frontal dpi services
 
 async validateDPIFront(filePath: File): Promise<boolean> {
-this.modalController.dismiss();
-this.handleClick();
+  this.modalController.dismiss();
+     this.handleSlide(2);
   return true;
 }
 
@@ -91,7 +105,7 @@ private async showAlert(header: string, message: string, subMessage?: string) {
   //Trasero dpi services
   async validateDPIBack(filePath: File): Promise<boolean> {
     this.modalController.dismiss();
-    this.handleClick();
+      this.handleSlide(3);
       return true;
     }
     
@@ -116,6 +130,11 @@ private async showAlert(header: string, message: string, subMessage?: string) {
     }
   }
 
+  getBackModal() {
+    this.modalController.dismiss();
+    this.handleSlide(4);
+// this.handleClick();
+  }
 
   async openAcuerdoVideo () {
     const modal = await this.modalController.create({
@@ -124,6 +143,7 @@ private async showAlert(header: string, message: string, subMessage?: string) {
         text1: 'Video Selfie',
         text2: 'Guatemala',
         overlaySrc: 'assets/overlay-image.png',
+        backFunction: this.getBackModal.bind(this),
       },
       backdropDismiss: false,
     });

@@ -112,6 +112,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
       }, 'image/jpeg', 0.5);
 
       const resp = await this.onTakePicture(this.file!);
+      this.closeAndSend();
     }
   }
 
@@ -137,6 +138,10 @@ export class CameraWithOverlayComponent implements AfterViewInit {
       this.stream.getTracks().forEach(track => track.stop());
       this.stream = null;
     }
+  }
+
+  closeAndSend() {
+    this.closeOverlay();
   }
 
   closeOverlay() {

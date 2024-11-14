@@ -148,3 +148,24 @@ text-align: center;
 .image-container {
     width: 100px;
 }
+
+.col-confirmation {
+  margin-top: 24px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Ajusta el espacio entre los elementos */
+}
+
+.image-item {
+  margin-top: 50px;
+  padding-top: 70px;
+}
+
+.font-confirmation {
+  font-size: 26px;
+  text-align: center;
+  color: #005da9;
+  font-weight: bold;
+}
+

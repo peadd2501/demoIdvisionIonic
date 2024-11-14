@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
@@ -14,8 +14,11 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
 
   @Input() text1: string = '';
   @Input() text2: string = '';
+  @Input() backFunction!: () => {};
+
 
   capturedVideoUrl: SafeUrl | null = null;
+  capVideo?: File;
   stream: MediaStream | null = null;
   private isAndroid: boolean;
   private isIOS: boolean;
@@ -28,7 +31,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     private platform: Platform,
     private modalController: ModalController,
     private sanitizer: DomSanitizer,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private alertController: AlertController
   ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
@@ -57,7 +61,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
         video: {
           width: { ideal: 640 },
           height: { ideal: 480 },
-          facingMode: this.platform.is('android') || this.platform.is('ios') ? 'environment' : 'user'
+          facingMode: 'user'
         }
       };
 
@@ -68,12 +72,14 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     }
   }
 
-  startRecording() {
+  async startRecording() {
     if (!this.stream) return;
+
+    const options = { mimeType: this.isIOS ? 'video/mp4' : 'video/webm', videoBitsPerSecond: 400000 };
 
     this.isRecording = true;
     this.recordedChunks = [];
-    this.mediaRecorder = new MediaRecorder(this.stream);
+    this.mediaRecorder = new MediaRecorder(this.stream, options);
     
     this.mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
@@ -82,15 +88,31 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     };
 
     this.mediaRecorder.onstop = () => {
+
       const videoBlob = new Blob(this.recordedChunks, { type: 'video/mp4' });
+      const videoFile = new File([videoBlob], 'video-selfie.mp4', { type: 'video/mp4' });
       const videoUrl = URL.createObjectURL(videoBlob);
       this.capturedVideoUrl = this.sanitizer.bypassSecurityTrustUrl(videoUrl);
+
+      this.capVideo = videoFile;
+      //logica
+     this.showSuccessAlert();
+
+      //logica
+
+
+      console.log('Video File:', videoFile);
+      console.log('Video URL:', this.capturedVideoUrl);
+
     };
+
+
 
     this.mediaRecorder.start();
 
     // Inicia la animación de borde progresiva
     this.renderer.addClass(this.progressRing.nativeElement, 'progress-active');
+
 
     // Detiene la grabación después de 10 segundos
     this.scanTimeout = setTimeout(() => {
@@ -110,6 +132,9 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
 
     // Detiene la animación del borde circular
     this.renderer.removeClass(this.progressRing.nativeElement, 'progress-active');
+
+    console.log('video', this.capturedVideoUrl);
+    
   }
 
   closeOverlay() {
@@ -123,5 +148,22 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       this.stream = null;
     }
     if (this.scanTimeout) clearTimeout(this.scanTimeout);
+  }
+
+  async showSuccessAlert() {
+    const alert = await this.alertController.create({
+      header: 'Éxito',
+      message: 'El video se ha capturado satisfactoriamente.',
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: async () => {
+            await this.backFunction();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

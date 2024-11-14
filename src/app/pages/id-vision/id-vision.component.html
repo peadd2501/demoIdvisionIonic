@@ -9,7 +9,10 @@
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img src="./../../../assets/imagesIdvision/documentsImage.png" alt="" />
+              <img
+                src="./../../../assets/imagesIdvision/documentsImage.png"
+                alt=""
+              />
             </div>
             <div class="container-text">
               <p>Sube fotos de documentos que prueben tu identidad</p>
@@ -19,7 +22,10 @@
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img src="./../../../assets/imagesIdvision/rostroImage.png" alt="" />
+              <img
+                src="./../../../assets/imagesIdvision/rostroImage.png"
+                alt=""
+              />
             </div>
             <div class="container-text">
               <p>Graba un video selfie mientras lees el texto en voz alta</p>
@@ -37,20 +43,30 @@
           [showIcon]="true"
           (clicked)="handleClick()"
         ></app-custom-button> -->
-        <ion-button expand="block" (click)="handleClick()">Empecemos</ion-button>
+        <ion-button expand="block" (click)="handleClick()"
+          >Empecemos</ion-button
+        >
       </div>
       <!-- <app-slide1></app-slide1> -->
     </div>
   </swiper-slide>
   <swiper-slide>
     <div class="content">
-      <h2>Registro de DPI</h2>
-      <p class="p-center">Escanea tu documento de identificación para poder validar tu identidad.</p>
-      <p class="p-center">Toma tu foto en un lugar con buena iluminación.</p>
+      <div class="head">
+        <h2>Registro de DPI</h2>
+        <p class="p-center">
+          Escanea tu documento de identificación para poder validar tu
+          identidad.
+        </p>
+        <p class="p-center">Toma tu foto en un lugar con buena iluminación.</p>
+      </div>
 
-        <div class="dpi-container">
-          <ion-img class="dpi-image" src="./../../../assets/imagesIdvision/frontDpiRegister.png"></ion-img>
-        </div>
+      <div class="dpi-container">
+        <ion-img
+          class="dpi-image"
+          src="./../../../assets/imagesIdvision/frontDpiRegister.png"
+        ></ion-img>
+      </div>
       <p class="p-center">Frontal</p>
 
       <div class="fixed-footer">
@@ -62,20 +78,30 @@
           [showIcon]="true"
           (clicked)="handleClick()"
         ></app-custom-button> -->
-        <ion-button expand="block" (click)="openCameraOverlayFrontal()">Tomar una foto</ion-button>
+        <ion-button expand="block" (click)="openCameraOverlayFrontal()"
+          >Tomar una foto</ion-button
+        >
       </div>
       <!-- <app-slide2></app-slide2> -->
     </div>
   </swiper-slide>
   <swiper-slide>
     <div class="content">
-      <h2>Registro de DPI</h2>
-      <p class="p-center">Escanea tu documento de identificación para poder validar tu identidad.</p>
-      <p class="p-center">Toma tu foto en un lugar con buena iluminación.</p>
+      <div class="head">
+        <h2>Registro de DPI</h2>
+        <p class="p-center">
+          Escanea tu documento de identificación para poder validar tu
+          identidad.
+        </p>
+        <p class="p-center">Toma tu foto en un lugar con buena iluminación.</p>
+      </div>
 
-        <div class="dpi-container">
-          <ion-img class="dpi-image" src="./../../../assets/imagesIdvision/backDpiRegister.png"></ion-img>
-        </div>
+      <div class="dpi-container">
+        <ion-img
+          class="dpi-image"
+          src="./../../../assets/imagesIdvision/backDpiRegister.png"
+        ></ion-img>
+      </div>
       <p class="p-center">Trasero</p>
 
       <div class="fixed-footer">
@@ -87,11 +113,12 @@
           [showIcon]="true"
           (clicked)="handleClick()"
         ></app-custom-button> -->
-        <ion-button expand="block" (click)="openCameraOverlayTrasero()">Tomar una foto</ion-button>
+        <ion-button expand="block" (click)="openCameraOverlayTrasero()"
+          >Tomar una foto</ion-button
+        >
       </div>
       <!-- <app-slide2></app-slide2> -->
     </div>
-
   </swiper-slide>
   <swiper-slide>
     <div class="content">
@@ -103,30 +130,47 @@
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img src="./../../../assets/imagesIdvision/documentsImage.png" alt="" />
+              <img
+                src="./../../../assets/imagesIdvision/documentsImage.png"
+                alt=""
+              />
             </div>
             <div class="container-text">
-              <p>A continuación, deberás leer un texto mientras grabas un video.</p>
+              <p>
+                A continuación, deberás leer un texto mientras grabas un video.
+              </p>
             </div>
           </ion-row>
         </ion-row>
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img src="./../../../assets/imagesIdvision/rostroImage.png" alt="" />
+              <img
+                src="./../../../assets/imagesIdvision/rostroImage.png"
+                alt=""
+              />
             </div>
             <div class="container-text">
-              <p>Asegúrate de que tu rostro sea visible y de no usar anteojos ni sombreros.</p>
+              <p>
+                Asegúrate de que tu rostro sea visible y de no usar anteojos ni
+                sombreros.
+              </p>
             </div>
           </ion-row>
         </ion-row>
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img src="./../../../assets/imagesIdvision/voiceImage.png" alt="" />
+              <img
+                src="./../../../assets/imagesIdvision/voiceImage.png"
+                alt=""
+              />
             </div>
             <div class="container-text">
-              <p>Asegúrate de que tu voz sea clara y de que no estés en un entorno ruidoso.</p>
+              <p>
+                Asegúrate de que tu voz sea clara y de que no estés en un
+                entorno ruidoso.
+              </p>
             </div>
           </ion-row>
         </ion-row>
@@ -141,8 +185,39 @@
           [showIcon]="true"
           (clicked)="handleClick()"
         ></app-custom-button> -->
-        <ion-button expand="block" (click)="openAcuerdoVideo()">Abrir la cámara</ion-button>
+        <ion-button expand="block" (click)="openAcuerdoVideo()"
+          >Abrir la cámara</ion-button
+        >
       </div>
+    </div>
+  </swiper-slide>
+  <swiper-slide>
+    <div class="content">
+      <ion-col class="col-confirmation">
+        <ion-item color="white">
+          <p class="font-confirmation">
+            Información procesada de manera correcta
+          </p>
+        </ion-item>
+        <ion-item color="white" class="image-item">
+          <img src="./../../../assets/imagesIdvision/blue-check.png" alt="" />
+        </ion-item>
+      </ion-col>
+      <ion-item color="white">
+        <div class="fixed-footer">
+          <!-- <app-custom-button
+            text="Click Me"
+            color="secondary"
+            [disabled]="false"
+            icon="star"
+            [showIcon]="true"
+            (clicked)="handleClick()"
+          ></app-custom-button> -->
+          <ion-button expand="block" (click)="handleGetInit()"
+            >Salir</ion-button
+          >
+        </div>
+      </ion-item>
     </div>
   </swiper-slide>
 </swiper-container>
