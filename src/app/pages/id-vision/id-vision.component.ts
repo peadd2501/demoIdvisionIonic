@@ -72,7 +72,8 @@ export class IdVisionComponent implements OnInit {
         next: (response: any) => {
           if (!response['error']) {
             localStorage.setItem('codigo', response['details']);
-            this.swiperElement()?.swiper?.slideNext();
+            this.handleSlide(1)
+            // this.swiperElement()?.swiper?.slideNext();
           }
         },
         error: (error) => {
