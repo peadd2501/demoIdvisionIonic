@@ -23,7 +23,7 @@
     <!-- Botones de grabación -->
     <div class="fixed-footer">
       <ion-button *ngIf="!isRecording" expand="block" (click)="startVideoRecord()">Iniciar Grabación</ion-button>
-      <ion-button *ngIf="isRecording" expand="block" (click)="stopRecording()" [disabled]="!isRecording">Detener Grabación</ion-button>
+      <!-- <ion-button *ngIf="isRecording" expand="block" (click)="stopRecording()" [disabled]="!isRecording">Detener Grabación</ion-button> -->
     </div>
   </div>
 </ion-content>
