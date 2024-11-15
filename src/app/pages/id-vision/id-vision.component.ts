@@ -369,10 +369,12 @@ export class IdVisionComponent implements OnInit {
         text1: 'Video Selfie',
         text2: 'Guatemala',
         overlaySrc: 'assets/overlay-image.png',
-        backFunction: async (file:File) => {
-          console.log('Video recibido en el padre:', file);
-
-        }//this.getBackModal.bind(this),
+        backFunction: 
+        
+        // async (file:string) => {
+        //   console.log('Video recibido en el padre:', file);
+        // }
+        this.getBackModal.bind(this),
       },
       backdropDismiss: false,
     });

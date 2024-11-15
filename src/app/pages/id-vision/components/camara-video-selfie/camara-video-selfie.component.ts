@@ -17,7 +17,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   @Input() backFunction!: (filePath: File) => Promise<void>;
 
 
-  capturedVideoUrl: SafeUrl | null = null;
+  capturedVideoUrl: any;
   capVideo?: File;
   stream: MediaStream | null = null;
   private isAndroid: boolean;
@@ -96,7 +96,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       }
     };
 
-    this.mediaRecorder.onstop = () => {
+    this.mediaRecorder.onstop = async () => {
       if (chunks.length === 0) {
         console.error('No se capturaron datos en la grabación.'); // Asegúrate de que haya datos capturados
         return;
@@ -118,6 +118,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       const videoUrl = URL.createObjectURL(videoBlob);
       this.capturedVideoUrl = this.sanitizer.bypassSecurityTrustUrl(videoUrl);
 
+      
+      await this.backFunction(this.capVideo);
       //logica
      //this.showSuccessAlert();
 
@@ -128,10 +130,6 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       console.log('Video URL:', this.capturedVideoUrl);
 
     };
-
-
-
-   
 
     // Inicia la animación de borde progresiva
     // this.renderer.addClass(this.progressRing.nativeElement, 'progress-active');
@@ -184,7 +182,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       this.isRecording = false;
   
       if (this.capVideo) {
-        await this.backFunction(this.capVideo);
+        //await this.backFunction(this.capturedVideoUrl);
       } else {
         console.error('No se generó ningún archivo de video.');
       }
