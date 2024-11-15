@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal, ViewChild } from '@angular/core';
-import { AlertController, IonicModule, IonInput, LoadingController, ModalController } from '@ionic/angular';
+import { AlertController, IonicModule, IonInput, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { lastValueFrom } from 'rxjs';
+import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 
 
 register();
@@ -21,14 +22,22 @@ register();
 })
 export class IdVisionComponent implements OnInit {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
+  private isAndroid: boolean;
+  private isIOS: boolean;
 
   constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private platform: Platform,
+    private modalDpiServices: ModalDpiServices
     /*private storage: Storage*/,) {
     // this.init();
+    this.isAndroid = this.platform.is('android');
+    this.isIOS = this.platform.is('ios');
   }
 
   swiperElement = signal<SwiperContainer | null>(null);
+  private modalRef: HTMLIonModalElement | null = null;
+
   // async init() {
   //   await this.storage['create']; // Inicializa Storage
   // }
@@ -41,11 +50,15 @@ export class IdVisionComponent implements OnInit {
       navigation: {
         enabled: false,
       },
-      allowTouchMove: false,
+      //allowTouchMove: false,
     };
     Object.assign(swiperElemConstructor!, swiperOptions);
     this.swiperElement.set(swiperElemConstructor as SwiperContainer);
     this.swiperElement()?.initialize();
+
+    this.modalDpiServices.closeOverlay$.subscribe(() => {
+      this.closeOverlay();
+    });
   }
 
   handleClick() {
@@ -88,19 +101,64 @@ export class IdVisionComponent implements OnInit {
 
 
   async DpiFrontProccess(filePath: string) {
+    let loader: HTMLIonLoadingElement | null = null;
+
     try {
+
+          // Muestra el loader
+    loader = await this.loadingController.create({
+      message: 'Procesando...',
+      spinner: 'crescent'
+    });
+
+    await loader.present();
+
+
       console.log('enviando DPI front')
       const file = await this.convertImagePathToFile(filePath, 'imagen_temporal.jpg');
       console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? "";
-      this.dpiService.uploadFrontDPI(file, codigo).subscribe({
+      await this.dpiService.uploadFrontDPI(file, codigo).subscribe({
         next: (response: any) => {
+
+                  // Oculta el loader cuando se recibe una respuesta
+        if (loader) {
+         loader.dismiss();
+        }
+          console.log(response);
+          
           if (!response['error']) {
-            this.swiperElement()?.swiper?.slideNext();
+
+            this.showAlert(
+              'Éxito',
+              'DPI registrado correctamente',
+              [],
+              () => {
+                this.closeModalFromParent();
+                this.modalController.dismiss();
+                this.handleSlide(2);
+              }
+            )
+            // this.swiperElement()?.swiper?.slideNext();
+
+          }
+          else {
+            this.showAlert(
+              response['mensage'],
+              '',
+              response['details'],
+              () => {
+              }
+            )
           }
         },
         error: (error) => {
           console.error('Error al llamar al servicio:', error);
+          
+                  // Oculta el loader en caso de error
+        if (loader) {
+          loader.dismiss();
+        }
         }
       });
     } catch (error) {
@@ -108,6 +166,12 @@ export class IdVisionComponent implements OnInit {
       console.log(error)
     }
   }
+
+  closeModalFromParent() {
+    // Emite el evento para cerrar la modal
+    this.modalDpiServices.requestCloseOverlay();
+  }
+
 
   async convertImagePathToFile(imagePath: string, fileName: string): Promise<File> {
     const response = await fetch(imagePath);
@@ -116,17 +180,51 @@ export class IdVisionComponent implements OnInit {
   }
 
   async DpiBackProccess(filePath: string) {
+    let loader: HTMLIonLoadingElement | null = null;
+
     try {
+
+                // Muestra el loader
+    loader = await this.loadingController.create({
+      message: 'Procesando...',
+      spinner: 'crescent'
+    });
+
+    await loader.present();
+
       const file = await this.convertImagePathToFile(filePath, 'imagen_temporal_back.jpg');
       console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? "";
       this.dpiService.uploadBackDPI(file, codigo).subscribe({
         next: (response: any) => {
+                  if (loader) {
+         loader.dismiss();
+        }
           if (!response['error']) {
-            this.swiperElement()?.swiper?.slideNext();
+
+            this.showAlert(
+              'Éxito',
+              'DPI registrado correctamente',
+              [],
+              () => {
+                this.closeModalFromParent();
+                this.modalController.dismiss();
+                this.handleSlide(3);
+              }
+            )
+           // this.swiperElement()?.swiper?.slideNext();
+          } else {
+            this.showAlert(
+              response['mensage'],
+              '',
+              response['details']
+            )
           }
         },
         error: (error) => {
+          if (loader) {
+            loader.dismiss();
+          }
           console.error('Error al llamar al servicio:', error);
         }
       });
@@ -136,18 +234,20 @@ export class IdVisionComponent implements OnInit {
     }
   }
 
-  async VideoSelfieProcccess(filePath: string) {
+  async VideoSelfieProcccess(file: File) {
     try {
-      const file = await this.convertImagePathToFile(filePath, 'video_selfie.mp4');
+      // const file = await this.convertImagePathToFile(filePath, this.isIOS ? 'video_selfie.mp4' : 'video_selfie.webm',);
       console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? "";
-      this.dpiService.videoSelfie(file, codigo).subscribe({
+      await this.dpiService.videoSelfie(file, codigo).subscribe({
         next: (response: any) => {
           if (!response['error']) {
-            this.swiperElement()?.swiper?.slideNext();
+            this.handleSlide(4);
+            // this.swiperElement()?.swiper?.slideNext();
           }
         },
         error: (error) => {
+          
           console.error('Error al llamar al servicio:', error);
         }
       });
@@ -161,40 +261,74 @@ export class IdVisionComponent implements OnInit {
 
   async validateDPIFront(filePath: string): Promise<boolean> {
     await this.DpiFrontProccess(filePath)
-    this.modalController.dismiss();
     return true;
   }
 
-  private async showAlert(header: string, message: string, subMessage?: string) {
+  private async showAlert(header: string, message: string, details?: string[], onConfirm?: () => void, subMessage?: string) {
+    const detailsMessage = details 
+    ? details.map(detail => `${detail}           `).join('') 
+    : '';
+  
+  const fullMessage = message + (detailsMessage ? `${detailsMessage}` : '');
+
     const alert = await this.alertController.create({
       header,
-      message: message + (subMessage ? `<br/><small>${subMessage}</small>` : ''),
-      buttons: ['Continuar']
+      message: fullMessage,
+      buttons: [
+        {
+          text: 'Continuar',
+          handler: () => {
+            if (onConfirm) {
+              onConfirm(); // Ejecuta la función pasada como parámetro
+            }
+          }
+        }
+      ]
     });
     await alert.present();
   }
+  
 
   async openCameraOverlayFrontal() {
 
-    const modal = await this.modalController.create({
+    //const modal 
+    this.modalRef= await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
         text1: 'Parte frontal: Identificación Nacional ',
         text2: 'Guatemala',
         overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
-        onTakePicture: this.validateDPIFront.bind(this)
+        onTakePicture: this.DpiFrontProccess.bind(this),
+        closeRequested: () => this.closeOverlay()
       },
       backdropDismiss: false,
     });
 
-    await modal.present();
+    await this.modalRef.present();
+
+    // modal.onDidDismiss().then((data) => {
+    //   if (data.data && data.data.closeRequested) {
+    //     console.log('test');
+        
+    //     this.closeOverlay();
+    //   }
+    // });
+  }
+
+  async closeOverlay() {
+    // if (this.modalRef) {
+    //   const modalInstance = this.modalRef?.querySelector('app-camera-overlay') as unknown as CameraWithOverlayComponent;
+    //   modalInstance?.closeRequestedFunction();
+      
+    // }
+    console.log('Modal cerrada desde el componente padre');
   }
 
   //Trasero dpi services
   async validateDPIBack(filePath: string): Promise<boolean> {
     this.modalController.dismiss();
     console.log('dataaaaaa xxx :', filePath)
-    await this.DpiFrontProccess(filePath)
+    await this.DpiBackProccess(filePath)
     //  this.handleSlide(3);
     return true;
   }
@@ -206,18 +340,25 @@ export class IdVisionComponent implements OnInit {
         text1: 'Parte trasera: Identificación Nacional ',
         text2: 'Guatemala',
         overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
-        onTakePicture: this.validateDPIBack.bind(this)
+        onTakePicture: this.DpiBackProccess.bind(this)
 
       },
       backdropDismiss: false,
     });
 
     await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    
+    if (data && data.executeFuncion) {
+      // Ejecutar la función que se recibió de la modal
+      data.executeFuncion();
+    }
   }
 
-  getBackModal(filePath: string) {
-    this.modalController.dismiss();
-    this.VideoSelfieProcccess(filePath);
+  async getBackModal(filePath: File) {
+    //this.modalController.dismiss();
+    await this.VideoSelfieProcccess(filePath);
   }
 
   async openAcuerdoVideo() {
@@ -228,7 +369,10 @@ export class IdVisionComponent implements OnInit {
         text1: 'Video Selfie',
         text2: 'Guatemala',
         overlaySrc: 'assets/overlay-image.png',
-        backFunction: this.getBackModal.bind(this),
+        backFunction: async (file:File) => {
+          console.log('Video recibido en el padre:', file);
+
+        }//this.getBackModal.bind(this),
       },
       backdropDismiss: false,
     });

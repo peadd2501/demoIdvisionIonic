@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Capacitor } from '@capacitor/core';
+import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 
 @Component({
   selector: 'app-camera-overlay',
@@ -17,6 +18,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   @Input() text2: string = '';
   @Input() overlaySrc: string = '';
   @Input() onTakePicture!: (filePath: String) => Promise<boolean>;
+  @Output() closeRequested = new EventEmitter<void>();
 
   capturedImage: SafeUrl | null = null;
   stream: MediaStream | null = null;
@@ -32,7 +34,8 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   constructor(
     private platform: Platform,
     private modalController: ModalController,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private modaldpiServices: ModalDpiServices
   ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
@@ -44,6 +47,10 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     }
     
     await this.initCamera();
+
+    this.modaldpiServices.closeOverlay$.subscribe(() => {
+      this.closeOverlay();
+    });
   }
 
   async requestPermissions() {
@@ -60,9 +67,9 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     try {
       const constraints: MediaStreamConstraints = {
         video: {
-          width: { ideal: 640 },
-          height: { ideal: 480 },
-          facingMode: this.platform.is('android') || this.platform.is('ios') ? 'environment' : 'user'
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+          facingMode: 'environment'
         }
       };
 
@@ -91,7 +98,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     const canvas = document.createElement('canvas');
     const videoElement = this.videoElement.nativeElement;
   
-    canvas.width = videoElement.videoWidth;
+    canvas.width =videoElement.videoWidth;
     canvas.height = videoElement.videoHeight;
   
     const context = canvas.getContext('2d');
@@ -105,14 +112,16 @@ export class CameraWithOverlayComponent implements AfterViewInit {
          
           
           this.capturedImageUrl = URL.createObjectURL(this.file); // Crea una URL temporal
-           this.onTakePicture(this.capturedImageUrl);
+           this.onTakePicture(this.capturedImageUrl).then(() => {
+            //this.closeOverlay();
+           });
           
           // this.uploadPhoto(file); // Llama a una función para enviar el archivo
         }
-      }, 'image/jpeg', 0.5);
+      }, 'image/jpeg', 1);
 
       
-      this.closeOverlay();
+      //this.closeOverlay();
     }
   }
 
@@ -141,4 +150,17 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     this.stopCamera();
     this.modalController.dismiss();
   }
+
+  public closeRequestedFunction() {
+    this.closeOverlay();
+    this.modaldpiServices.requestCloseOverlay();
+    // this.closeRequested.emit();
+  }
+
+  functionToParent() {
+    this.modalController.dismiss({
+      executeFunction: this.closeOverlay
+    })
+  }
 }
+
