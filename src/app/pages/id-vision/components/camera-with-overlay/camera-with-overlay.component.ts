@@ -125,21 +125,6 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     }
   }
 
-
-  uploadPhoto(file: File) {
-    // const formData = new FormData();
-    // formData.append('file', file);
-  
-    // // Aquí realiza la solicitud HTTP para enviar el archivo
-    // this.http.post('URL_DE_TU_SERVICIO', formData).subscribe(
-    //   (response) => {
-    //     console.log('Foto subida exitosamente:', response);
-    //   },
-    //   (error) => {
-    //     console.error('Error al subir la foto:', error);
-    //   }
-    // );
-  }
   stopCamera() {
     if (this.stream) {
       this.stream.getTracks().forEach(track => track.stop());
@@ -154,13 +139,12 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   public closeRequestedFunction() {
     this.closeOverlay();
     this.modaldpiServices.requestCloseOverlay();
-    // this.closeRequested.emit();
   }
 
-  functionToParent() {
-    this.modalController.dismiss({
-      executeFunction: this.closeOverlay
-    })
-  }
+  // functionToParent() {
+  //   this.modalController.dismiss({
+  //     executeFunction: this.closeOverlay
+  //   })
+  // }
 }
 

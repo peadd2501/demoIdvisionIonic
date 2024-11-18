@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 
 @Component({
   selector: 'app-camara-video-selfie',
@@ -26,13 +27,24 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   isRecording = false;
   mediaRecorder: MediaRecorder | null = null;
   recordedChunks: Blob[] = [];
+  countdown: number = 0; // Propiedad para la cuenta regresiva
+
+  private recordingTimer: any;
+  private minRecordingTime = 10000; // 8 seconds
+  private maxRecordingTime = 12000; // 12 seconds
+  timeRemaining: number = this.maxRecordingTime / 1000; // Inicializar con el tiempo máximo en segundos
+  canStopRecording = true;
+
 
   constructor(
     private platform: Platform,
     private modalController: ModalController,
     private sanitizer: DomSanitizer,
     private renderer: Renderer2,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private modaldpiServices: ModalDpiServices,
+    private changeDetector: ChangeDetectorRef
+
   ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
@@ -44,6 +56,10 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     }
     await this.initCamera();
     await this.startRecording();
+
+    this.modaldpiServices.closeOverlay$.subscribe(() => {
+      this.closeOverlay();
+    });
   }
 
   async requestPermissions() {
@@ -60,8 +76,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     try {
       const constraints: MediaStreamConstraints = {
         video: {
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
           facingMode: 'user'
         }
       };
@@ -75,70 +91,65 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
 
   async startRecording() {
     if (!this.stream) return;
-
-    const options = { mimeType: this.isIOS ? 'video/mp4' : 'video/webm', videoBitsPerSecond: 800000 };
-
-    // this.isRecording = true;
-
-    //this.recordedChunks = [];
+    const options = { mimeType: this.isIOS ? 'video/mp4' : 'video/webm', videoBitsPerSecond: 600000 };
     this.mediaRecorder = new MediaRecorder(this.stream, options);
     const chunks: Blob[] = [];
 
     this.mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
-        console.log('Datos capturados:', event.data.size); // Depuración: muestra el tamaño de los datos
         chunks.push(event.data);
-
-        //this.recordedChunks.push(event.data);
       } else {
-        console.log('no se capturaron datos');
-        
+
       }
     };
+
+
 
     this.mediaRecorder.onstop = async () => {
       if (chunks.length === 0) {
-        console.error('No se capturaron datos en la grabación.'); // Asegúrate de que haya datos capturados
+        console.error('No se capturaron datos en la grabación.');
         return;
       }
-
-      let fileType = 'video/webm';
-      let fileExtension = 'webm';
-
-      if (this.isIOS) {
-        fileType = 'video/mp4';
-        fileExtension = 'mp4';
-      }
-
+    
+      const fileType = this.isIOS ? 'video/mp4' : 'video/webm';
+      const fileExtension = this.isIOS ? 'mp4' : 'webm';
+    
       const videoBlob = new Blob(chunks, { type: fileType });
       const videoFile = new File([videoBlob], `video-selfie.${fileExtension}`, { type: fileType });
-
-      this.capVideo = videoFile;
-
-      const videoUrl = URL.createObjectURL(videoBlob);
-      this.capturedVideoUrl = this.sanitizer.bypassSecurityTrustUrl(videoUrl);
-
-      
-      await this.backFunction(this.capVideo);
-      //logica
-     //this.showSuccessAlert();
-
-      //logica
-
-      console.log('Archivo generado:', videoFile);
-      console.log('Contenido del archivo:', videoFile.text()); 
-      console.log('Video URL:', this.capturedVideoUrl);
-
+    
+      // console.log('Archivo generado en el hijo:', videoFile);
+    
+      if (this.backFunction) {
+        // console.log('Enviando archivo al padre:', videoFile);
+        await this.backFunction(videoFile);
+      }
     };
+    
+
+
 
     // Inicia la animación de borde progresiva
     // this.renderer.addClass(this.progressRing.nativeElement, 'progress-active');
 
 
     // Detiene la grabación después de 10 segundos
-    this.scanTimeout = setTimeout(async () => {
+    setTimeout(async () => {
       await this.stopRecording();
-    }, 15000);
+    }, 10000);
+  }
+
+
+  recordVideo() {
+    // Mostrar la cuenta regresiva antes de iniciar la grabación
+    this.countdown = 3;
+    const countdownInterval = setInterval(() => {
+      this.countdown -= 1;
+      if (this.countdown <= 0) {
+        clearInterval(countdownInterval);
+        this.startVideoRecord(); // Iniciar la grabación después de la cuenta regresiva
+      }
+      this.changeDetector.detectChanges(); // Actualizar la vista
+    }, 1000);
   }
 
   startVideoRecord() {
@@ -146,58 +157,49 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       this.mediaRecorder.start(100);
       this.isRecording = true;
       this.renderer.addClass(this.progressRing.nativeElement, 'progress-active');
-      //this.canStopRecording = false;
-     // this.timeRemaining = this.maxRecordingTime / 1000; // Reiniciar el tiempo restante
-      //this.updateTimeRemaining(); // Iniciar la actualización del tiempo restante
+      this.canStopRecording = false;
+      this.timeRemaining = this.maxRecordingTime / 1000; // Reiniciar el tiempo restante
+      this.updateTimeRemaining(); // Iniciar la actualización del tiempo restante
       setTimeout(() => {
-      //  this.canStopRecording = true;
-      }, /*this.minRecordingTime*/);
+        this.canStopRecording = true;
+      }, this.minRecordingTime);
 
-      // this.recordingTimer = setTimeout(async () => {
-      //   await this.stopRecord();
-      // }, this.maxRecordingTime);
-    } 
+      this.recordingTimer = setTimeout(async () => {
+        await this.stopRecording();
+      }, this.maxRecordingTime);
+    }
   }
 
-  // async stopRecording() {
-  //   if (this.mediaRecorder && this.isRecording) {
-  //     await this.backFunction(this.capVideo!);
-  //     this.mediaRecorder.stop();
-  //     this.isRecording = false;
-  //   }
+  updateTimeRemaining() {
+    const interval = 1000; // Actualizar cada segundo
+    const timer = setInterval(() => {
+      if (this.isRecording) {
+        this.timeRemaining -= 1;
+        if (this.timeRemaining <= 0) {
+          clearInterval(timer);
+        }
+      } else {
+        clearInterval(timer);
+      }
+      this.changeDetector.detectChanges(); // Actualizar la vista
+    }, interval);
+  }
 
-  //   if (this.scanTimeout) {
-  //     clearTimeout(this.scanTimeout);
-  //   }
-
-  //   // Detiene la animación del borde circular
-  //   this.renderer.removeClass(this.progressRing.nativeElement, 'progress-active');
-
-  //   console.log('video', this.capturedVideoUrl);
-    
-  // }
   async stopRecording() {
     if (this.mediaRecorder && this.isRecording) {
+      await this.backFunction(this.capVideo!);
       this.mediaRecorder.stop();
       this.isRecording = false;
-  
-      if (this.capVideo) {
-        //await this.backFunction(this.capturedVideoUrl);
-      } else {
-        console.error('No se generó ningún archivo de video.');
-      }
     }
-  
+
     if (this.scanTimeout) {
       clearTimeout(this.scanTimeout);
     }
-  
+
     // Detiene la animación del borde circular
     this.renderer.removeClass(this.progressRing.nativeElement, 'progress-active');
-  
-    console.log('video', this.capturedVideoUrl);
+
   }
-  
 
   closeOverlay() {
     this.stopCamera();
@@ -228,5 +230,10 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     });
 
     await alert.present();
+  }
+
+  public closeRequestedFunction() {
+    this.closeOverlay();
+    this.modaldpiServices.requestCloseOverlay();
   }
 }

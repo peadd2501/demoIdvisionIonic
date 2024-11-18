@@ -11,6 +11,9 @@
   </ion-header>
   
 
+  <div *ngIf="countdown > 0" class="countdown-overlay">
+    <div class="countdown">{{ countdown }}</div>
+  </div>
   <!-- Contenedor de la cámara y progresión -->
   <div class="camera-container">
     <div class="video-wrapper">
@@ -19,10 +22,12 @@
         <circle class="progress-ring__circle" cx="150" cy="150" r="140" />
       </svg>
     </div>
+    <ion-label [ngClass]="{'red': isRecording}">00:{{ timeRemaining < 10 ? '0' + timeRemaining : timeRemaining }}
+    </ion-label>
 
     <!-- Botones de grabación -->
     <div class="fixed-footer">
-      <ion-button *ngIf="!isRecording" expand="block" (click)="startVideoRecord()">Iniciar Grabación</ion-button>
+      <ion-button *ngIf="!isRecording" expand="block" (click)="recordVideo()">Iniciar Grabación</ion-button>
       <ion-button *ngIf="isRecording" expand="block" (click)="stopRecording()" [disabled]="!isRecording">Detener Grabación</ion-button>
     </div>
   </div>
