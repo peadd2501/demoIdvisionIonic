@@ -1,7 +1,9 @@
 <ion-content color="dark">
   <div class="camera-overlay">
     <div class="header-text">
-      <p>{{text1}}</p>
+      <div class="text-help">
+        <p>{{text1}}</p>
+      </div>
       <p class="country">{{text2}}</p>
     </div>
 
@@ -16,7 +18,7 @@
 
     <!-- Botón de captura centrado en la parte inferior -->
     <div class="button-container">
-      <ion-button (click)="capturePhoto()" class="capture-button"  shape="round" expand="block">
+      <ion-button (click)="capturePhoto()" class="capture-button" shape="round" expand="block">
         <ion-icon name="camera-outline"></ion-icon>
       </ion-button>
     </div>
@@ -32,4 +34,4 @@
     <h3>Imagen Capturada:</h3>
     <img [src]="capturedImageUrl" alt="Foto capturada" />
   </div>
-</ion-content> 
+</ion-content>
