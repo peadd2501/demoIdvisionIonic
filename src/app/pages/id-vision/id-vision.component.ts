@@ -28,6 +28,8 @@ export class IdVisionComponent implements OnInit {
 
   tutoImage1: string = './../../../assets/imagesIdvision/documentsImage.png';
   tutoImage2: string = './../../../assets/imagesIdvision/documentsImage.png';
+  tutoImage3: string = './../../../assets/imagesIdvision/56.png';
+  tutoImage4: string = './../../../assets/imagesIdvision/57.png';
 
   constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
     private loadingController: LoadingController,
@@ -81,7 +83,7 @@ export class IdVisionComponent implements OnInit {
     this.swiperElement()?.swiper?.slideTo(0);
   }
   handleSkipTutorial() {
-    this.swiperElement()?.swiper?.slideTo(4);
+    this.swiperElement()?.swiper?.slideTo(5);
   }
 
   handleNext () {
@@ -106,7 +108,7 @@ export class IdVisionComponent implements OnInit {
           }
           if (!response['error']) {
             localStorage.setItem('codigo', response['details']);
-            this.handleSlide(5)
+            this.handleSlide(1)
           } else {
             const dpiValue = this.dpi.value as string;           
             if (!dpiValue || dpiValue.trim().length === 0) {              
