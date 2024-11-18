@@ -181,3 +181,58 @@ ion-input {
   color: var(--orange-primary);
   --padding-start: 8px;
 }
+
+.custom-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between; /* Alinea los botones a los extremos */
+  background-color: #ffffff; /* Fondo opcional */
+  //box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+}
+
+.custom-footer ion-button {
+  flex: 0 0 48%; /* Los botones ocupan casi la mitad del espacio */
+}
+
+.custom-footer .left-button {
+  max-width: 140px;
+  color: black;
+
+  --background: white;
+
+  --color: var(--purple-primary);
+
+  --border-radius: 20px;
+  --border-color: white;
+  margin-right: auto; /* Opcional si necesitas ajustes de margen */
+  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.0);
+
+}
+
+.custom-footer .right-button {
+  margin-left: auto; /* Opcional si necesitas ajustes de margen */
+}
+
+.tutorial-head {
+  padding-top:50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh; /* Ajusta este valor si quieres más o menos espacio vertical */
+  width: 100%;
+}
+
+.tutorial-title {
+  text-align: center;
+}

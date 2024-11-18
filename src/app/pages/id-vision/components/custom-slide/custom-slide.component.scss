@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    justify-content: center; /* Centra las imágenes horizontalmente */
+    align-items: center;    /* Centra las imágenes verticalmente */
+     height: 100%;           /* Asegura que el contenedor ocupe todo el espacio */
+  }
+  
+  ion-row {
+    display: flex; /* Activa el layout de flexbox en el row */
+    justify-content: space-between; /* Separa las imágenes uniformemente */
+  }
+  ion-col {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  ion-col img {
+    width: 100%; /* Ajusta la imagen al ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    object-fit: contain; /* Asegura que la imagen no se deforme */
+  }
+  

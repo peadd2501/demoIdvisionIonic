@@ -12,6 +12,7 @@ import { CameraWithOverlayComponent } from './pages/id-vision/components/camera-
 import { CamaraVideoSelfieComponent } from './pages/id-vision/components/camara-video-selfie/camara-video-selfie.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { CustomSlideComponent } from './pages/id-vision/components/custom-slide/custom-slide.component';
 
 @NgModule({
   declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent],

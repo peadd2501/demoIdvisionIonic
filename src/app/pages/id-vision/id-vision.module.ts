@@ -17,9 +17,9 @@ import { CustomButtonComponent } from 'src/app/components/custom-button/custom-b
     Slide4Component,
     CustomButtonComponent
   ],
-  imports: [CommonModule, IonicModule, ],
+  imports: [CommonModule, IonicModule],
   exports: [
-    IdVisionComponent, // Exporta si necesitas usarlo en otras partes
+    //IdVisionComponent, // Exporta si necesitas usarlo en otras partes
     
   ],
 })

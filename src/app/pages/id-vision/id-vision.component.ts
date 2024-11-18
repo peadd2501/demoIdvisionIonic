@@ -8,6 +8,7 @@ import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/cam
 import { DpiService } from './services/dpi/dpi-service.service';
 import { lastValueFrom } from 'rxjs';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
+import { CustomSlideComponent } from './components/custom-slide/custom-slide.component';
 
 
 register();
@@ -16,7 +17,7 @@ register();
   selector: 'app-id-vision',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonicModule, CommonModule],
+  imports: [IonicModule, CommonModule, CustomSlideComponent],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
 })
@@ -24,6 +25,9 @@ export class IdVisionComponent implements OnInit {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
   private isAndroid: boolean;
   private isIOS: boolean;
+
+  tutoImage1: string = './../../../assets/imagesIdvision/documentsImage.png';
+  tutoImage2: string = './../../../assets/imagesIdvision/documentsImage.png';
 
   constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
     private loadingController: LoadingController,
@@ -78,6 +82,13 @@ export class IdVisionComponent implements OnInit {
   handleGetInit() {
     this.swiperElement()?.swiper?.slideTo(0);
   }
+  handleSkipTutorial() {
+    this.swiperElement()?.swiper?.slideTo(4);
+  }
+
+  handleNext () {
+    this.swiperElement()?.swiper?.slideNext();
+  }
 
   async InitProccess() {
     let loader: HTMLIonLoadingElement | null = null;
@@ -97,7 +108,7 @@ export class IdVisionComponent implements OnInit {
           }
           if (!response['error']) {
             localStorage.setItem('codigo', response['details']);
-            this.handleSlide(1)
+            this.handleSlide(5)
           } else {
             const dpiValue = this.dpi.value as string;           
             if (!dpiValue || dpiValue.trim().length === 0) {              
@@ -158,7 +169,7 @@ export class IdVisionComponent implements OnInit {
               () => {
                 this.closeModalFromParent();
                 this.modalController.dismiss();
-                this.handleSlide(2);
+                this.handleSlide(6);
               }
             )
             // this.swiperElement()?.swiper?.slideNext();
@@ -237,7 +248,7 @@ export class IdVisionComponent implements OnInit {
               () => {
                 this.closeModalFromParent();
                 this.modalController.dismiss();
-                this.handleSlide(3);
+                this.handleSlide(7);
               }
             )
             // this.swiperElement()?.swiper?.slideNext();
@@ -285,7 +296,7 @@ export class IdVisionComponent implements OnInit {
             this.showAlert('Éxito', response['message'], [], () => {
               this.closeModalFromParent();
               this.modalController.dismiss();
-              this.handleSlide(4);
+              this.handleSlide(8);
             })
           } else {
             this.showAlert('Error', response['message'], [], () => {
