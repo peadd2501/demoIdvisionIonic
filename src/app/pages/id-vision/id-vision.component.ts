@@ -341,8 +341,8 @@ export class IdVisionComponent implements OnInit {
     this.modalRef = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
-        text1: 'Parte frontal: Identificación Nacional ',
-        text2: 'Guatemala',
+        text1: 'Coloca la parte frontal de tu DPI',
+        text2: '',
         overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
         onTakePicture: this.DpiFrontProccess.bind(this),
         closeRequested: () => this.closeOverlay()
@@ -368,8 +368,8 @@ export class IdVisionComponent implements OnInit {
     const modal = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
-        text1: 'Parte trasera: Identificación Nacional ',
-        text2: 'Guatemala',
+        text1: 'Coloca el reverso de tu DPI',
+        text2: '',
         overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
         onTakePicture: this.DpiBackProccess.bind(this)
 
