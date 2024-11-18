@@ -97,11 +97,11 @@
   <swiper-slide>
     <div class="content">
       <div class="head">
-        <h2>Verifiquemos tu identidad</h2>
-        <p class="p-center">Para ser verificado, necesitarás:</p>
+        <h2 class="p-justify">Verifiquemos tu identidad</h2>
+        <p class="p-justify">Para completar tu verificación, por favor ingresa tu número de identificación (DPI).</p>
 
         <ion-item class="rounded-input">
-          <ion-input #dpi type="number" placeholder="Digita tu numero de DPI"></ion-input>
+          <ion-input #dpi type="number" placeholder="Digita tu número de DPI"></ion-input>
         </ion-item>
 
       </div>
@@ -109,10 +109,7 @@
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img
-                src="./../../../assets/imagesIdvision/documentsImage.png"
-                alt=""
-              />
+              <img src="./../../../assets/imagesIdvision/documentsImage.png" alt="" />
             </div>
             <div class="container-text">
               <p>Sube fotos de documentos que prueben tu identidad</p>
@@ -122,10 +119,7 @@
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img
-                src="./../../../assets/imagesIdvision/rostroImage.png"
-                alt=""
-              />
+              <img src="./../../../assets/imagesIdvision/rostroImage.png" alt="" />
             </div>
             <div class="container-text">
               <p>Graba un video selfie mientras lees el texto en voz alta</p>
@@ -143,9 +137,7 @@
           [showIcon]="true"
           (clicked)="handleClick()"
         ></app-custom-button> -->
-        <ion-button expand="block" (click)="handleClick()"
-          >Empecemos</ion-button
-        >
+        <ion-button expand="block" (click)="handleClick()">Empecemos</ion-button>
       </div>
       <!-- <app-slide1></app-slide1> -->
     </div>
@@ -162,10 +154,7 @@
       </div>
 
       <div class="dpi-container">
-        <ion-img
-          class="dpi-image"
-          src="./../../../assets/imagesIdvision/frontDpiRegister.png"
-        ></ion-img>
+        <ion-img class="dpi-image" src="./../../../assets/imagesIdvision/frontDpiRegister.png"></ion-img>
       </div>
       <p class="p-center">Frontal</p>
 
@@ -178,9 +167,7 @@
           [showIcon]="true"
           (clicked)="handleClick()"
         ></app-custom-button> -->
-        <ion-button expand="block" (click)="openCameraOverlayFrontal()"
-          >Tomar una foto</ion-button
-        >
+        <ion-button expand="block" (click)="openCameraOverlayFrontal()">Tomar una foto</ion-button>
       </div>
       <!-- <app-slide2></app-slide2> -->
     </div>
@@ -188,19 +175,15 @@
   <swiper-slide>
     <div class="content">
       <div class="head">
-        <h2>Registro de DPI</h2>
-        <p class="p-center">
-          Escanea tu documento de identificación para poder validar tu
-          identidad.
+        <h2>Coloca el reverso de tu DPI</h2>
+        <p class="p-center p-info">
+          Evita sombras y reflejos.
         </p>
-        <p class="p-center">Toma tu foto en un lugar con buena iluminación.</p>
+
       </div>
 
       <div class="dpi-container">
-        <ion-img
-          class="dpi-image"
-          src="./../../../assets/imagesIdvision/backDpiRegister.png"
-        ></ion-img>
+        <ion-img class="dpi-image" src="./../../../assets/imagesIdvision/backDpiRegister.png"></ion-img>
       </div>
       <p class="p-center">Trasero</p>
 
@@ -213,9 +196,7 @@
           [showIcon]="true"
           (clicked)="handleClick()"
         ></app-custom-button> -->
-        <ion-button expand="block" (click)="openCameraOverlayTrasero()"
-          >Tomar una foto</ion-button
-        >
+        <ion-button expand="block" (click)="openCameraOverlayTrasero()">Tomar una foto</ion-button>
       </div>
       <!-- <app-slide2></app-slide2> -->
     </div>
@@ -224,20 +205,18 @@
     <div class="content">
       <div class="head">
         <h2>Video Selfie</h2>
-        <p class="p-center">Lee un texto mientras te grabas</p>
+        <p class="p-justify">Graba un breve video para completar tu proceso de identificación.</p>
       </div>
       <ion-grid class="verify-container">
+        <br/>
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img
-                src="./../../../assets/imagesIdvision/documentsImage.png"
-                alt=""
-              />
+              <img src="./../../../assets/imagesIdvision/rostroImage.png" alt="" />
             </div>
             <div class="container-text">
               <p>
-                A continuación, deberás leer un texto mientras grabas un video.
+                Si estás en interiores, asegúrate de que la luz esté frente a ti, no detrás.
               </p>
             </div>
           </ion-row>
@@ -245,10 +224,7 @@
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img
-                src="./../../../assets/imagesIdvision/rostroImage.png"
-                alt=""
-              />
+              <img src="./../../../assets/imagesIdvision/rostroImage.png" alt="" />
             </div>
             <div class="container-text">
               <p>
@@ -261,15 +237,11 @@
         <ion-row>
           <ion-row>
             <div class="image-container">
-              <img
-                src="./../../../assets/imagesIdvision/voiceImage.png"
-                alt=""
-              />
+              <img src="./../../../assets/imagesIdvision/rostroImage.png" alt="" />
             </div>
             <div class="container-text">
               <p>
-                Asegúrate de que tu voz sea clara y de que no estés en un
-                entorno ruidoso.
+                Activa la cámara frontal y verifica que tu rostro esté bien centrado..
               </p>
             </div>
           </ion-row>
@@ -285,9 +257,7 @@
           [showIcon]="true"
           (clicked)="handleClick()"
         ></app-custom-button> -->
-        <ion-button expand="block" (click)="openAcuerdoVideo()"
-          >Abrir la cámara</ion-button
-        >
+        <ion-button expand="block" (click)="openAcuerdoVideo()">Abrir la cámara</ion-button>
       </div>
     </div>
   </swiper-slide>
@@ -313,9 +283,7 @@
             [showIcon]="true"
             (clicked)="handleClick()"
           ></app-custom-button> -->
-          <ion-button expand="block" (click)="handleGetInit()"
-            >Salir</ion-button
-          >
+          <ion-button expand="block" (click)="handleGetInit()">Salir</ion-button>
         </div>
       </ion-item>
     </div>

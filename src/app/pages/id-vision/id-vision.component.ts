@@ -6,7 +6,6 @@ import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
 import { DpiService } from './services/dpi/dpi-service.service';
-import { lastValueFrom } from 'rxjs';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { CustomSlideComponent } from './components/custom-slide/custom-slide.component';
 
@@ -21,6 +20,7 @@ register();
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
 })
+
 export class IdVisionComponent implements OnInit {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
   private isAndroid: boolean;
@@ -42,9 +42,7 @@ export class IdVisionComponent implements OnInit {
   swiperElement = signal<SwiperContainer | null>(null);
   private modalRef: HTMLIonModalElement | null = null;
 
-  // async init() {
-  //   await this.storage['create']; // Inicializa Storage
-  // }
+
   ngOnInit() {
     const swiperElemConstructor = document.querySelector('swiper-container');
 
@@ -54,7 +52,7 @@ export class IdVisionComponent implements OnInit {
       navigation: {
         enabled: false,
       },
-      allowTouchMove: false,
+      allowTouchMove: true,
     };
     Object.assign(swiperElemConstructor!, swiperOptions);
     this.swiperElement.set(swiperElemConstructor as SwiperContainer);
