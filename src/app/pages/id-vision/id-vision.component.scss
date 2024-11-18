@@ -7,6 +7,7 @@
     background-color: #fff;
 }
 
+
 h2 {
     font-size: 1.5em;
     font-weight: bold;
@@ -90,8 +91,13 @@ p {
 text-align: center;
 }
 
+.p-justify{
+  text-align: justify;
+  }
+
 .head {
     padding: 30px;
+    margin-top: 50px;
 }
 
 
@@ -101,7 +107,7 @@ text-align: center;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 75%; // Ocupa todo el espacio disponible en el ion-content
+    height: 45%; // Ocupa todo el espacio disponible en el ion-content
     text-align: center;
     //background-color: black;
 }
@@ -113,7 +119,7 @@ text-align: center;
     width: 100%;
     padding: 10px;
     background-color: #fff; // Color de fondo, opcional
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); // Sombra suave para que resalte
+   // box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); // Sombra suave para que resalte
   
     ion-button {
       width: 90%;
@@ -188,4 +194,9 @@ text-align: center;
 
 .rounded-input::part(native) {
   background: transparent; /* Fondo transparente para evitar conflictos */
+}
+
+.p-info{
+  font-weight: bold;
+  color: #714e93
 }

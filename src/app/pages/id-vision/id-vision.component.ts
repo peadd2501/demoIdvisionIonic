@@ -48,7 +48,7 @@ export class IdVisionComponent implements OnInit {
       navigation: {
         enabled: false,
       },
-      allowTouchMove: false,
+      allowTouchMove: true,
     };
     Object.assign(swiperElemConstructor!, swiperOptions);
     this.swiperElement.set(swiperElemConstructor as SwiperContainer);

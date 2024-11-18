@@ -131,6 +131,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
       this.stream = null;
     }
   }
+  
   closeOverlay() {
     this.stopCamera();
     this.modalController.dismiss();
