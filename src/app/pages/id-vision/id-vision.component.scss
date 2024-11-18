@@ -92,7 +92,7 @@ text-align: center;
 }
 
 .p-justify{
-  text-align: justify;
+  text-align: start;
   }
 
 .head {
@@ -107,7 +107,7 @@ text-align: center;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 45%; // Ocupa todo el espacio disponible en el ion-content
+    height: 40%; // Ocupa todo el espacio disponible en el ion-content
     text-align: center;
     //background-color: black;
 }
