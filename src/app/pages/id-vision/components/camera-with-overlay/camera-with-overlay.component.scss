@@ -115,4 +115,20 @@ ion-content {
   border-radius: 5px; /* Opcional, para esquinas redondeadas */
   color: black; /* Color del texto */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  animation: popIn 1s ease-in-out; /* Agrega la animación al aparecer */
+}
+
+/* Definimos la animación "popIn" */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8); /* Comienza más pequeño */
+    opacity: 0; /* Empieza invisible */
+  }
+  50% {
+    transform: scale(1.1); /* Crece un poco más de lo normal */
+    opacity: 1; /* Se hace visible */
+  }
+  100% {
+    transform: scale(1); /* Vuelve a su tamaño normal */
+  }
 }
