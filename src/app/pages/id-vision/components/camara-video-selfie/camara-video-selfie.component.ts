@@ -30,11 +30,10 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   countdown: number = 0; // Propiedad para la cuenta regresiva
 
   private recordingTimer: any;
-  private minRecordingTime = 10000; // 8 seconds
+  private minRecordingTime = 10000; // 10 seconds
   private maxRecordingTime = 12000; // 12 seconds
   timeRemaining: number = this.maxRecordingTime / 1000; // Inicializar con el tiempo máximo en segundos
   canStopRecording = true;
-
 
   constructor(
     private platform: Platform,
@@ -55,10 +54,20 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       await this.requestPermissions();
     }
     await this.initCamera();
-    await this.startRecording();
+    // await this.startRecording();
+    await this.waitForCameraReady();
+
 
     this.modaldpiServices.closeOverlay$.subscribe(() => {
       this.closeOverlay();
+    });
+  }
+
+  async waitForCameraReady(): Promise<void> {
+    return new Promise((resolve) => {
+      this.videoElement.nativeElement.onloadedmetadata = () => {
+        resolve();
+      };
     });
   }
 
@@ -73,17 +82,38 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   }
 
   async initCamera() {
+    let isCameraReady = false;
+
     try {
       const constraints: MediaStreamConstraints = {
         video: {
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
+          width: { ideal: 640 },
+          height: { ideal: 480 },
           facingMode: 'user'
         }
       };
 
       this.stream = await navigator.mediaDevices.getUserMedia(constraints);
       this.videoElement.nativeElement.srcObject = this.stream;
+
+          // Esperar hasta que la cámara esté lista
+    this.videoElement.nativeElement.onloadedmetadata = () => {
+      isCameraReady = true;
+    };
+
+    // Espera activa para asegurarte de que está lista
+    await new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (isCameraReady) {
+          clearInterval(interval);
+          resolve(true);
+        }
+      }, 100);
+    });
+
+
+    await this.startRecording();
+
     } catch (error) {
       console.error('Error al inicializar la cámara:', error);
     }
@@ -91,9 +121,9 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
 
   async startRecording() {
     if (!this.stream) return;
-    const options = { mimeType: this.isIOS ? 'video/mp4' : 'video/webm', videoBitsPerSecond: 600000 };
+    const options = { mimeType: this.isIOS ? 'video/mp4' : 'video/webm', videoBitsPerSecond: 400000 };
     this.mediaRecorder = new MediaRecorder(this.stream, options);
-    const chunks: Blob[] = [];
+    let chunks: Blob[] = [];
 
     this.mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
@@ -133,9 +163,9 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
 
 
     // Detiene la grabación después de 10 segundos
-    setTimeout(async () => {
-      await this.stopRecording();
-    }, 10000);
+    // setTimeout(async () => {
+    //   await this.stopRecording();
+    // }, 10000);
   }
 
 
@@ -152,17 +182,24 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     }, 1000);
   }
 
-  startVideoRecord() {
+  async startVideoRecord () {
     if (this.mediaRecorder && !this.isRecording) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       this.mediaRecorder.start(100);
       this.isRecording = true;
+
+      this.canStopRecording = false; // Deshabilitar el botón de detener inicialmente
+
       this.renderer.addClass(this.progressRing.nativeElement, 'progress-active');
-      this.canStopRecording = false;
       this.timeRemaining = this.maxRecordingTime / 1000; // Reiniciar el tiempo restante
       this.updateTimeRemaining(); // Iniciar la actualización del tiempo restante
-      setTimeout(() => {
-        this.canStopRecording = true;
-      }, this.minRecordingTime);
+
+    // Habilitar el botón de detener después de minRecordingTime
+    setTimeout(() => {
+      this.canStopRecording = true;
+    }, this.minRecordingTime);
+
 
       this.recordingTimer = setTimeout(async () => {
         await this.stopRecording();
@@ -186,7 +223,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   }
 
   async stopRecording() {
-    if (this.mediaRecorder && this.isRecording) {
+    if (this.mediaRecorder && this.isRecording && this.canStopRecording) {
       await this.backFunction(this.capVideo!);
       this.mediaRecorder.stop();
       this.isRecording = false;

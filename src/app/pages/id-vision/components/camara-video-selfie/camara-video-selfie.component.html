@@ -1,19 +1,18 @@
 <ion-content color="light" class="custom-content">
+  <div *ngIf="countdown > 0" class="countdown-overlay">
+    <div class="countdown">{{ countdown }}</div>
+  </div>
   <ion-header class="ion-no-border">
     <ion-toolbar color="light">
-      <ion-title class="centered-title">Video Selfie</ion-title>
+      <!-- <ion-title class="centered-title">Video Selfie</ion-title> -->
       <ion-buttons slot="end">
-        <ion-button (click)="closeOverlay()">
+        <ion-button (click)="closeOverlay()" [disabled]="!canStopRecording">
           <ion-icon name="close"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
-
-  <div *ngIf="countdown > 0" class="countdown-overlay">
-    <div class="countdown">{{ countdown }}</div>
-  </div>
   <!-- Contenedor de la cámara y progresión -->
   <div class="camera-container">
     <div class="video-wrapper">
@@ -28,7 +27,7 @@
         <!-- Botones de grabación -->
         <div class="fixed-footer">
           <ion-button *ngIf="!isRecording" expand="block" (click)="recordVideo()">Iniciar Grabación</ion-button>
-          <ion-button *ngIf="isRecording" expand="block" (click)="stopRecording()" [disabled]="!isRecording">Detener
+          <ion-button *ngIf="isRecording" expand="block" (click)="stopRecording()" [disabled]="!canStopRecording">Detener
             Grabación</ion-button>
         </div>
   </div>

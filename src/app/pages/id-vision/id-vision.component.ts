@@ -54,7 +54,7 @@ export class IdVisionComponent implements OnInit {
       navigation: {
         enabled: false,
       },
-      allowTouchMove: true,
+      // allowTouchMove: false,
     };
     Object.assign(swiperElemConstructor!, swiperOptions);
     this.swiperElement.set(swiperElemConstructor as SwiperContainer);
@@ -169,7 +169,7 @@ export class IdVisionComponent implements OnInit {
               () => {
                 this.closeModalFromParent();
                 this.modalController.dismiss();
-                this.handleSlide(6);
+                this.handleSlide(2);
               }
             )
             // this.swiperElement()?.swiper?.slideNext();
@@ -248,7 +248,7 @@ export class IdVisionComponent implements OnInit {
               () => {
                 this.closeModalFromParent();
                 this.modalController.dismiss();
-                this.handleSlide(7);
+                this.handleSlide(3);
               }
             )
             // this.swiperElement()?.swiper?.slideNext();
@@ -296,7 +296,7 @@ export class IdVisionComponent implements OnInit {
             this.showAlert('Éxito', response['message'], [], () => {
               this.closeModalFromParent();
               this.modalController.dismiss();
-              this.handleSlide(8);
+              this.handleSlide(4);
             })
           } else {
             this.showAlert('Error', response['message'], [], () => {

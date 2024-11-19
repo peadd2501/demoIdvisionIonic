@@ -98,6 +98,7 @@ text-align: center;
 .head {
     padding: 30px;
     margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 
@@ -145,7 +146,7 @@ text-align: center;
     //width: 100%;
     justify-content: center;
     align-items: center;
-    height: 70vh;
+    height: 50vh;
   }
 .dpi-image {
     width: 200px;
@@ -153,6 +154,7 @@ text-align: center;
 
 .image-container {
     width: 100px;
+    max-width: 90px;
 }
 
 .col-confirmation {
@@ -171,7 +173,8 @@ text-align: center;
 .font-confirmation {
   font-size: 26px;
   text-align: center;
-  color: #005da9;
+  // color: #005da9;
+  color: var(--purple-primary);
   font-weight: bold;
 }
 
