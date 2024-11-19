@@ -106,7 +106,7 @@ ion-content {
   border: 2px solid white; /* Color y grosor del borde */
   border-radius: 10px; /* Ajusta para redondear las esquinas */
   z-index: 10; /* Asegúrate de que esté encima del overlay oscuro */
-  box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.6); /* Oscurece fuera del cuadro */
+  box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.85); /* Oscurece fuera del cuadro */
 }
 .text-help  p{
   display: inline-block; /* Hace que solo el texto ocupe espacio */
