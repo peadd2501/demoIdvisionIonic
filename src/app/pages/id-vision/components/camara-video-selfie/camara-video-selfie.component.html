@@ -1,4 +1,8 @@
 <ion-content color="light" class="custom-content">
+  <div *ngIf="isLoading" class="loading-overlay">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  
   <div *ngIf="countdown > 0" class="countdown-overlay">
     <div class="countdown">{{ countdown }}</div>
   </div>

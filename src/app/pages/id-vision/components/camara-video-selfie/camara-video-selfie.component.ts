@@ -35,6 +35,9 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   timeRemaining: number = this.maxRecordingTime / 1000; // Inicializar con el tiempo máximo en segundos
   canStopRecording = true;
 
+  isLoading: boolean = true; // Variable para mostrar el loader
+
+
   constructor(
     private platform: Platform,
     private modalController: ModalController,
@@ -111,11 +114,14 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       }, 100);
     });
 
+    this.isLoading = false;
+
 
     await this.startRecording();
 
     } catch (error) {
       console.error('Error al inicializar la cámara:', error);
+      this.isLoading = false;
     }
   }
 

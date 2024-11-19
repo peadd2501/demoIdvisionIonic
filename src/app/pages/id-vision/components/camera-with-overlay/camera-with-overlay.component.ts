@@ -26,6 +26,8 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   private isAndroid: boolean;
   private isIOS: boolean;
 
+  isLoading: boolean = true; // Variable para mostrar el loader
+
   file?: File;
   capturedImageUrl: string | null = null;
 
@@ -47,7 +49,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     }
     
     await this.initCamera();
-
+    this.isLoading = false;
     this.modaldpiServices.closeOverlay$.subscribe(() => {
       this.closeOverlay();
     });
@@ -87,8 +89,8 @@ export class CameraWithOverlayComponent implements AfterViewInit {
         });
       };
     } catch (error) {
-      alert(error);
       console.error('Error al inicializar la cámara:', error);
+      this.isLoading = false;
     }
   }
 

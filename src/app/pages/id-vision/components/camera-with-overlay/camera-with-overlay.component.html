@@ -7,11 +7,16 @@
       <p class="country">{{text2}}</p>
     </div>
 
+
+    <div *ngIf="isLoading" class="loading-overlay">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    
     <!-- Capa oscura con recorte en el centro -->
     <div class="visible-window"></div>
 
     <!-- Video de la cámara con el overlay centrado -->
-    <div class="camera-container">
+    <div class="camera-container" >
       <video #videoElement autoplay muted playsinline></video>
       <!-- <img [src]="overlaySrc" alt="Overlay" class="overlay-frame" /> -->
     </div>
