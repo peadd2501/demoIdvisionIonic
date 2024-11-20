@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { IdVisionComponent } from './id-vision.component';
+import IdVisionComponent from './id-vision.component';
 
 describe('IdVisionComponent', () => {
   let component: IdVisionComponent;

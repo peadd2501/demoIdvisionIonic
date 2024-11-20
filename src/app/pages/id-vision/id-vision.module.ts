@@ -9,7 +9,7 @@ import { Slide4Component } from '../slides/slide4/slide4.component';
 
 @NgModule({
   declarations: [
-    //IdVisionComponent, // Declara el componente de la página
+    // IdVisionComponent, // Declara el componente de la página
     Slide1Component, // Declara los slides aquí
     Slide2Component,
     Slide3Component,
@@ -17,7 +17,7 @@ import { Slide4Component } from '../slides/slide4/slide4.component';
   ],
   imports: [CommonModule, IonicModule],
   exports: [
-    //IdVisionComponent, // Exporta si necesitas usarlo en otras partes
+    // IdVisionComponent, // Exporta si necesitas usarlo en otras partes
     
   ],
 })
