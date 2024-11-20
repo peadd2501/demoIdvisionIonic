@@ -4,6 +4,8 @@
   "author": "FGE",
   "homepage": "https://ionicframework.com/",
   "licence": "FGE",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
