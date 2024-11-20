@@ -6,7 +6,6 @@ import { Slide1Component } from '../slides/slide1/slide1.component';
 import { Slide2Component } from '../slides/slide2/slide2.component';
 import { Slide3Component } from '../slides/slide3/slide3.component';
 import { Slide4Component } from '../slides/slide4/slide4.component';
-import { CustomButtonComponent } from 'src/app/components/custom-button/custom-button.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +14,6 @@ import { CustomButtonComponent } from 'src/app/components/custom-button/custom-b
     Slide2Component,
     Slide3Component,
     Slide4Component,
-    CustomButtonComponent
   ],
   imports: [CommonModule, IonicModule],
   exports: [

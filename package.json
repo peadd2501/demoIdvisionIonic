@@ -9,10 +9,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "build": "tsc"
+
   },
   "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
   "private": true,

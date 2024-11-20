@@ -1,0 +1,32 @@
+import { AfterViewInit, ElementRef, EventEmitter } from '@angular/core';
+import { ModalController, Platform } from '@ionic/angular';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
+export declare class CameraWithOverlayComponent implements AfterViewInit {
+    private platform;
+    private modalController;
+    private sanitizer;
+    private modaldpiServices;
+    videoElement: ElementRef<HTMLVideoElement>;
+    text1: string;
+    text2: string;
+    overlaySrc: string;
+    onTakePicture: (filePath: String) => Promise<boolean>;
+    closeRequested: EventEmitter<void>;
+    capturedImage: SafeUrl | null;
+    stream: MediaStream | null;
+    private isAndroid;
+    private isIOS;
+    isLoading: boolean;
+    file?: File;
+    capturedImageUrl: string | null;
+    constructor(platform: Platform, modalController: ModalController, sanitizer: DomSanitizer, modaldpiServices: ModalDpiServices);
+    ngAfterViewInit(): Promise<void>;
+    requestPermissions(): Promise<void>;
+    initCamera(): Promise<void>;
+    capturePhoto(): Promise<void>;
+    stopCamera(): void;
+    closeOverlay(): void;
+    closeRequestedFunction(): void;
+    resumeCamera(): void;
+}

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { environments } from 'src/app/pages/constants/enviroments';
+// import { environments } from 'src/app/pages/constants/enviroments';
+
+import { environments } from './../../../constants/enviroments';
 
 interface DPIProcessResponse {
   error: boolean;
