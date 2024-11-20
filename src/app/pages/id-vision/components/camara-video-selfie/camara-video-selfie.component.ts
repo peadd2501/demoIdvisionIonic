@@ -3,6 +3,8 @@ import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
+import { ModalVideoSelfieServices } from '../../services/modal-services/modal-video-selfie-services';
+import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 
 @Component({
   selector: 'app-camara-video-selfie',
@@ -37,6 +39,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
 
   isLoading: boolean = true; // Variable para mostrar el loader
 
+  private defaultBrightness: number | null = null; // Para guardar el brillo original del dispositivo
+
 
   constructor(
     private platform: Platform,
@@ -45,7 +49,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     private renderer: Renderer2,
     private alertController: AlertController,
     private modaldpiServices: ModalDpiServices,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private modalVideoSelfieServices: ModalVideoSelfieServices
 
   ) {
     this.isAndroid = this.platform.is('android');
@@ -53,6 +58,11 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   }
 
   async ngAfterViewInit() {
+    const { brightness } = await ScreenBrightness.getBrightness();
+    this.defaultBrightness = brightness;
+
+    await ScreenBrightness.setBrightness({ brightness: 1.0 });
+
     if (this.isAndroid || this.isIOS) {
       await this.requestPermissions();
     }
@@ -244,8 +254,12 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
 
   }
 
-  closeOverlay() {
+  async closeOverlay() {
     this.stopCamera();
+        // Restaura el brillo original si estaba guardado
+        if (this.defaultBrightness !== null) {
+          await ScreenBrightness.setBrightness({ brightness: this.defaultBrightness });
+        }
     this.modalController.dismiss();
   }
 
@@ -257,26 +271,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     if (this.scanTimeout) clearTimeout(this.scanTimeout);
   }
 
-  async showSuccessAlert() {
-    const alert = await this.alertController.create({
-      header: 'Éxito',
-      cssClass: 'custom-alert', // Aplica una clase personalizada
-      message: 'El video se ha capturado satisfactoriamente.',
-      buttons: [
-        {
-          text: 'Aceptar',
-          handler: async () => {
-
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
   public closeRequestedFunction() {
     this.closeOverlay();
-    this.modaldpiServices.requestCloseOverlay();
+    this.modalVideoSelfieServices.requestCloseOverlay();
   }
 }

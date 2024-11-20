@@ -53,6 +53,10 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     this.modaldpiServices.closeOverlay$.subscribe(() => {
       this.closeOverlay();
     });
+
+    this.modaldpiServices.resumeCameraSubject$.subscribe(() => {
+      this.resumeCamera();
+    });
   }
 
   async requestPermissions() {
@@ -111,12 +115,13 @@ export class CameraWithOverlayComponent implements AfterViewInit {
       canvas.toBlob((blob) => {
         if (blob) {
           this.file = new File([blob], 'dpi.png', { type: 'image/png' });
-         
           
           this.capturedImageUrl = URL.createObjectURL(this.file); // Crea una URL temporal
-           this.onTakePicture(this.capturedImageUrl).then(() => {
+          
+          videoElement.pause();
+          this.onTakePicture(this.capturedImageUrl).then(() => {
             //this.closeOverlay();
-           });
+          });
           
           // this.uploadPhoto(file); // Llama a una función para enviar el archivo
         }
@@ -144,10 +149,15 @@ export class CameraWithOverlayComponent implements AfterViewInit {
     this.modaldpiServices.requestCloseOverlay();
   }
 
-  // functionToParent() {
-  //   this.modalController.dismiss({
-  //     executeFunction: this.closeOverlay
-  //   })
-  // }
+  resumeCamera() {
+    console.log('ejecutando resume');
+    const videoElement = this.videoElement?.nativeElement;
+    if (videoElement && videoElement.paused) {
+      videoElement.play().catch((error) => {
+        console.error('Error al intentar reanudar el video:', error);
+      });
+    }
+  }
+
 }
 
