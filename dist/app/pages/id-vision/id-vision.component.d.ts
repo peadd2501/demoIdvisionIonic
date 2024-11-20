@@ -4,6 +4,7 @@ import { SwiperContainer } from 'swiper/element/bundle';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
+import * as i0 from "@angular/core";
 export declare class IdVisionComponent implements OnInit {
     private modalController;
     private dpiService;
@@ -45,4 +46,7 @@ export declare class IdVisionComponent implements OnInit {
     openCameraOverlayTrasero(): Promise<void>;
     getBackModal(file: File): Promise<void>;
     openAcuerdoVideo(): Promise<void>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<IdVisionComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<IdVisionComponent, "app-id-vision", never, {}, {}, never, never, true, never>;
 }
+//# sourceMappingURL=id-vision.component.d.ts.map

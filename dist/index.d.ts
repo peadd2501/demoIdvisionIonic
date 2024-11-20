@@ -6,3 +6,4 @@ export * from './app/pages/id-vision/id-vision.module';
 export * from './app/pages/id-vision/services/dpi/dpi-service.service';
 export * from './app/pages/id-vision/services/modal-services/modal-dpi-services';
 export * from './app/pages/id-vision/services/modal-services/modal-video-selfie-services';
+//# sourceMappingURL=index.d.ts.map

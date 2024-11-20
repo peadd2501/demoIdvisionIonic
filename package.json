@@ -12,7 +12,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "build": "tsc"
+    "build": "ngc -p tsconfig.lib.json"
 
   },
   "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
