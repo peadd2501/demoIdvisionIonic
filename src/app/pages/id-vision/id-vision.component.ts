@@ -8,6 +8,7 @@ import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/cam
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { CustomSlideComponent } from './components/custom-slide/custom-slide.component';
+import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 
 
 register();
@@ -34,7 +35,8 @@ export class IdVisionComponent implements OnInit {
   constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
     private loadingController: LoadingController,
     private platform: Platform,
-    private modalDpiServices: ModalDpiServices
+    private modalDpiServices: ModalDpiServices,
+    private modalVideoSelfieServices: ModalVideoSelfieServices
     /*private storage: Storage*/,) {
     // this.init();
     this.isAndroid = this.platform.is('android');
@@ -63,6 +65,10 @@ export class IdVisionComponent implements OnInit {
     this.modalDpiServices.closeOverlay$.subscribe(() => {
       this.closeOverlay();
     });
+
+    this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
+      this.closeModalOverlay();
+    })
   }
 
   handleClick() {
@@ -181,6 +187,7 @@ export class IdVisionComponent implements OnInit {
               '',
               response['details'],
               () => {
+                this.resumeCameraFromParent();
               }
             )
           }
@@ -192,6 +199,7 @@ export class IdVisionComponent implements OnInit {
             '',
             error,
             () => {
+              this.resumeCameraFromParent();
             }
           )
           // Oculta el loader en caso de error
@@ -209,6 +217,13 @@ export class IdVisionComponent implements OnInit {
   closeModalFromParent() {
     // Emite el evento para cerrar la modal
     this.modalDpiServices.requestCloseOverlay();
+  }
+  closeModalVideoSelfie() {
+    this.modalVideoSelfieServices.requestCloseOverlay();
+  }
+
+  resumeCameraFromParent() {
+    this.modalDpiServices.requestResumeCamera();
   }
 
 
@@ -294,12 +309,15 @@ export class IdVisionComponent implements OnInit {
           if (!response['error']) {
 
             this.showAlert('Éxito', response['message'], [], () => {
-              this.closeModalFromParent();
+
+              this.closeModalVideoSelfie();
+              // this.closeModalFromParent();
               this.modalController.dismiss();
               this.handleSlide(4);
             })
           } else {
             this.showAlert('Error', response['message'], [], () => {
+              this.closeModalVideoSelfie();
             })
           }
         },
@@ -368,6 +386,10 @@ export class IdVisionComponent implements OnInit {
     console.log('Modal cerrada desde el componente padre');
   }
 
+  async closeModalOverlay() {
+    console.log('test');
+    
+  }
   //Trasero dpi services
   async validateDPIBack(filePath: string): Promise<boolean> {
     this.modalController.dismiss();

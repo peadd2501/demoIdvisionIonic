@@ -1,8 +1,9 @@
 {
-  "name": "idVisionIonic",
+  "name": "id-vision",
   "version": "0.0.1",
-  "author": "Ionic Framework",
+  "author": "FGE",
   "homepage": "https://ionicframework.com/",
+  "licence": "FGE",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,6 +12,7 @@
     "test": "ng test",
     "lint": "ng lint"
   },
+  "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.0.0",
@@ -21,6 +23,7 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "@capacitor-community/screen-brightness": "^6.0.0",
     "@capacitor/android": "6.1.2",
     "@capacitor/app": "6.0.1",
     "@capacitor/camera": "^6.1.0",
@@ -66,5 +69,5 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.0"
   },
-  "description": "An Ionic project"
+  "description": "SDK para prueba de vida y validacion de documentos"
 }
