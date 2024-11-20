@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { IdVisionComponent } from './id-vision.component';
 import { Slide1Component } from '../slides/slide1/slide1.component';
 import { Slide2Component } from '../slides/slide2/slide2.component';
 import { Slide3Component } from '../slides/slide3/slide3.component';
 import { Slide4Component } from '../slides/slide4/slide4.component';
+import { IdVisionComponent } from './id-vision.component';
 
 @NgModule({
   declarations: [

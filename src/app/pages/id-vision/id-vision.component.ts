@@ -22,7 +22,7 @@ register();
   styleUrls: ['./id-vision.component.scss'],
 })
 
-export default class IdVisionComponent implements OnInit {
+export class IdVisionComponent implements OnInit {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
   private isAndroid: boolean;
   private isIOS: boolean;
