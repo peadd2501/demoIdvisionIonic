@@ -26,10 +26,14 @@ export class IdVisionComponent {
         this.platform = platform;
         this.modalDpiServices = modalDpiServices;
         this.modalVideoSelfieServices = modalVideoSelfieServices;
-        this.tutoImage1 = './../../../assets/imagesIdvision/documentsImage.png';
-        this.tutoImage2 = './../../../assets/imagesIdvision/documentsImage.png';
-        this.tutoImage3 = './../../../assets/imagesIdvision/56.png';
-        this.tutoImage4 = './../../../assets/imagesIdvision/57.png';
+        // tutoImage1: string = './../../../assets/imagesIdvision/documentsImage.png';
+        // tutoImage2: string = './../../../assets/imagesIdvision/documentsImage.png';
+        // tutoImage3: string = './../../../assets/imagesIdvision/56.png';
+        // tutoImage4: string = './../../../assets/imagesIdvision/57.png';
+        this.tutoImage1 = 'assets/imagesIdvision/documentsImage.png';
+        this.tutoImage2 = 'assets/imagesIdvision/documentsImage.png';
+        this.tutoImage3 = 'assets/imagesIdvision/56.png';
+        this.tutoImage4 = 'assets/imagesIdvision/57.png';
         this.swiperElement = signal(null);
         this.modalRef = null;
         // this.init();

@@ -114,7 +114,7 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": ["src/global.scss", "src/theme/variables.scss", "src/app/pages/id-vision/id-vision.component.scss", "src/app/pages/id-vision/components/camara-video-selfie/camara-video-selfie.component.scss", "src/app/pages/id-vision/components/camera-with-overlay/camera-with-overlay.component.scss", "src/app/pages/id-vision/components/custom-slide/custom-slide.component.scss" ],
             "scripts": []
           },
           "configurations": {
