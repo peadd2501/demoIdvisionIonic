@@ -8,29 +8,28 @@ import { Slide4Component } from '../slides/slide4/slide4.component';
 import * as i0 from "@angular/core";
 export class IdVisionModule {
 }
-IdVisionModule.ɵfac = function IdVisionModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || IdVisionModule)(); };
-IdVisionModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: IdVisionModule });
-IdVisionModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [CommonModule, IonicModule] });
-(() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(IdVisionModule, [{
-        type: NgModule,
-        args: [{
-                declarations: [
-                    // IdVisionComponent, // Declara el componente de la página
-                    Slide1Component, // Declara los slides aquí
-                    Slide2Component,
-                    Slide3Component,
-                    Slide4Component,
-                ],
-                imports: [CommonModule, IonicModule],
-                exports: [
-                // IdVisionComponent, // Exporta si necesitas usarlo en otras partes
-                ],
-            }]
-    }], null, null); })();
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(IdVisionModule, { declarations: [
+IdVisionModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: IdVisionModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+IdVisionModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "18.2.12", ngImport: i0, type: IdVisionModule, declarations: [
         // IdVisionComponent, // Declara el componente de la página
         Slide1Component, // Declara los slides aquí
         Slide2Component,
         Slide3Component,
-        Slide4Component], imports: [CommonModule, IonicModule] }); })();
+        Slide4Component], imports: [CommonModule, IonicModule] });
+IdVisionModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: IdVisionModule, imports: [CommonModule, IonicModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: IdVisionModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        // IdVisionComponent, // Declara el componente de la página
+                        Slide1Component, // Declara los slides aquí
+                        Slide2Component,
+                        Slide3Component,
+                        Slide4Component,
+                    ],
+                    imports: [CommonModule, IonicModule],
+                    exports: [
+                    // IdVisionComponent, // Exporta si necesitas usarlo en otras partes
+                    ],
+                }]
+        }] });
 //# sourceMappingURL=id-vision.module.js.map

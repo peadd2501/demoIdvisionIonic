@@ -11,8 +11,9 @@
       "skipLibCheck": true
     },
     "angularCompilerOptions": {
-      "enableIvy": true
+      "enableIvy": true,
+      "strictMetadataEmit": true,
+      "compilationMode": "partial"
     },
-    "exclude": ["**/*.spec.ts", "**/*.test.ts", "node_modules", "dist"]
+    "exclude": ["**/*.spec.ts", "**/*.test.ts", "node_modules", "dist"],
   }
-  

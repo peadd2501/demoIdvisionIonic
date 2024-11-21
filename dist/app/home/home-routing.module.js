@@ -11,15 +11,14 @@ const routes = [
 ];
 export class HomePageRoutingModule {
 }
-HomePageRoutingModule.ɵfac = function HomePageRoutingModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || HomePageRoutingModule)(); };
-HomePageRoutingModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: HomePageRoutingModule });
-HomePageRoutingModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [RouterModule.forChild(routes), RouterModule] });
-(() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(HomePageRoutingModule, [{
-        type: NgModule,
-        args: [{
-                imports: [RouterModule.forChild(routes)],
-                exports: [RouterModule]
-            }]
-    }], null, null); })();
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(HomePageRoutingModule, { imports: [i1.RouterModule], exports: [RouterModule] }); })();
+HomePageRoutingModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: HomePageRoutingModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+HomePageRoutingModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "18.2.12", ngImport: i0, type: HomePageRoutingModule, imports: [i1.RouterModule], exports: [RouterModule] });
+HomePageRoutingModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: HomePageRoutingModule, imports: [RouterModule.forChild(routes), RouterModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: HomePageRoutingModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    imports: [RouterModule.forChild(routes)],
+                    exports: [RouterModule]
+                }]
+        }] });
 //# sourceMappingURL=home-routing.module.js.map

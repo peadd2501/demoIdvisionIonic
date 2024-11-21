@@ -17,12 +17,12 @@ export class ModalDpiServices {
         this.resumeCameraSubject.next();
     }
 }
-ModalDpiServices.ɵfac = function ModalDpiServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalDpiServices)(); };
-ModalDpiServices.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: ModalDpiServices, factory: ModalDpiServices.ɵfac, providedIn: 'root' });
-(() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ModalDpiServices, [{
-        type: Injectable,
-        args: [{
-                providedIn: 'root',
-            }]
-    }], null, null); })();
+ModalDpiServices.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: ModalDpiServices, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+ModalDpiServices.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: ModalDpiServices, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: ModalDpiServices, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root',
+                }]
+        }] });
 //# sourceMappingURL=modal-dpi-services.js.map

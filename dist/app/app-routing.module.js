@@ -16,17 +16,16 @@ const routes = [
 ];
 export class AppRoutingModule {
 }
-AppRoutingModule.ɵfac = function AppRoutingModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || AppRoutingModule)(); };
-AppRoutingModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: AppRoutingModule });
-AppRoutingModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }), RouterModule] });
-(() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(AppRoutingModule, [{
-        type: NgModule,
-        args: [{
-                imports: [
-                    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-                ],
-                exports: [RouterModule]
-            }]
-    }], null, null); })();
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(AppRoutingModule, { imports: [i1.RouterModule], exports: [RouterModule] }); })();
+AppRoutingModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: AppRoutingModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+AppRoutingModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "18.2.12", ngImport: i0, type: AppRoutingModule, imports: [i1.RouterModule], exports: [RouterModule] });
+AppRoutingModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: AppRoutingModule, imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }), RouterModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: AppRoutingModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    imports: [
+                        RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+                    ],
+                    exports: [RouterModule]
+                }]
+        }] });
 //# sourceMappingURL=app-routing.module.js.map

@@ -10,12 +10,12 @@ export class ModalVideoSelfieServices {
         this.closeOverlaySubject.next();
     }
 }
-ModalVideoSelfieServices.ɵfac = function ModalVideoSelfieServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalVideoSelfieServices)(); };
-ModalVideoSelfieServices.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: ModalVideoSelfieServices, factory: ModalVideoSelfieServices.ɵfac, providedIn: 'root' });
-(() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ModalVideoSelfieServices, [{
-        type: Injectable,
-        args: [{
-                providedIn: 'root',
-            }]
-    }], null, null); })();
+ModalVideoSelfieServices.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: ModalVideoSelfieServices, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+ModalVideoSelfieServices.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: ModalVideoSelfieServices, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.12", ngImport: i0, type: ModalVideoSelfieServices, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root',
+                }]
+        }] });
 //# sourceMappingURL=modal-video-selfie-services.js.map
