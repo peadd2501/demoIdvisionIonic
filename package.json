@@ -15,9 +15,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "build": "ngc -p tsconfig.lib.json",
-    "postinstall": "cp -R ./src/assets ./dist/assets"
-
+    "build": "ngc -p tsconfig.lib.json && mkdir -p ./dist/assets/imagesIdVision && cp -R ./src/assets/imagesIdVision ./dist/assets/imagesIdVision"
   },
   "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
   "private": true,

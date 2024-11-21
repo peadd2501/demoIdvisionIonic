@@ -28,10 +28,15 @@ export class IdVisionComponent implements OnInit {
   private isAndroid: boolean;
   private isIOS: boolean;
 
-  tutoImage1: string = './../../../assets/imagesIdvision/documentsImage.png';
-  tutoImage2: string = './../../../assets/imagesIdvision/documentsImage.png';
-  tutoImage3: string = './../../../assets/imagesIdvision/56.png';
-  tutoImage4: string = './../../../assets/imagesIdvision/57.png';
+  // tutoImage1: string = './../../../assets/imagesIdvision/documentsImage.png';
+  // tutoImage2: string = './../../../assets/imagesIdvision/documentsImage.png';
+  // tutoImage3: string = './../../../assets/imagesIdvision/56.png';
+  // tutoImage4: string = './../../../assets/imagesIdvision/57.png';
+
+  tutoImage1: string = 'assets/imagesIdvision/documentsImage.png';
+  tutoImage2: string = 'assets/imagesIdvision/documentsImage.png';
+  tutoImage3: string = 'assets/imagesIdvision/56.png';
+  tutoImage4: string = 'assets/imagesIdvision/57.png';
 
   constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
     private loadingController: LoadingController,
