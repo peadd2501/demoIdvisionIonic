@@ -15,8 +15,8 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { CustomSlideComponent } from './pages/id-vision/components/custom-slide/custom-slide.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent, CustomSlideComponent, IdVisionComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(), IdVisionComponent
+  declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/],
+  imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(), IdVisionComponent, CustomSlideComponent
   ],
   exports: [],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

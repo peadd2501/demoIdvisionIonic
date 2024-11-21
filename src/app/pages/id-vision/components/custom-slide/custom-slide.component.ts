@@ -3,8 +3,8 @@ import { IonCol, IonRow } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-custom-slide',
-  // standalone: true,
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  standalone: true,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './custom-slide.component.html',
   styleUrls: ['./custom-slide.component.scss'],
 })

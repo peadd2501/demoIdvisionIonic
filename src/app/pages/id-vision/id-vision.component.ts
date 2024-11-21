@@ -15,9 +15,9 @@ register();
 
 @Component({
   selector: 'app-id-vision',
-  // standalone: true,
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  // imports: [IonicModule, CommonModule, CustomSlideComponent],
+  standalone: true,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [IonicModule, CommonModule, CustomSlideComponent],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
 })
