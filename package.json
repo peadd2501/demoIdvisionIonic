@@ -15,7 +15,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "build": "ngc -p tsconfig.lib.json"
+    "build": "ngc -p tsconfig.lib.json",
+    "postinstall": "cp -R ./src/assets ./dist/assets"
 
   },
   "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
@@ -75,5 +76,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.0"
   },
-  "description": "SDK para prueba de vida y validacion de documentos"
+  "description": "SDK para prueba de vida y validacion de documentos",
+  "styles": [
+    "src/theme/global.scss"
+  ]
 }
