@@ -8,12 +8,13 @@
       "module": "es2020",
       "outDir": "./dist",
       "declarationDir": "./dist",
-      "skipLibCheck": true
+      "skipLibCheck": true,
+      "composite": true
     },
     "angularCompilerOptions": {
       "enableIvy": true,
-      "strictMetadataEmit": true,
-      "compilationMode": "partial"
+      // "strictMetadataEmit": true,
+      "compilationMode": "full"
     },
     "exclude": ["**/*.spec.ts", "**/*.test.ts", "node_modules", "dist"],
   }
