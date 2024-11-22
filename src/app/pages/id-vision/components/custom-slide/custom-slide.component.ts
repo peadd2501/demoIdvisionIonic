@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, Output } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { IonCol, IonRow } from "@ionic/angular/standalone";
 
 @Component({
@@ -7,6 +7,7 @@ import { IonCol, IonRow } from "@ionic/angular/standalone";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './custom-slide.component.html',
   styleUrls: ['./custom-slide.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CustomSlideComponent {
   @Input() image1!: string; // Recibirá la ruta de la primera imagen

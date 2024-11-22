@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -9,6 +9,7 @@ import { ModalDpiServices } from '../../services/modal-services/modal-dpi-servic
   selector: 'app-camera-overlay',
   templateUrl: './camera-with-overlay.component.html',
   styleUrls: ['./camera-with-overlay.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CameraWithOverlayComponent implements AfterViewInit {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;

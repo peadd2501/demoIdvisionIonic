@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -10,6 +10,7 @@ import { ScreenBrightness } from '@capacitor-community/screen-brightness';
   selector: 'app-camara-video-selfie',
   templateUrl: './camara-video-selfie.component.html',
   styleUrls: ['./camara-video-selfie.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CamaraVideoSelfieComponent implements AfterViewInit {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
