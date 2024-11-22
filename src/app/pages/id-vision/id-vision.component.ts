@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertController, IonicModule, IonInput, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
@@ -21,6 +21,8 @@ register();
   providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
+  encapsulation: ViewEncapsulation.None
+
 })
 
 export class IdVisionComponent implements OnInit {
@@ -378,7 +380,7 @@ export class IdVisionComponent implements OnInit {
       componentProps: {
         text1: 'Coloca la parte frontal de tu DPI',
         text2: '',
-        overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
+        overlaySrc: 'assets/imagesIdvision/overlay_container.png',
         onTakePicture: this.DpiFrontProccess.bind(this),
         closeRequested: () => this.closeOverlay()
       },
@@ -409,7 +411,7 @@ export class IdVisionComponent implements OnInit {
       componentProps: {
         text1: 'Coloca el reverso de tu DPI',
         text2: '',
-        overlaySrc: './../../../../../assets/imagesIdvision/overlay_container.png',
+        overlaySrc: 'assets/imagesIdvision/overlay_container.png',
         onTakePicture: this.DpiBackProccess.bind(this)
 
       },
