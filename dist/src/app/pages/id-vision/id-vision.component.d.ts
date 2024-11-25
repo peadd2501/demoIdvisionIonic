@@ -23,6 +23,8 @@ export declare class IdVisionComponent implements OnInit {
     constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices);
     swiperElement: import("@angular/core").WritableSignal<SwiperContainer | null>;
     private modalRef;
+    isSwipe: boolean;
+    dpiCode: string;
     ngOnInit(): void;
     handleClick(): void;
     handleSlide(slide: number): Promise<void>;
@@ -47,6 +49,6 @@ export declare class IdVisionComponent implements OnInit {
     getBackModal(file: File): Promise<void>;
     openAcuerdoVideo(): Promise<void>;
     static ɵfac: i0.ɵɵFactoryDeclaration<IdVisionComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<IdVisionComponent, "app-id-vision", never, {}, {}, never, never, true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<IdVisionComponent, "app-id-vision", never, { "isSwipe": { "alias": "isSwipe"; "required": false; }; "dpiCode": { "alias": "dpiCode"; "required": false; }; }, {}, never, never, true, never>;
 }
 //# sourceMappingURL=id-vision.component.d.ts.map

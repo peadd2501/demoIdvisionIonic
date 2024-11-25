@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertController, IonicModule, IonInput, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
@@ -53,9 +53,12 @@ export class IdVisionComponent implements OnInit {
 
   swiperElement = signal<SwiperContainer | null>(null);
   private modalRef: HTMLIonModalElement | null = null;
-
-
+  @Input() isSwipe: boolean = false; 
+  @Input() dpiCode: string = '';
   ngOnInit() {
+
+    this.dpi.value = this.dpiCode ?? '';
+    
     const swiperElemConstructor = document.querySelector('swiper-container');
 
     const swiperOptions: SwiperOptions = {
@@ -64,7 +67,7 @@ export class IdVisionComponent implements OnInit {
       navigation: {
         enabled: false,
       },
-      // allowTouchMove: false,
+      allowTouchMove: this.isSwipe,
     };
     Object.assign(swiperElemConstructor!, swiperOptions);
     this.swiperElement.set(swiperElemConstructor as SwiperContainer);

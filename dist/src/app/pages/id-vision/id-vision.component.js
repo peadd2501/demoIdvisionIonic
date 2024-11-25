@@ -1,6 +1,6 @@
 import { __awaiter } from "tslib";
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertController, IonicModule, IonInput, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { register } from 'swiper/element/bundle';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
@@ -36,12 +36,15 @@ export class IdVisionComponent {
         this.tutoImage4 = 'assets/imagesIdvision/57.png';
         this.swiperElement = signal(null);
         this.modalRef = null;
+        this.isSwipe = false;
+        this.dpiCode = '';
         // this.init();
         this.isAndroid = this.platform.is('android');
         this.isIOS = this.platform.is('ios');
     }
     ngOnInit() {
-        var _a;
+        var _a, _b;
+        this.dpi.value = (_a = this.dpiCode) !== null && _a !== void 0 ? _a : '';
         const swiperElemConstructor = document.querySelector('swiper-container');
         const swiperOptions = {
             slidesPerView: 1,
@@ -49,11 +52,11 @@ export class IdVisionComponent {
             navigation: {
                 enabled: false,
             },
-            // allowTouchMove: false,
+            allowTouchMove: this.isSwipe,
         };
         Object.assign(swiperElemConstructor, swiperOptions);
         this.swiperElement.set(swiperElemConstructor);
-        (_a = this.swiperElement()) === null || _a === void 0 ? void 0 : _a.initialize();
+        (_b = this.swiperElement()) === null || _b === void 0 ? void 0 : _b.initialize();
         this.modalDpiServices.closeOverlay$.subscribe(() => {
             this.closeOverlay();
         });
@@ -409,7 +412,7 @@ IdVisionComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: IdVisionC
     } if (rf & 2) {
         let _t;
         i0.ɵɵqueryRefresh(_t = i0.ɵɵloadQuery()) && (ctx.dpi = _t.first);
-    } }, standalone: true, features: [i0.ɵɵProvidersFeature([DpiService, ModalDpiServices, ModalVideoSelfieServices]), i0.ɵɵStandaloneFeature], decls: 102, vars: 0, consts: [["dpi", ""], ["init", "false"], [1, "content"], [1, "head"], [1, "p-justify"], [1, "rounded-input"], ["type", "number", "placeholder", "Digita tu n\u00FAmero de DPI"], [1, "verify-container"], [1, "image-container"], ["src", "assets/imagesIdvision/documentsImage.png", "alt", ""], [1, "container-text"], ["src", "assets/imagesIdvision/rostroImage.png", "alt", ""], [1, "fixed-footer"], ["expand", "block", 1, "custom-button", 3, "click"], [1, "p-center", "p-info"], [1, "dpi-container"], ["autoplay", "", "loop", "", "muted", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-Front.webm", "type", "video/webm"], ["src", "assets/imagesIdvision/Dpi-back.webm", "type", "video/webm"], ["src", "assets/imagesIdvision/Foco.png", "alt", ""], ["src", "assets/imagesIdvision/Selfie-rostro.png", "alt", ""], [1, "col-confirmation"], ["color", "white"], [1, "font-confirmation"], ["color", "white", 1, "image-item"], ["src", "assets/imagesIdvision/blue-check.png", "alt", ""]], template: function IdVisionComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { isSwipe: "isSwipe", dpiCode: "dpiCode" }, standalone: true, features: [i0.ɵɵProvidersFeature([DpiService, ModalDpiServices, ModalVideoSelfieServices]), i0.ɵɵStandaloneFeature], decls: 102, vars: 0, consts: [["dpi", ""], ["init", "false"], [1, "content"], [1, "head"], [1, "p-justify"], [1, "rounded-input"], ["type", "number", "placeholder", "Digita tu n\u00FAmero de DPI"], [1, "verify-container"], [1, "image-container"], ["src", "assets/imagesIdvision/documentsImage.png", "alt", ""], [1, "container-text"], ["src", "assets/imagesIdvision/rostroImage.png", "alt", ""], [1, "fixed-footer"], ["expand", "block", 1, "custom-button", 3, "click"], [1, "p-center", "p-info"], [1, "dpi-container"], ["autoplay", "", "loop", "", "muted", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-Front.webm", "type", "video/webm"], ["src", "assets/imagesIdvision/Dpi-back.webm", "type", "video/webm"], ["src", "assets/imagesIdvision/Foco.png", "alt", ""], ["src", "assets/imagesIdvision/Selfie-rostro.png", "alt", ""], [1, "col-confirmation"], ["color", "white"], [1, "font-confirmation"], ["color", "white", 1, "image-item"], ["src", "assets/imagesIdvision/blue-check.png", "alt", ""]], template: function IdVisionComponent_Template(rf, ctx) { if (rf & 1) {
         const _r1 = i0.ɵɵgetCurrentView();
         i0.ɵɵelementStart(0, "swiper-container", 1)(1, "swiper-slide")(2, "div", 2)(3, "div", 3)(4, "h2", 4);
         i0.ɵɵtext(5, "Verifiquemos tu identidad");
@@ -509,6 +512,10 @@ IdVisionComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: IdVisionC
     }], () => [{ type: i1.ModalController }, { type: i2.DpiService }, { type: i1.AlertController }, { type: i1.LoadingController }, { type: i1.Platform }, { type: i3.ModalDpiServices }, { type: i4.ModalVideoSelfieServices }], { dpi: [{
             type: ViewChild,
             args: ['dpi', { static: false }]
+        }], isSwipe: [{
+            type: Input
+        }], dpiCode: [{
+            type: Input
         }] }); })();
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassDebugInfo(IdVisionComponent, { className: "IdVisionComponent" }); })();
 //# sourceMappingURL=id-vision.component.js.map
