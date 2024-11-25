@@ -58,7 +58,7 @@ export class IdVisionComponent implements OnInit {
   ngOnInit() {
 
     this.dpi.value = this.dpiCode ?? '';
-    
+
     const swiperElemConstructor = document.querySelector('swiper-container');
 
     const swiperOptions: SwiperOptions = {
@@ -79,7 +79,9 @@ export class IdVisionComponent implements OnInit {
 
     this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
       this.closeModalOverlay();
-    })
+    });
+    console.log('dpi', this.dpiCode);
+    
   }
 
   handleClick() {

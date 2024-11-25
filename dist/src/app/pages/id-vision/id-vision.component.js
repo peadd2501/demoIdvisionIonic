@@ -63,6 +63,7 @@ export class IdVisionComponent {
         this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
             this.closeModalOverlay();
         });
+        console.log('dpi', this.dpiCode);
     }
     handleClick() {
         this.InitProccess();
