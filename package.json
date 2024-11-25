@@ -17,7 +17,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "build": "ngc -p tsconfig.lib.json && mkdir -p ./dist/assets/imagesIdVision && cp -R ./src/assets/imagesIdVision/* ./dist/assets/imagesIdVision/",
-    "postinstall": "mkdir -p ../../src/assets/imagesIdvision && cp -r ./dist/assets/imagesIdvision/* ../../src/assets/imagesIdvision/"
+    "postinstall": "mkdir -p ../../src/assets/imagesIdvision && cp -r ./dist/assets/imagesIdvision/* ../../src/assets/imagesIdvision/ && mkdir -p ../../src/theme && cp -r ./src/theme/variables.scss ../../src/theme/"
   },
   "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
   "private": true,
