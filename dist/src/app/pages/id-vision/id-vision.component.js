@@ -151,9 +151,10 @@ export class IdVisionComponent {
                 });
                 yield loader.present();
                 console.log('enviando DPI front');
-                const file = yield this.convertImagePathToFile(filePath, 'imagen_temporal.jpg');
+                const file = yield this.convertImagePathToFile(filePath, 'imagen_temporal.png');
                 console.log('Archivo temporal creado:', file);
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : "";
+                console.log('codigo antes', codigo);
                 yield this.dpiService.uploadFrontDPI(file, codigo).subscribe({
                     next: (response) => {
                         // Oculta el loader cuando se recibe una respuesta

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 // import { environments } from 'src/app/pages/constants/enviroments';
@@ -13,31 +13,60 @@ export class DpiService {
     }
     uploadFrontDPI(file, code) {
         const formData = new FormData();
-        formData.append('file', file, file.name);
+        // Detectar el tipo MIME
+        const fileType = file.type || 'application/octet-stream';
+        if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
+            return throwError(() => new Error('Formato de archivo no válido.'));
+        }
+        // Convertir el archivo a Blob con tipo MIME
+        const blob = new Blob([file], { type: fileType });
+        formData.append('file', blob, file.name);
+        // formData.append('file', file, file.name);
         formData.append('codigo', code);
-        return this.http.post(`${this.apiUrl}dpi/api/validateFrontDPIAWS`, formData)
+        return this.http
+            .post(`${this.apiUrl}dpi/api/validateFrontDPIAWS`, formData, {
+            headers: new HttpHeaders({
+                Accept: 'application/json',
+            }),
+        })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
     uploadBackDPI(file, code) {
         const formData = new FormData();
-        formData.append('file', file, file.name);
+        // Detectar el tipo MIME
+        const fileType = file.type || 'application/octet-stream';
+        if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
+            return throwError(() => new Error('Formato de archivo no válido.'));
+        }
+        // Convertir el archivo a Blob con tipo MIME
+        const blob = new Blob([file], { type: fileType });
+        formData.append('file', blob, file.name);
         formData.append('codigo', code);
-        return this.http.post(`${this.apiUrl}dpi/api/validateBackDPIAWS`, formData)
+        // formData.append('file', file, file.name);
+        // formData.append('codigo', code);
+        return this.http
+            .post(`${this.apiUrl}dpi/api/validateBackDPIAWS`, formData, {
+            headers: new HttpHeaders({
+                Accept: 'application/json',
+            }),
+        })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
     videoSelfie(file, code) {
         const formData = new FormData();
         formData.append('file', file, file.name);
         formData.append('codigo', code);
-        return this.http.post(`${this.apiUrl}videoSelfie/api/validate`, formData)
+        return this.http
+            .post(`${this.apiUrl}videoSelfie/api/validate`, formData)
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
     InitProccess(identificador, connection) {
         const requestBody = {
             identificador,
-            connection
+            connection,
         };
-        return this.http.post(`${this.apiUrl}initProces/api/initWhitDPINumber`, requestBody)
+        return this.http
+            .post(`${this.apiUrl}initProces/api/initWhitDPINumber`, requestBody)
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
 }
