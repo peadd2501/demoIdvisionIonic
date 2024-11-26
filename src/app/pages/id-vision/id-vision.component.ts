@@ -18,7 +18,7 @@ register();
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [IonicModule, CommonModule, CustomSlideComponent],
-  providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
+  // providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
   encapsulation: ViewEncapsulation.None
