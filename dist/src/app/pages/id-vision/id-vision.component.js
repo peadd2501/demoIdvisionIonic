@@ -43,8 +43,7 @@ export class IdVisionComponent {
         this.isIOS = this.platform.is('ios');
     }
     ngOnInit() {
-        var _a, _b;
-        this.dpi.value = (_a = this.dpiCode) !== null && _a !== void 0 ? _a : '';
+        var _a;
         const swiperElemConstructor = document.querySelector('swiper-container');
         const swiperOptions = {
             slidesPerView: 1,
@@ -56,14 +55,20 @@ export class IdVisionComponent {
         };
         Object.assign(swiperElemConstructor, swiperOptions);
         this.swiperElement.set(swiperElemConstructor);
-        (_b = this.swiperElement()) === null || _b === void 0 ? void 0 : _b.initialize();
+        (_a = this.swiperElement()) === null || _a === void 0 ? void 0 : _a.initialize();
         this.modalDpiServices.closeOverlay$.subscribe(() => {
             this.closeOverlay();
         });
         this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
             this.closeModalOverlay();
         });
-        console.log('dpi', this.dpiCode);
+    }
+    ngAfterViewInit() {
+        var _a;
+        if (this.dpi) {
+            this.dpi.value = (_a = this.dpiCode) !== null && _a !== void 0 ? _a : '';
+            console.log('dpi', this.dpiCode);
+        }
     }
     handleClick() {
         this.InitProccess();

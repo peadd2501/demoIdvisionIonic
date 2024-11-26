@@ -1,11 +1,11 @@
-import { OnInit } from '@angular/core';
+import { AfterViewInit, OnInit } from '@angular/core';
 import { AlertController, IonInput, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { SwiperContainer } from 'swiper/element/bundle';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import * as i0 from "@angular/core";
-export declare class IdVisionComponent implements OnInit {
+export declare class IdVisionComponent implements OnInit, AfterViewInit {
     private modalController;
     private dpiService;
     private alertController;
@@ -26,6 +26,7 @@ export declare class IdVisionComponent implements OnInit {
     isSwipe: boolean;
     dpiCode: string;
     ngOnInit(): void;
+    ngAfterViewInit(): void;
     handleClick(): void;
     handleSlide(slide: number): Promise<void>;
     handleGetInit(): void;

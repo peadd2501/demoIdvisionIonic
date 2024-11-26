@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertController, IonicModule, IonInput, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
@@ -25,7 +25,7 @@ register();
 
 })
 
-export class IdVisionComponent implements OnInit {
+export class IdVisionComponent implements OnInit, AfterViewInit {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
   private isAndroid: boolean;
   private isIOS: boolean;
@@ -56,9 +56,6 @@ export class IdVisionComponent implements OnInit {
   @Input() isSwipe: boolean = false; 
   @Input() dpiCode: string = '';
   ngOnInit() {
-
-    this.dpi.value = this.dpiCode ?? '';
-
     const swiperElemConstructor = document.querySelector('swiper-container');
 
     const swiperOptions: SwiperOptions = {
@@ -80,8 +77,14 @@ export class IdVisionComponent implements OnInit {
     this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
       this.closeModalOverlay();
     });
-    console.log('dpi', this.dpiCode);
     
+  }
+
+  ngAfterViewInit() {
+    if (this.dpi) {
+      this.dpi.value = this.dpiCode ?? '';
+      console.log('dpi', this.dpiCode);
+    }
   }
 
   handleClick() {
