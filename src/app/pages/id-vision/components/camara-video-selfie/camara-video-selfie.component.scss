@@ -42,7 +42,7 @@ video {
 }
 
 .progress-active .progress-ring__circle {
-  animation: progress-animation 12s linear forwards;
+  animation: progress-animation 5s linear forwards;
 }
 
 @keyframes progress-animation {
