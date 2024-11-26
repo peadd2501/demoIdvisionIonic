@@ -154,9 +154,10 @@ export class IdVisionComponent implements OnInit {
 
 
       console.log('enviando DPI front')
-      const file = await this.convertImagePathToFile(filePath, 'imagen_temporal.jpg');
+      const file = await this.convertImagePathToFile(filePath, 'imagen_temporal.png');
       console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? "";
+      console.log('codigo antes', codigo)
       await this.dpiService.uploadFrontDPI(file, codigo).subscribe({
         next: (response: any) => {
 
