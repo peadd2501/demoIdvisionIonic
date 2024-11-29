@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AlertController, IonicModule, IonInput, LoadingController, ModalController, Platform } from '@ionic/angular';
+import { AlertController, IonicModule, IonInput, LoadingController, ModalController, NavController, Platform } from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
@@ -9,6 +9,8 @@ import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { CustomSlideComponent } from './components/custom-slide/custom-slide.component';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
+import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
+import { Router } from '@angular/router';
 
 
 register();
@@ -29,12 +31,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
   private isAndroid: boolean;
   private isIOS: boolean;
-
-  // tutoImage1: string = './../../../assets/imagesIdvision/documentsImage.png';
-  // tutoImage2: string = './../../../assets/imagesIdvision/documentsImage.png';
-  // tutoImage3: string = './../../../assets/imagesIdvision/56.png';
-  // tutoImage4: string = './../../../assets/imagesIdvision/57.png';
-
   tutoImage1: string = 'assets/imagesIdvision/documentsImage.png';
   tutoImage2: string = 'assets/imagesIdvision/documentsImage.png';
   tutoImage3: string = 'assets/imagesIdvision/56.png';
@@ -44,18 +40,31 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     private loadingController: LoadingController,
     private platform: Platform,
     private modalDpiServices: ModalDpiServices,
-    private modalVideoSelfieServices: ModalVideoSelfieServices
-    /*private storage: Storage*/,) {
-    // this.init();
+    private modalVideoSelfieServices: ModalVideoSelfieServices,
+    private sdkCommunicationService: SdkCommunicationService,
+    private navController: NavController
+    ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
+    this.validateMetaG = { 
+      dpiFront: false,
+      dpiBack: false,
+      videoSelfie: false
+    };
   }
 
   swiperElement = signal<SwiperContainer | null>(null);
   private modalRef: HTMLIonModalElement | null = null;
   @Input() isSwipe: boolean = false; 
   @Input() dpiCode: string = '';
+  validateMetaG : {
+    'dpiFront': boolean,
+    'dpiBack': boolean,
+    'videoSelfie': boolean
+  };
+
   ngOnInit() {
+
     const swiperElemConstructor = document.querySelector('swiper-container');
 
     const swiperOptions: SwiperOptions = {
@@ -104,6 +113,17 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   handleGetInit() {
     this.swiperElement()?.swiper?.slideTo(0);
   }
+
+  handleExit(): void {
+    const result = this.validateMetaG.dpiBack && this.validateMetaG.dpiFront && this.validateMetaG.videoSelfie;
+    this.sdkCommunicationService.emitExit(result);
+    this.navController.back();
+  }
+
+  isAllValid(): boolean {
+    return this.validateMetaG.dpiFront && this.validateMetaG.dpiBack && this.validateMetaG.videoSelfie;
+  }
+  
   handleSkipTutorial() {
     this.swiperElement()?.swiper?.slideTo(5);
   }
@@ -192,6 +212,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
               () => {
                 this.closeModalFromParent();
                 this.modalController.dismiss();
+                this.validateMetaG.dpiFront = true;
                 this.handleSlide(2);
               }
             )
@@ -206,7 +227,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
               () => {
                 this.resumeCameraFromParent();
               }
-            )
+            );
+            this.validateMetaG.dpiFront = false;
           }
         },
         error: (error) => {
@@ -218,7 +240,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
             () => {
               this.resumeCameraFromParent();
             }
-          )
+          );
+          this.validateMetaG.dpiFront = false;
           // Oculta el loader en caso de error
           if (loader) {
             loader.dismiss();
@@ -280,6 +303,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
               () => {
                 this.closeModalFromParent();
                 this.modalController.dismiss();
+                this.validateMetaG.dpiBack = true;
                 this.handleSlide(3);
               }
             )
@@ -289,7 +313,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
               response['mensage'],
               '',
               response['details']
-            )
+            );
+            this.validateMetaG.dpiBack = false;
           }
         },
         error: (error) => {
@@ -297,6 +322,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
             loader.dismiss();
           }
           console.error('Error al llamar al servicio:', error);
+          this.validateMetaG.dpiBack = false;
         }
       });
     } catch (error) {
@@ -330,12 +356,14 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
               this.closeModalVideoSelfie();
               // this.closeModalFromParent();
               this.modalController.dismiss();
+              this.validateMetaG.videoSelfie = true;
               this.handleSlide(4);
             })
           } else {
             this.showAlert('Error', response['message'], [], () => {
               this.closeModalVideoSelfie();
-            })
+            });
+            this.validateMetaG.videoSelfie = false;
           }
         },
         error: (error) => {

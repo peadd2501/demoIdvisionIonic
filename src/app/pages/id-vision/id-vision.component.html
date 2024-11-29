@@ -279,7 +279,7 @@
   </swiper-slide>
   <swiper-slide>
     <div class="content">
-      <ion-col class="col-confirmation">
+      <ion-col class="col-confirmation" *ngIf="isAllValid()">
         <ion-item color="white">
           <p class="font-confirmation">
             Información procesada de manera correcta
@@ -289,16 +289,20 @@
           <img src="assets/imagesIdvision/blue-check.png" alt="" />
         </ion-item>
       </ion-col>
+
+      <ion-col class="col-confirmation" *ngIf="!isAllValid()">
+        <ion-item color="white">
+          <p class="font-confirmation">
+            Ocurrió un error al procesar la información 
+          </p>
+        </ion-item>
+        <ion-item color="white" class="image-item">
+          <img src="assets/imagesIdvision/blue-check.png" alt="" />
+        </ion-item>
+      </ion-col>
+
       <ion-item color="white">
         <div class="fixed-footer">
-          <!-- <custom-button
-            text="Click Me"
-            color="secondary"
-            [disabled]="false"
-            icon="star"
-            [showIcon]="true"
-            (clicked)="handleClick()"
-          ></custom-button> -->
           <ion-button class="custom-button" expand="block" (click)="handleGetInit()">Salir</ion-button>
         </div>
       </ion-item>

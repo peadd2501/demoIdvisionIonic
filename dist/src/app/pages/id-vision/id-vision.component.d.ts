@@ -1,9 +1,10 @@
 import { AfterViewInit, OnInit } from '@angular/core';
-import { AlertController, IonInput, LoadingController, ModalController, Platform } from '@ionic/angular';
+import { AlertController, IonInput, LoadingController, ModalController, NavController, Platform } from '@ionic/angular';
 import { SwiperContainer } from 'swiper/element/bundle';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
+import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import * as i0 from "@angular/core";
 export declare class IdVisionComponent implements OnInit, AfterViewInit {
     private modalController;
@@ -13,6 +14,8 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit {
     private platform;
     private modalDpiServices;
     private modalVideoSelfieServices;
+    private sdkCommunicationService;
+    private navController;
     dpi: IonInput;
     private isAndroid;
     private isIOS;
@@ -20,16 +23,23 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit {
     tutoImage2: string;
     tutoImage3: string;
     tutoImage4: string;
-    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices);
+    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController);
     swiperElement: import("@angular/core").WritableSignal<SwiperContainer | null>;
     private modalRef;
     isSwipe: boolean;
     dpiCode: string;
+    validateMetaG: {
+        'dpiFront': boolean;
+        'dpiBack': boolean;
+        'videoSelfie': boolean;
+    };
     ngOnInit(): void;
     ngAfterViewInit(): void;
     handleClick(): void;
     handleSlide(slide: number): Promise<void>;
     handleGetInit(): void;
+    handleExit(): void;
+    isAllValid(): boolean;
     handleSkipTutorial(): void;
     handleNext(): void;
     InitProccess(): Promise<void>;
