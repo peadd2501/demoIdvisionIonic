@@ -5,6 +5,7 @@ import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
+import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
 import * as i0 from "@angular/core";
 export declare class IdVisionComponent implements OnInit, AfterViewInit {
     private modalController;
@@ -16,6 +17,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit {
     private modalVideoSelfieServices;
     private sdkCommunicationService;
     private navController;
+    private validateMetaGService;
     dpi: IonInput;
     private isAndroid;
     private isIOS;
@@ -23,7 +25,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit {
     tutoImage2: string;
     tutoImage3: string;
     tutoImage4: string;
-    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController);
+    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController, validateMetaGService: ValidateMetaGService);
     swiperElement: import("@angular/core").WritableSignal<SwiperContainer | null>;
     private modalRef;
     isSwipe: boolean;

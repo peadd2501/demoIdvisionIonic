@@ -11,6 +11,7 @@ import { CustomSlideComponent } from './components/custom-slide/custom-slide.com
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { Router } from '@angular/router';
+import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
 
 
 register();
@@ -42,7 +43,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     private modalDpiServices: ModalDpiServices,
     private modalVideoSelfieServices: ModalVideoSelfieServices,
     private sdkCommunicationService: SdkCommunicationService,
-    private navController: NavController
+    private navController: NavController,
+    private validateMetaGService: ValidateMetaGService
     ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
@@ -121,7 +123,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   }
 
   isAllValid(): boolean {
-    return this.validateMetaG.dpiFront && this.validateMetaG.dpiBack && this.validateMetaG.videoSelfie;
+    let isValid = this.validateMetaG.dpiFront && this.validateMetaG.dpiBack && this.validateMetaG.videoSelfie;
+    this.validateMetaGService.setValidateMetaG(isValid);
+    return isValid;
   }
   
   handleSkipTutorial() {

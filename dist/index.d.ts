@@ -7,4 +7,5 @@ export * from './src/app/pages/id-vision/services/dpi/dpi-service.service';
 export * from './src/app/pages/id-vision/services/modal-services/modal-dpi-services';
 export * from './src/app/pages/id-vision/services/modal-services/modal-video-selfie-services';
 export * from './src/app/pages/id-vision/services/modal-services/sdk-communication-services';
+export * from './src/app/pages/id-vision/services/validate-meta-g/validate-meta-g';
 //# sourceMappingURL=index.d.ts.map
