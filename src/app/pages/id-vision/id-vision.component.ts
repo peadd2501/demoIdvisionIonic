@@ -12,6 +12,7 @@ import { ModalVideoSelfieServices } from './services/modal-services/modal-video-
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { Router } from '@angular/router';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
+import { HttpClientModule } from '@angular/common/http';
 
 
 register();
@@ -20,7 +21,7 @@ register();
   selector: 'app-id-vision',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonicModule, CommonModule, CustomSlideComponent],
+  imports: [IonicModule, CommonModule, CustomSlideComponent, HttpClientModule],
   // providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
