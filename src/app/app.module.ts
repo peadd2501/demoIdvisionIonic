@@ -10,14 +10,14 @@ import { IdVisionComponent } from './pages/id-vision/id-vision.component';
 import { CustomButtonComponent } from './components/custom-button/custom-button.component';
 import { CameraWithOverlayComponent } from './pages/id-vision/components/camera-with-overlay/camera-with-overlay.component';
 import { CamaraVideoSelfieComponent } from './pages/id-vision/components/camara-video-selfie/camara-video-selfie.component';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import {HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { CustomSlideComponent } from './pages/id-vision/components/custom-slide/custom-slide.component';
 import { DpiService } from './pages/id-vision/services/dpi/dpi-service.service';
 
 @NgModule({
   declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/],
-  imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, IonicStorageModule.forRoot(), IdVisionComponent, CustomSlideComponent
+  imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, IonicStorageModule.forRoot(), IdVisionComponent, CustomSlideComponent, HttpClientModule
   ],
   exports: [],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(), DpiService],
