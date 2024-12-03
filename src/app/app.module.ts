@@ -13,13 +13,14 @@ import { CamaraVideoSelfieComponent } from './pages/id-vision/components/camara-
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { CustomSlideComponent } from './pages/id-vision/components/custom-slide/custom-slide.component';
+import { DpiService } from './pages/id-vision/services/dpi/dpi-service.service';
 
 @NgModule({
   declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/],
   imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, IonicStorageModule.forRoot(), IdVisionComponent, CustomSlideComponent
   ],
   exports: [],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient()],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(), DpiService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
