@@ -212,7 +212,6 @@ export class IdVisionComponent {
                         }
                     },
                     error: (error) => {
-                        console.error('Error al llamar al servicio:', error);
                         this.showAlert('Error', '', error, () => {
                             this.resumeCameraFromParent();
                         });
@@ -221,6 +220,7 @@ export class IdVisionComponent {
                         if (loader) {
                             loader.dismiss();
                         }
+                        console.error('Error al llamar al servicio:', error);
                     }
                 });
             }
@@ -281,11 +281,14 @@ export class IdVisionComponent {
                         }
                     },
                     error: (error) => {
+                        this.showAlert('Error', '', error, () => {
+                            this.resumeCameraFromParent();
+                        });
                         if (loader) {
                             loader.dismiss();
                         }
-                        console.error('Error al llamar al servicio:', error);
                         this.validateMetaG.dpiBack = false;
+                        console.error('Error al llamar al servicio:', error);
                     }
                 });
             }
@@ -330,6 +333,9 @@ export class IdVisionComponent {
                         }
                     },
                     error: (error) => {
+                        this.showAlert('Error', '', error, () => {
+                            this.resumeCameraFromParent();
+                        });
                         console.error('Error al llamar al servicio:', error);
                     }
                 });
