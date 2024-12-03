@@ -21,7 +21,7 @@ register();
   selector: 'app-id-vision',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonicModule, CommonModule, CustomSlideComponent, HttpClientModule],
+  imports: [IonicModule, CommonModule, CustomSlideComponent],
   // providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
