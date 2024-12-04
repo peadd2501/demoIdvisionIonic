@@ -33,6 +33,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@angular/cli"
+    "defaultCollection": "@angular/cli",
+    "analytics": false
   }
 }

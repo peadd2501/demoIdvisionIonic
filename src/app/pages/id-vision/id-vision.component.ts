@@ -121,9 +121,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   handleExit(): void {
     const result = this.validateMetaG.dpiBack && this.validateMetaG.dpiFront && this.validateMetaG.videoSelfie;
     this.sdkCommunicationService.emitExit(result);
-    if(result) {
-      this.navController.back();
-    }
+    this.navController.back();
   }
 
   isAllValid(): boolean {
@@ -352,7 +350,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   async VideoSelfieProcccess(file: File) {
     let loader: HTMLIonLoadingElement | null = null;
     try {
-
       loader = await this.loadingController.create({
         message: 'Procesando...',
         spinner: 'crescent'
@@ -372,7 +369,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
             this.showAlert('Éxito', response['message'], [], () => {
 
               this.closeModalVideoSelfie();
-              // this.closeModalFromParent();
               this.modalController.dismiss();
               this.validateMetaG.videoSelfie = true;
               this.handleSlide(4);
@@ -425,7 +421,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
           text: 'Continuar',
           handler: () => {
             if (onConfirm) {
-              onConfirm(); // Ejecuta la función pasada como parámetro
+              onConfirm();
             }
           }
         }
@@ -436,8 +432,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
 
 
   async openCameraOverlayFrontal() {
-
-    //const modal 
     this.modalRef = await this.modalController.create({
       component: CameraWithOverlayComponent,
       componentProps: {
