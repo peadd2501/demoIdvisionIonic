@@ -121,7 +121,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   handleExit(): void {
     const result = this.validateMetaG.dpiBack && this.validateMetaG.dpiFront && this.validateMetaG.videoSelfie;
     this.sdkCommunicationService.emitExit(result);
-    this.navController.back();
+    if(result) {
+      this.navController.back();
+    }
   }
 
   isAllValid(): boolean {
