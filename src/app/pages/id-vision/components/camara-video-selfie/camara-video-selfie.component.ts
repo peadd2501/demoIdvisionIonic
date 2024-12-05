@@ -10,7 +10,7 @@ import { ScreenBrightness } from '@capacitor-community/screen-brightness';
   selector: 'app-camara-video-selfie',
   templateUrl: './camara-video-selfie.component.html',
   styleUrls: ['./camara-video-selfie.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class CamaraVideoSelfieComponent implements AfterViewInit {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;

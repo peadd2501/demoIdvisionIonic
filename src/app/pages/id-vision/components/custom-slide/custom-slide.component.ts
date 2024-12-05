@@ -7,7 +7,7 @@ import { IonCol, IonRow } from "@ionic/angular/standalone";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './custom-slide.component.html',
   styleUrls: ['./custom-slide.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class CustomSlideComponent {
   @Input() image1!: string; // Recibirá la ruta de la primera imagen

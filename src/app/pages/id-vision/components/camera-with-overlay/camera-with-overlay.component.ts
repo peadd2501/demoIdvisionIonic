@@ -9,7 +9,7 @@ import { ModalDpiServices } from '../../services/modal-services/modal-dpi-servic
   selector: 'app-camera-overlay',
   templateUrl: './camera-with-overlay.component.html',
   styleUrls: ['./camera-with-overlay.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class CameraWithOverlayComponent implements AfterViewInit {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;

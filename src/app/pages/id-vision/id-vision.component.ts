@@ -27,7 +27,7 @@ register();
   // providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 
 })
 
