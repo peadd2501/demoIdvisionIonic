@@ -22,7 +22,7 @@ register();
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [IonicModule, CommonModule],
-  // providers: [DpiService], 
+  providers: [DpiService], 
 
   // providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
   templateUrl: './id-vision.component.html',
@@ -109,7 +109,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
         console.log(`Botón clickeado: ${button.textContent?.trim()}`);
       });
     });
-    
+
   }
 
   handleClick() {
