@@ -21,8 +21,9 @@ register();
   selector: 'app-id-vision',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonicModule, CommonModule, CustomSlideComponent],
-  providers: [DpiService], 
+  imports: [IonicModule, CommonModule],
+  // providers: [DpiService], 
+
   // providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
@@ -94,10 +95,21 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.dpi) {
-      this.dpi.value = this.dpiCode ?? '';
-      console.log('dpi', this.dpiCode);
-    }
+  if (this.dpi) {
+    this.dpi.value = this.dpiCode ?? '';
+    console.log('DPI inicializado:', this.dpi.value);
+  } else {
+    console.error('IonInput no está disponible en ngAfterViewInit');
+  }
+
+    // Depuración: Escuchar eventos de clic en los botones
+    const buttons = document.querySelectorAll('ion-button');
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        console.log(`Botón clickeado: ${button.textContent?.trim()}`);
+      });
+    });
+    
   }
 
   handleClick() {
