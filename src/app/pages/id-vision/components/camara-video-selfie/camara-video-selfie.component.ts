@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -19,6 +19,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   @Input() text1: string = '';
   @Input() text2: string = '';
   @Input() backFunction!: (filePath: File) => Promise<void>;
+  @Output() closeRequested = new EventEmitter<void>();
 
   capturedVideoUrl: any;
   capVideo?: File;

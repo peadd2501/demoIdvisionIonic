@@ -102,14 +102,13 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     console.error('IonInput no está disponible en ngAfterViewInit');
   }
 
-    // Depuración: Escuchar eventos de clic en los botones
-    const buttons = document.querySelectorAll('ion-button');
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        console.log(`Botón clickeado: ${button.textContent?.trim()}`);
-      });
-    });
-
+  //tests
+  // const buttons = document.querySelectorAll('ion-button');
+  // buttons.forEach(button => {
+  //   button.addEventListener('ionClick', () => {
+  //     console.log(`Botón clickeado (ionClick): ${button.textContent?.trim()}`);
+  //   });
+  // });
   }
 
   handleClick() {
@@ -331,7 +330,10 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
             this.showAlert(
               response['mensage'],
               '',
-              response['details']
+              response['details'],
+              () => {
+                this.resumeCameraFromParent();
+              }
             );
             this.validateMetaG.dpiBack = false;
           }
@@ -518,6 +520,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
           // console.log('Video recibido en el padre:', file);
           await this.getBackModal(file);
         },
+        closeRequested: () => this.closeModalOverlay(),
       },
       backdropDismiss: false,
     });

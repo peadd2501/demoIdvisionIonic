@@ -94,14 +94,13 @@ export class IdVisionComponent {
         else {
             console.error('IonInput no está disponible en ngAfterViewInit');
         }
-        // Depuración: Escuchar eventos de clic en los botones
-        const buttons = document.querySelectorAll('ion-button');
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                var _a;
-                console.log(`Botón clickeado: ${(_a = button.textContent) === null || _a === void 0 ? void 0 : _a.trim()}`);
-            });
-        });
+        //tests
+        // const buttons = document.querySelectorAll('ion-button');
+        // buttons.forEach(button => {
+        //   button.addEventListener('ionClick', () => {
+        //     console.log(`Botón clickeado (ionClick): ${button.textContent?.trim()}`);
+        //   });
+        // });
     }
     handleClick() {
         this.InitProccess();
@@ -286,7 +285,9 @@ export class IdVisionComponent {
                             // this.swiperElement()?.swiper?.slideNext();
                         }
                         else {
-                            this.showAlert(response['mensage'], '', response['details']);
+                            this.showAlert(response['mensage'], '', response['details'], () => {
+                                this.resumeCameraFromParent();
+                            });
                             this.validateMetaG.dpiBack = false;
                         }
                     },
@@ -461,6 +462,7 @@ export class IdVisionComponent {
                         // console.log('Video recibido en el padre:', file);
                         yield this.getBackModal(file);
                     }),
+                    closeRequested: () => this.closeModalOverlay(),
                 },
                 backdropDismiss: false,
             });

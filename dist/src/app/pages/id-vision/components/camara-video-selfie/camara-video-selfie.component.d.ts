@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter, Renderer2 } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
@@ -18,6 +18,7 @@ export declare class CamaraVideoSelfieComponent implements AfterViewInit {
     text1: string;
     text2: string;
     backFunction: (filePath: File) => Promise<void>;
+    closeRequested: EventEmitter<void>;
     capturedVideoUrl: any;
     capVideo?: File;
     stream: MediaStream | null;
@@ -49,6 +50,6 @@ export declare class CamaraVideoSelfieComponent implements AfterViewInit {
     stopCamera(): void;
     closeRequestedFunction(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CamaraVideoSelfieComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CamaraVideoSelfieComponent, "app-camara-video-selfie", never, { "text1": { "alias": "text1"; "required": false; }; "text2": { "alias": "text2"; "required": false; }; "backFunction": { "alias": "backFunction"; "required": false; }; }, {}, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CamaraVideoSelfieComponent, "app-camara-video-selfie", never, { "text1": { "alias": "text1"; "required": false; }; "text2": { "alias": "text2"; "required": false; }; "backFunction": { "alias": "backFunction"; "required": false; }; }, { "closeRequested": "closeRequested"; }, never, never, false, never>;
 }
 //# sourceMappingURL=camara-video-selfie.component.d.ts.map

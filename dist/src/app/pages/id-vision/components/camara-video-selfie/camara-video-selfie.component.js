@@ -1,5 +1,5 @@
 import { __awaiter } from "tslib";
-import { ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -58,6 +58,7 @@ export class CamaraVideoSelfieComponent {
         this.modalVideoSelfieServices = modalVideoSelfieServices;
         this.text1 = '';
         this.text2 = '';
+        this.closeRequested = new EventEmitter();
         this.stream = null;
         this.isRecording = false;
         this.mediaRecorder = null;
@@ -279,7 +280,7 @@ CamaraVideoSelfieComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: 
         let _t;
         i0.ɵɵqueryRefresh(_t = i0.ɵɵloadQuery()) && (ctx.videoElement = _t.first);
         i0.ɵɵqueryRefresh(_t = i0.ɵɵloadQuery()) && (ctx.progressRing = _t.first);
-    } }, inputs: { text1: "text1", text2: "text2", backFunction: "backFunction" }, decls: 22, vars: 9, consts: [["videoElement", ""], ["progressRing", ""], ["color", "light", 1, "custom-content"], ["class", "loading-overlay", 4, "ngIf"], ["class", "countdown-overlay", 4, "ngIf"], [1, "ion-no-border"], ["color", "light"], ["slot", "end"], [3, "click", "disabled"], ["name", "close"], [1, "camera-container"], [1, "video-wrapper"], ["muted", "", "autoplay", "", "playsinline", ""], ["width", "300", "height", "300", 1, "progress-ring"], ["cx", "150", "cy", "150", "r", "150", 1, "progress-ring__circle"], [3, "ngClass"], [1, "text-center"], [1, "fixed-footer"], ["expand", "block", 3, "click", 4, "ngIf"], ["expand", "block", 3, "disabled", "click", 4, "ngIf"], [1, "loading-overlay"], ["name", "crescent"], [1, "countdown-overlay"], [1, "countdown"], ["expand", "block", 3, "click"], ["expand", "block", 3, "click", "disabled"]], template: function CamaraVideoSelfieComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { text1: "text1", text2: "text2", backFunction: "backFunction" }, outputs: { closeRequested: "closeRequested" }, decls: 22, vars: 9, consts: [["videoElement", ""], ["progressRing", ""], ["color", "light", 1, "custom-content"], ["class", "loading-overlay", 4, "ngIf"], ["class", "countdown-overlay", 4, "ngIf"], [1, "ion-no-border"], ["color", "light"], ["slot", "end"], [3, "click", "disabled"], ["name", "close"], [1, "camera-container"], [1, "video-wrapper"], ["muted", "", "autoplay", "", "playsinline", ""], ["width", "300", "height", "300", 1, "progress-ring"], ["cx", "150", "cy", "150", "r", "150", 1, "progress-ring__circle"], [3, "ngClass"], [1, "text-center"], [1, "fixed-footer"], ["expand", "block", 3, "click", 4, "ngIf"], ["expand", "block", 3, "disabled", "click", 4, "ngIf"], [1, "loading-overlay"], ["name", "crescent"], [1, "countdown-overlay"], [1, "countdown"], ["expand", "block", 3, "click"], ["expand", "block", 3, "click", "disabled"]], template: function CamaraVideoSelfieComponent_Template(rf, ctx) { if (rf & 1) {
         const _r1 = i0.ɵɵgetCurrentView();
         i0.ɵɵelementStart(0, "ion-content", 2);
         i0.ɵɵtemplate(1, CamaraVideoSelfieComponent_div_1_Template, 2, 0, "div", 3)(2, CamaraVideoSelfieComponent_div_2_Template, 3, 1, "div", 4);
@@ -334,6 +335,8 @@ CamaraVideoSelfieComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: 
             type: Input
         }], backFunction: [{
             type: Input
+        }], closeRequested: [{
+            type: Output
         }] }); })();
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassDebugInfo(CamaraVideoSelfieComponent, { className: "CamaraVideoSelfieComponent" }); })();
 //# sourceMappingURL=camara-video-selfie.component.js.map
