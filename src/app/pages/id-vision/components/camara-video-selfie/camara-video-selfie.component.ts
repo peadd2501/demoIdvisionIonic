@@ -2,7 +2,6 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, 
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from '../../services/modal-services/modal-video-selfie-services';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 
@@ -48,7 +47,6 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     private sanitizer: DomSanitizer,
     private renderer: Renderer2,
     private alertController: AlertController,
-    private modaldpiServices: ModalDpiServices,
     private changeDetector: ChangeDetectorRef,
     private modalVideoSelfieServices: ModalVideoSelfieServices
   ) {
@@ -68,7 +66,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     // await this.startRecording();
     await this.waitForCameraReady();
 
-    this.modaldpiServices.closeOverlay$.subscribe(() => {
+    this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
       this.closeOverlay();
     });
   }

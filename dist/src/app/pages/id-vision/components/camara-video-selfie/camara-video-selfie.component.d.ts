@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter, Renderer2 } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from '../../services/modal-services/modal-video-selfie-services';
 import * as i0 from "@angular/core";
 export declare class CamaraVideoSelfieComponent implements AfterViewInit {
@@ -10,7 +9,6 @@ export declare class CamaraVideoSelfieComponent implements AfterViewInit {
     private sanitizer;
     private renderer;
     private alertController;
-    private modaldpiServices;
     private changeDetector;
     private modalVideoSelfieServices;
     videoElement: ElementRef<HTMLVideoElement>;
@@ -36,7 +34,7 @@ export declare class CamaraVideoSelfieComponent implements AfterViewInit {
     canStopRecording: boolean;
     isLoading: boolean;
     private defaultBrightness;
-    constructor(platform: Platform, modalController: ModalController, sanitizer: DomSanitizer, renderer: Renderer2, alertController: AlertController, modaldpiServices: ModalDpiServices, changeDetector: ChangeDetectorRef, modalVideoSelfieServices: ModalVideoSelfieServices);
+    constructor(platform: Platform, modalController: ModalController, sanitizer: DomSanitizer, renderer: Renderer2, alertController: AlertController, changeDetector: ChangeDetectorRef, modalVideoSelfieServices: ModalVideoSelfieServices);
     ngAfterViewInit(): Promise<void>;
     waitForCameraReady(): Promise<void>;
     requestPermissions(): Promise<void>;
