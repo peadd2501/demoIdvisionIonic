@@ -3,11 +3,11 @@ import { Subject } from 'rxjs';
 import * as i0 from "@angular/core";
 export class ModalVideoSelfieServices {
     constructor() {
-        this.closeOverlaySubject = new Subject();
-        this.closeOverlay$ = this.closeOverlaySubject.asObservable();
+        this.closeOverlaySubjectModal = new Subject();
+        this.closeOverlayModal$ = this.closeOverlaySubjectModal.asObservable();
     }
     requestCloseOverlay() {
-        this.closeOverlaySubject.next();
+        this.closeOverlaySubjectModal.next();
     }
 }
 ModalVideoSelfieServices.ɵfac = function ModalVideoSelfieServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalVideoSelfieServices)(); };

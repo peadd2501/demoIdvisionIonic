@@ -88,8 +88,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
       this.closeOverlay();
     });
 
-    this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
-      this.closeModalOverlay();
+    this.modalVideoSelfieServices.closeOverlayModal$.subscribe(async () => {
+     await this.closeModalOverlay();
+     console.log('suscribiendose modalVideoSelfieS');
     });
     
   }

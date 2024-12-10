@@ -81,9 +81,9 @@ export class CamaraVideoSelfieComponent {
             yield this.initCamera();
             // await this.startRecording();
             yield this.waitForCameraReady();
-            this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
-                this.closeOverlay();
-            });
+            this.modalVideoSelfieServices.closeOverlayModal$.subscribe(() => __awaiter(this, void 0, void 0, function* () {
+                yield this.closeOverlay();
+            }));
         });
     }
     waitForCameraReady() {
@@ -246,6 +246,7 @@ export class CamaraVideoSelfieComponent {
     }
     closeOverlay() {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('Ejecutando close desde video selfie');
             this.stopCamera();
             // Restaura el brillo original si estaba guardado
             if (this.defaultBrightness !== null) {

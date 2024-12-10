@@ -5,10 +5,10 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ModalVideoSelfieServices {
-  private closeOverlaySubject = new Subject<void>();
-  closeOverlay$ = this.closeOverlaySubject.asObservable();
+  private closeOverlaySubjectModal = new Subject<void>();
+  closeOverlayModal$ = this.closeOverlaySubjectModal.asObservable();
 
   requestCloseOverlay() {
-    this.closeOverlaySubject.next();
+    this.closeOverlaySubjectModal.next();
   }
 }

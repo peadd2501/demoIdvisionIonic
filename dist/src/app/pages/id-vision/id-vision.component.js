@@ -81,9 +81,10 @@ export class IdVisionComponent {
         this.modalDpiServices.closeOverlay$.subscribe(() => {
             this.closeOverlay();
         });
-        this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
-            this.closeModalOverlay();
-        });
+        this.modalVideoSelfieServices.closeOverlayModal$.subscribe(() => __awaiter(this, void 0, void 0, function* () {
+            yield this.closeModalOverlay();
+            console.log('suscribiendose modalVideoSelfieS');
+        }));
     }
     ngAfterViewInit() {
         var _a;

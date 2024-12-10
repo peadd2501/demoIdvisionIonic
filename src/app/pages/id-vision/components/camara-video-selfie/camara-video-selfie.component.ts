@@ -66,8 +66,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     // await this.startRecording();
     await this.waitForCameraReady();
 
-    this.modalVideoSelfieServices.closeOverlay$.subscribe(() => {
-      this.closeOverlay();
+    this.modalVideoSelfieServices.closeOverlayModal$.subscribe( async () => {
+      await this.closeOverlay();
     });
   }
 
@@ -249,6 +249,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   }
 
   async closeOverlay() {
+    console.log('Ejecutando close desde video selfie');
     this.stopCamera();
     // Restaura el brillo original si estaba guardado
     if (this.defaultBrightness !== null) {
