@@ -126,7 +126,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
           
           // this.uploadPhoto(file); // Llama a una función para enviar el archivo
         }
-      }, 'image/jpeg', 1);
+      }, 'image/jpeg', 0.7);
 
       
       //this.closeOverlay();

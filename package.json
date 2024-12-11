@@ -20,7 +20,7 @@
     "postinstall": "mkdir -p ../../src/assets/imagesIdvision && cp -r ./dist/assets/imagesIdvision/* ../../src/assets/imagesIdvision/ && mkdir -p ../../src/theme && cp -r ./src/theme/variables.scss ../../src/theme/"
   },
   "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^18.0.0",
     "@angular/common": "^18.2.11",
