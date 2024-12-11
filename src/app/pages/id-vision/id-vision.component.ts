@@ -1,6 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AlertController, IonicModule, IonInput, LoadingController, ModalController, NavController, Platform } from '@ionic/angular';
+import {
+  AfterViewInit,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  Input,
+  OnInit,
+  signal,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  AlertController,
+  IonicModule,
+  IonInput,
+  LoadingController,
+  ModalController,
+  NavController,
+  Platform,
+} from '@ionic/angular';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
@@ -14,7 +31,6 @@ import { Router } from '@angular/router';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
 import { HttpClientModule } from '@angular/common/http';
 
-
 register();
 
 @Component({
@@ -22,15 +38,13 @@ register();
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [IonicModule, CommonModule],
-  providers: [DpiService], 
+  providers: [DpiService],
 
   // providers: [DpiService, ModalDpiServices, ModalVideoSelfieServices],
   templateUrl: './id-vision.component.html',
   styleUrls: ['./id-vision.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
-
+  encapsulation: ViewEncapsulation.Emulated,
 })
-
 export class IdVisionComponent implements OnInit, AfterViewInit {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
   private isAndroid: boolean;
@@ -40,7 +54,10 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   tutoImage3: string = 'assets/imagesIdvision/56.png';
   tutoImage4: string = 'assets/imagesIdvision/57.png';
 
-  constructor(private modalController: ModalController, private dpiService: DpiService, private alertController: AlertController,
+  constructor(
+    private modalController: ModalController,
+    private dpiService: DpiService,
+    private alertController: AlertController,
     private loadingController: LoadingController,
     private platform: Platform,
     private modalDpiServices: ModalDpiServices,
@@ -48,28 +65,27 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     private sdkCommunicationService: SdkCommunicationService,
     private navController: NavController,
     private validateMetaGService: ValidateMetaGService
-    ) {
+  ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
-    this.validateMetaG = { 
+    this.validateMetaG = {
       dpiFront: false,
       dpiBack: false,
-      videoSelfie: false
+      videoSelfie: false,
     };
   }
 
   swiperElement = signal<SwiperContainer | null>(null);
   private modalRef: HTMLIonModalElement | null = null;
-  @Input() isSwipe: boolean = false; 
+  @Input() isSwipe: boolean = false;
   @Input() dpiCode: string = '';
-  validateMetaG : {
-    'dpiFront': boolean,
-    'dpiBack': boolean,
-    'videoSelfie': boolean
+  validateMetaG: {
+    dpiFront: boolean;
+    dpiBack: boolean;
+    videoSelfie: boolean;
   };
 
   ngOnInit() {
-
     const swiperElemConstructor = document.querySelector('swiper-container');
 
     const swiperOptions: SwiperOptions = {
@@ -89,32 +105,66 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     });
 
     this.modalVideoSelfieServices.closeOverlayModal$.subscribe(async () => {
-     await this.closeModalOverlay();
-     console.log('suscribiendose modalVideoSelfieS');
+      await this.closeModalOverlay();
+      console.log('suscribiendose modalVideoSelfieS');
     });
-    
+
+    // Selecciona el elemento de video
+    const video: HTMLVideoElement | null = document.getElementById(
+      'dpiFront'
+    ) as HTMLVideoElement;
+    const video2: HTMLVideoElement | null = document.getElementById(
+      'dpiBack'
+    ) as HTMLVideoElement;
+
+    if (video) {
+      // Asegúrate de que el video está en loop manualmente
+      video.addEventListener('ended', () => {
+        video.currentTime = 0; // Reinicia el video al principio
+        video.play(); // Lo reproduce nuevamente
+      });
+      // Forzar autoplay y mute por si no lo toma automáticamente
+      video.muted = true; // Obligatorio para autoplay en iOS
+      video
+        .play()
+        .catch((err) => console.error('Error al reproducir el video:', err));
+    } else {
+      console.error("No se encontró el elemento de video con ID 'dpiFront'.");
+    }
+
+    if (video2) {
+      video2.addEventListener('ended', () => {
+        video2.currentTime = 0; // Reinicia el video al principio
+        video2.play(); // Lo reproduce nuevamente
+      });
+      video2.muted = true;
+      video2
+        .play()
+        .catch((err) => console.error('Error al reproducir el video2:', err));
+    } else {
+      console.error("No se encontró el elemento de video con ID 'dpiBack'.");
+    }
   }
 
   ngAfterViewInit() {
-  if (this.dpi) {
-    this.dpi.value = this.dpiCode ?? '';
-    console.log('DPI inicializado:', this.dpi.value);
-  } else {
-    console.error('IonInput no está disponible en ngAfterViewInit');
-  }
+    if (this.dpi) {
+      this.dpi.value = this.dpiCode ?? '';
+      console.log('DPI inicializado:', this.dpi.value);
+    } else {
+      console.error('IonInput no está disponible en ngAfterViewInit');
+    }
 
-  //tests
-  // const buttons = document.querySelectorAll('ion-button');
-  // buttons.forEach(button => {
-  //   button.addEventListener('ionClick', () => {
-  //     console.log(`Botón clickeado (ionClick): ${button.textContent?.trim()}`);
-  //   });
-  // });
+    //tests
+    // const buttons = document.querySelectorAll('ion-button');
+    // buttons.forEach(button => {
+    //   button.addEventListener('ionClick', () => {
+    //     console.log(`Botón clickeado (ionClick): ${button.textContent?.trim()}`);
+    //   });
+    // });
   }
 
   handleClick() {
     this.InitProccess();
-
   }
 
   async handleSlide(slide: number) {
@@ -123,7 +173,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
         this.swiperElement()?.swiper.slideTo(slide);
       }
     }, 300);
-
   }
 
   handleGetInit() {
@@ -131,22 +180,28 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   }
 
   handleExit(): void {
-    const result = this.validateMetaG.dpiBack && this.validateMetaG.dpiFront && this.validateMetaG.videoSelfie;
+    const result =
+      this.validateMetaG.dpiBack &&
+      this.validateMetaG.dpiFront &&
+      this.validateMetaG.videoSelfie;
     this.sdkCommunicationService.emitExit(result);
     this.navController.back();
   }
 
   isAllValid(): boolean {
-    let isValid = this.validateMetaG.dpiFront && this.validateMetaG.dpiBack && this.validateMetaG.videoSelfie;
+    let isValid =
+      this.validateMetaG.dpiFront &&
+      this.validateMetaG.dpiBack &&
+      this.validateMetaG.videoSelfie;
     this.validateMetaGService.setValidateMetaG(isValid);
     return isValid;
   }
-  
+
   handleSkipTutorial() {
     this.swiperElement()?.swiper?.slideTo(5);
   }
 
-  handleNext () {
+  handleNext() {
     this.swiperElement()?.swiper?.slideNext();
   }
 
@@ -155,66 +210,70 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     try {
       loader = await this.loadingController.create({
         message: 'Procesando...',
-        spinner: 'crescent'
+        spinner: 'crescent',
       });
 
       await loader.present();
 
-      this.dpiService.InitProccess(this.dpi.value + '', '673259d3f027711b51e71202').subscribe({
-        next: (response: any) => {
-          console.log(response);
-          if (loader) {
-            loader.dismiss();
-          }
-          if (!response['error']) {
-            localStorage.setItem('codigo', response['details']);
-            this.handleSlide(1)
-          } else {
-            const dpiValue = this.dpi.value as string;           
-            if (!dpiValue || dpiValue.trim().length === 0) {              
-              this.showAlert('Error', 'El campo DPI no puede estar vacío', [])
-            } else if(dpiValue && dpiValue.length > 12) {
-              this.showAlert('Error', response['message'], [])
-            } 
-            else {
-              const errorMessage = response['message']['errors']['CUI'][0];
-              this.showAlert('Error', errorMessage, [])
+      this.dpiService
+        .InitProccess(this.dpi.value + '', '673259d3f027711b51e71202')
+        .subscribe({
+          next: (response: any) => {
+            console.log(response);
+            if (loader) {
+              loader.dismiss();
             }
-          }
-        },
-        error: (error) => {
-          console.error('Error al llamar al servicio:', error);
-        }
-      });
+            if (!response['error']) {
+              localStorage.setItem('codigo', response['details']);
+              this.handleSlide(1);
+            } else {
+              const dpiValue = this.dpi.value as string;
+              if (!dpiValue || dpiValue.trim().length === 0) {
+                this.showAlert(
+                  'Error',
+                  'El campo DPI no puede estar vacío',
+                  []
+                );
+              } else if (dpiValue && dpiValue.length > 12) {
+                this.showAlert('Error', response['message'], []);
+              } else {
+                const errorMessage = response['message']['errors']['CUI'][0];
+                this.showAlert('Error', errorMessage, []);
+              }
+            }
+          },
+          error: (error) => {
+            console.error('Error al llamar al servicio:', error);
+          },
+        });
     } catch (error) {
-      alert("error");
-      console.log(error)
+      alert('error');
+      console.log(error);
     }
   }
-
 
   async DpiFrontProccess(filePath: string) {
     let loader: HTMLIonLoadingElement | null = null;
 
     try {
-
       // Muestra el loader
       loader = await this.loadingController.create({
         message: 'Procesando...',
-        spinner: 'crescent'
+        spinner: 'crescent',
       });
 
       await loader.present();
 
-
-      console.log('enviando DPI front')
-      const file = await this.convertImagePathToFile(filePath, 'imagen_temporal.png');
+      console.log('enviando DPI front');
+      const file = await this.convertImagePathToFile(
+        filePath,
+        'imagen_temporal.png'
+      );
       console.log('Archivo temporal creado:', file);
-      const codigo = localStorage.getItem('codigo') ?? "";
-      console.log('codigo antes', codigo)
+      const codigo = localStorage.getItem('codigo') ?? '';
+      console.log('codigo antes', codigo);
       await this.dpiService.uploadFrontDPI(file, codigo).subscribe({
         next: (response: any) => {
-
           // Oculta el loader cuando se recibe una respuesta
           if (loader) {
             loader.dismiss();
@@ -222,42 +281,24 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
           console.log(response);
 
           if (!response['error']) {
-
-            this.showAlert(
-              'Éxito',
-              'DPI registrado correctamente',
-              [],
-              () => {
-                this.closeModalFromParent();
-                this.modalController.dismiss();
-                this.validateMetaG.dpiFront = true;
-                this.handleSlide(2);
-              }
-            )
+            this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
+              this.closeModalFromParent();
+              this.modalController.dismiss();
+              this.validateMetaG.dpiFront = true;
+              this.handleSlide(2);
+            });
             // this.swiperElement()?.swiper?.slideNext();
-
-          }
-          else {
-            this.showAlert(
-              response['mensage'],
-              '',
-              response['details'],
-              () => {
-                this.resumeCameraFromParent();
-              }
-            );
+          } else {
+            this.showAlert(response['mensage'], '', response['details'], () => {
+              this.resumeCameraFromParent();
+            });
             this.validateMetaG.dpiFront = false;
           }
         },
         error: (error) => {
-          this.showAlert(
-            'Error',
-            '',
-            error,
-            () => {
-              this.resumeCameraFromParent();
-            }
-          );
+          this.showAlert('Error', '', error, () => {
+            this.resumeCameraFromParent();
+          });
 
           this.validateMetaG.dpiFront = false;
           // Oculta el loader en caso de error
@@ -265,11 +306,11 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
             loader.dismiss();
           }
           console.error('Error al llamar al servicio:', error);
-        }
+        },
       });
     } catch (error) {
-      alert("error");
-      console.log(error)
+      alert('error');
+      console.log(error);
     }
   }
 
@@ -285,8 +326,10 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     this.modalDpiServices.requestResumeCamera();
   }
 
-
-  async convertImagePathToFile(imagePath: string, fileName: string): Promise<File> {
+  async convertImagePathToFile(
+    imagePath: string,
+    fileName: string
+  ): Promise<File> {
     const response = await fetch(imagePath);
     const blob = await response.blob();
     return new File([blob], fileName, { type: blob.type });
@@ -296,69 +339,55 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     let loader: HTMLIonLoadingElement | null = null;
 
     try {
-
       // Muestra el loader
       loader = await this.loadingController.create({
         message: 'Procesando...',
-        spinner: 'crescent'
+        spinner: 'crescent',
       });
 
       await loader.present();
 
-      const file = await this.convertImagePathToFile(filePath, 'imagen_temporal_back.jpg');
+      const file = await this.convertImagePathToFile(
+        filePath,
+        'imagen_temporal_back.jpg'
+      );
       // console.log('Archivo temporal creado:', file);
-      const codigo = localStorage.getItem('codigo') ?? "";
+      const codigo = localStorage.getItem('codigo') ?? '';
       this.dpiService.uploadBackDPI(file, codigo).subscribe({
         next: (response: any) => {
           if (loader) {
             loader.dismiss();
           }
           if (!response['error']) {
-
-            this.showAlert(
-              'Éxito',
-              'DPI registrado correctamente',
-              [],
-              () => {
-                this.closeModalFromParent();
-                this.modalController.dismiss();
-                this.validateMetaG.dpiBack = true;
-                this.handleSlide(3);
-              }
-            )
+            this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
+              this.closeModalFromParent();
+              this.modalController.dismiss();
+              this.validateMetaG.dpiBack = true;
+              this.handleSlide(3);
+            });
             // this.swiperElement()?.swiper?.slideNext();
           } else {
-            this.showAlert(
-              response['mensage'],
-              '',
-              response['details'],
-              () => {
-                this.resumeCameraFromParent();
-              }
-            );
+            this.showAlert(response['mensage'], '', response['details'], () => {
+              this.resumeCameraFromParent();
+            });
             this.validateMetaG.dpiBack = false;
           }
         },
         error: (error) => {
-          this.showAlert(
-            'Error',
-            '',
-            error,
-            () => {
-              this.resumeCameraFromParent();
-            }
-          );
+          this.showAlert('Error', '', error, () => {
+            this.resumeCameraFromParent();
+          });
 
           if (loader) {
             loader.dismiss();
           }
           this.validateMetaG.dpiBack = false;
           console.error('Error al llamar al servicio:', error);
-        }
+        },
       });
     } catch (error) {
-      alert("error");
-      console.log(error)
+      alert('error');
+      console.log(error);
     }
   }
 
@@ -367,27 +396,25 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     try {
       loader = await this.loadingController.create({
         message: 'Procesando...',
-        spinner: 'crescent'
+        spinner: 'crescent',
       });
 
       await loader.present();
       // const file = await this.convertImagePathToFile(filePath, this.isIOS ? 'video_selfie.mp4' : 'video_selfie.webm',);
       // console.log('Archivo temporal creado:', file);
-      const codigo = localStorage.getItem('codigo') ?? "";
+      const codigo = localStorage.getItem('codigo') ?? '';
       this.dpiService.videoSelfie(file, codigo).subscribe({
         next: (response: any) => {
           if (loader) {
             loader.dismiss();
           }
           if (!response['error']) {
-
             this.showAlert('Éxito', response['message'], [], () => {
-
               this.closeModalVideoSelfie();
               this.modalController.dismiss();
               this.validateMetaG.videoSelfie = true;
               this.handleSlide(4);
-            })
+            });
           } else {
             this.showAlert('Error', response['message'], [], () => {
               this.closeModalVideoSelfie();
@@ -396,34 +423,33 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
           }
         },
         error: (error) => {
-          this.showAlert(
-            'Error',
-            '',
-            error,
-            () => {
-              this.resumeCameraFromParent();
-            }
-          );
+          this.showAlert('Error', '', error, () => {
+            this.resumeCameraFromParent();
+          });
 
           console.error('Error al llamar al servicio:', error);
-        }
+        },
       });
     } catch (error) {
-      alert("error");
-      console.log(error)
+      alert('error');
+      console.log(error);
     }
   }
 
-
-
   async validateDPIFront(filePath: string): Promise<boolean> {
-    await this.DpiFrontProccess(filePath)
+    await this.DpiFrontProccess(filePath);
     return true;
   }
 
-  private async showAlert(header: string, message: string, details?: string[], onConfirm?: () => void, subMessage?: string) {
+  private async showAlert(
+    header: string,
+    message: string,
+    details?: string[],
+    onConfirm?: () => void,
+    subMessage?: string
+  ) {
     const detailsMessage = details
-      ? details.map(detail => `${detail}           `).join('')
+      ? details.map((detail) => `${detail}           `).join('')
       : '';
 
     const fullMessage = message + (detailsMessage ? `${detailsMessage}` : '');
@@ -438,13 +464,12 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
             if (onConfirm) {
               onConfirm();
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
-
 
   async openCameraOverlayFrontal() {
     this.modalRef = await this.modalController.create({
@@ -454,7 +479,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
         text2: '',
         overlaySrc: 'assets/imagesIdvision/overlay_container.png',
         onTakePicture: this.DpiFrontProccess.bind(this),
-        closeRequested: () => this.closeOverlay()
+        closeRequested: () => this.closeOverlay(),
       },
       backdropDismiss: false,
     });
@@ -468,12 +493,11 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
 
   async closeModalOverlay() {
     console.log('test');
-    
   }
   //Trasero dpi services
   async validateDPIBack(filePath: string): Promise<boolean> {
     this.modalController.dismiss();
-    await this.DpiBackProccess(filePath)
+    await this.DpiBackProccess(filePath);
     return true;
   }
 
@@ -484,8 +508,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
         text1: 'Coloca el reverso de tu DPI',
         text2: '',
         overlaySrc: 'assets/imagesIdvision/overlay_container.png',
-        onTakePicture: this.DpiBackProccess.bind(this)
-
+        onTakePicture: this.DpiBackProccess.bind(this),
       },
       backdropDismiss: false,
     });

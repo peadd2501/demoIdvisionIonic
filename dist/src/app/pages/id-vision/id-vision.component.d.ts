@@ -31,9 +31,9 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit {
     isSwipe: boolean;
     dpiCode: string;
     validateMetaG: {
-        'dpiFront': boolean;
-        'dpiBack': boolean;
-        'videoSelfie': boolean;
+        dpiFront: boolean;
+        dpiBack: boolean;
+        videoSelfie: boolean;
     };
     ngOnInit(): void;
     ngAfterViewInit(): void;
