@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter, Renderer2 }
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModalVideoSelfieServices } from '../../services/modal-services/modal-video-selfie-services';
+import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 import * as i0 from "@angular/core";
 export declare class CamaraVideoSelfieComponent implements AfterViewInit {
     private platform;
@@ -11,6 +12,7 @@ export declare class CamaraVideoSelfieComponent implements AfterViewInit {
     private alertController;
     private changeDetector;
     private modalVideoSelfieServices;
+    private modalDpiServices;
     videoElement: ElementRef<HTMLVideoElement>;
     progressRing: ElementRef<HTMLElement>;
     text1: string;
@@ -34,7 +36,7 @@ export declare class CamaraVideoSelfieComponent implements AfterViewInit {
     canStopRecording: boolean;
     isLoading: boolean;
     private defaultBrightness;
-    constructor(platform: Platform, modalController: ModalController, sanitizer: DomSanitizer, renderer: Renderer2, alertController: AlertController, changeDetector: ChangeDetectorRef, modalVideoSelfieServices: ModalVideoSelfieServices);
+    constructor(platform: Platform, modalController: ModalController, sanitizer: DomSanitizer, renderer: Renderer2, alertController: AlertController, changeDetector: ChangeDetectorRef, modalVideoSelfieServices: ModalVideoSelfieServices, modalDpiServices: ModalDpiServices);
     ngAfterViewInit(): Promise<void>;
     waitForCameraReady(): Promise<void>;
     requestPermissions(): Promise<void>;
@@ -44,7 +46,7 @@ export declare class CamaraVideoSelfieComponent implements AfterViewInit {
     startVideoRecord(): Promise<void>;
     updateTimeRemaining(): void;
     stopRecording(): Promise<void>;
-    closeOverlay(): Promise<void>;
+    closeOverlayVideo(): Promise<void>;
     stopCamera(): void;
     closeRequestedFunction(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CamaraVideoSelfieComponent, never>;

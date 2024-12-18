@@ -5,9 +5,11 @@ export class ModalDpiServices {
     constructor() {
         this.closeOverlaySubject = new Subject();
         this.resumeCameraSubject = new Subject();
+        this.closeModalAndChangeBrightness = new Subject();
         // Observable para suscribirse al cierre
         this.closeOverlay$ = this.closeOverlaySubject.asObservable();
         this.resumeCameraSubject$ = this.resumeCameraSubject.asObservable();
+        this.closeModalAndChangeBrightness$ = this.closeModalAndChangeBrightness.asObservable();
     }
     // Método para emitir el cierre
     requestCloseOverlay() {
@@ -15,6 +17,9 @@ export class ModalDpiServices {
     }
     requestResumeCamera() {
         this.resumeCameraSubject.next();
+    }
+    requestCloseModalAndBrightness() {
+        this.closeModalAndChangeBrightness.next();
     }
 }
 ModalDpiServices.ɵfac = function ModalDpiServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalDpiServices)(); };

@@ -104,10 +104,15 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
       this.closeOverlay();
     });
 
-    this.modalVideoSelfieServices.closeOverlayModal$.subscribe(async () => {
-      await this.closeModalOverlay();
-      console.log('suscribiendose modalVideoSelfieS');
-    });
+    // this.modalVideoSelfieServices.closeOverlayModal$.subscribe(async () => {
+    //   await this.closeModalOverlay();
+    //   console.log('suscribiendose modalVideoSelfieS');
+    // });
+
+    this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(() => {
+      this.closeModalOverlay();
+            console.log('suscribiendose modalVideoSelfieS');
+    })
 
     // Selecciona el elemento de video
     const video: HTMLVideoElement | null = document.getElementById(
@@ -319,7 +324,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     this.modalDpiServices.requestCloseOverlay();
   }
   closeModalVideoSelfie() {
-    this.modalVideoSelfieServices.requestCloseOverlay();
+    // this.modalVideoSelfieServices.requestCloseOverlayModal();
+
+    this.modalDpiServices.requestCloseModalAndBrightness();
   }
 
   resumeCameraFromParent() {
@@ -492,7 +499,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   }
 
   async closeModalOverlay() {
-    console.log('test');
+    console.log('test videoselfie');
   }
   //Trasero dpi services
   async validateDPIBack(filePath: string): Promise<boolean> {

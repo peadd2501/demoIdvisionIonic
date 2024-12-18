@@ -1,15 +1,16 @@
 {
-  "name": "id-vision",
-  "version": "0.0.1",
+  "name": "meta-g",
+  "version": "1.0.36",
   "author": "FGE",
   "homepage": "https://ionicframework.com/",
-  "licence": "FGE",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "src/theme/variables.scss"
-  ],
+    "src/theme/variables.scss",
+    "scripts/postinstall.js"
+    ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -17,10 +18,11 @@
     "test": "ng test",
     "lint": "ng lint",
     "build": "ngc -p tsconfig.lib.json && mkdir -p ./dist/assets/imagesIdVision && cp -R ./src/assets/imagesIdVision/* ./dist/assets/imagesIdVision/",
-    "postinstall": "mkdir -p ../../src/assets/imagesIdvision && cp -r ./dist/assets/imagesIdvision/* ../../src/assets/imagesIdvision/ && mkdir -p ../../src/theme && cp -r ./src/theme/variables.scss ../../src/theme/"
-  },
+    "prepare": "node scripts/postinstall.js",
+    "postinstall": "node scripts/postinstall.js",
+    "publish:npm": "npm run build && npm publish --access=public"
+    },
   "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
-  "private": false,
   "dependencies": {
     "@angular/animations": "^18.0.0",
     "@angular/common": "^18.2.11",
@@ -76,7 +78,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.0"
   },
-  "description": "SDK para prueba de vida y validacion de documentos",
+"description": "SDK de MetaG para validación de documentos y prueba de vida con Angular e Ionic.",
   "styles": [
     "src/theme/global.scss"
   ]

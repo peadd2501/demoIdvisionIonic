@@ -8,7 +8,7 @@ export class ModalVideoSelfieServices {
   private closeOverlaySubjectModal = new Subject<void>();
   closeOverlayModal$ = this.closeOverlaySubjectModal.asObservable();
 
-  requestCloseOverlay() {
+  requestCloseOverlayModal() {
     this.closeOverlaySubjectModal.next();
   }
 }

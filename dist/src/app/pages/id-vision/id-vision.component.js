@@ -81,10 +81,14 @@ export class IdVisionComponent {
         this.modalDpiServices.closeOverlay$.subscribe(() => {
             this.closeOverlay();
         });
-        this.modalVideoSelfieServices.closeOverlayModal$.subscribe(() => __awaiter(this, void 0, void 0, function* () {
-            yield this.closeModalOverlay();
+        // this.modalVideoSelfieServices.closeOverlayModal$.subscribe(async () => {
+        //   await this.closeModalOverlay();
+        //   console.log('suscribiendose modalVideoSelfieS');
+        // });
+        this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(() => {
+            this.closeModalOverlay();
             console.log('suscribiendose modalVideoSelfieS');
-        }));
+        });
         // Selecciona el elemento de video
         const video = document.getElementById('dpiFront');
         const video2 = document.getElementById('dpiBack');
@@ -282,7 +286,8 @@ export class IdVisionComponent {
         this.modalDpiServices.requestCloseOverlay();
     }
     closeModalVideoSelfie() {
-        this.modalVideoSelfieServices.requestCloseOverlay();
+        // this.modalVideoSelfieServices.requestCloseOverlayModal();
+        this.modalDpiServices.requestCloseModalAndBrightness();
     }
     resumeCameraFromParent() {
         this.modalDpiServices.requestResumeCamera();
@@ -446,7 +451,7 @@ export class IdVisionComponent {
     }
     closeModalOverlay() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('test');
+            console.log('test videoselfie');
         });
     }
     //Trasero dpi services

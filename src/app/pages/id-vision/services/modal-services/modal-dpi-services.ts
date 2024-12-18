@@ -7,10 +7,13 @@ import { Subject } from 'rxjs';
 export class ModalDpiServices {
   private closeOverlaySubject = new Subject<void>();
   private resumeCameraSubject = new Subject<void>();
+  private closeModalAndChangeBrightness = new Subject<void>();
 
   // Observable para suscribirse al cierre
   closeOverlay$ = this.closeOverlaySubject.asObservable();
   resumeCameraSubject$ = this.resumeCameraSubject.asObservable();
+  closeModalAndChangeBrightness$ = this.closeModalAndChangeBrightness.asObservable();
+
 
 
   // Método para emitir el cierre
@@ -21,4 +24,9 @@ export class ModalDpiServices {
   requestResumeCamera() {
     this.resumeCameraSubject.next();
   }
+
+  requestCloseModalAndBrightness () {
+    this.closeModalAndChangeBrightness.next();
+  }
+  
 }

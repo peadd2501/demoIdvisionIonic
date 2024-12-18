@@ -4,6 +4,7 @@ import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ModalVideoSelfieServices } from '../../services/modal-services/modal-video-selfie-services';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
+import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 
 @Component({
   selector: 'app-camara-video-selfie',
@@ -48,7 +49,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     private renderer: Renderer2,
     private alertController: AlertController,
     private changeDetector: ChangeDetectorRef,
-    private modalVideoSelfieServices: ModalVideoSelfieServices
+    private modalVideoSelfieServices: ModalVideoSelfieServices,
+    private modalDpiServices: ModalDpiServices
   ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
@@ -66,8 +68,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     // await this.startRecording();
     await this.waitForCameraReady();
 
-    this.modalVideoSelfieServices.closeOverlayModal$.subscribe( async () => {
-      await this.closeOverlay();
+    this.modalDpiServices.closeModalAndChangeBrightness$.subscribe( async () => {
+      await this.closeOverlayVideo();
     });
   }
 
@@ -248,7 +250,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     );
   }
 
-  async closeOverlay() {
+  async closeOverlayVideo() {
     console.log('Ejecutando close desde video selfie');
     this.stopCamera();
     // Restaura el brillo original si estaba guardado
@@ -269,7 +271,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   }
 
   public closeRequestedFunction() {
-    this.closeOverlay();
-    this.modalVideoSelfieServices.requestCloseOverlay();
+    this.closeOverlayVideo();
+    this.modalDpiServices.requestCloseModalAndBrightness();
+    // this.modalVideoSelfieServices.requestCloseOverlayModal();
   }
 }
