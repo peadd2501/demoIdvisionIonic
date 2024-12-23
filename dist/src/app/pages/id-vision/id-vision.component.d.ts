@@ -1,4 +1,4 @@
-import { AfterViewInit, OnInit } from '@angular/core';
+import { AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, IonInput, LoadingController, ModalController, NavController, Platform } from '@ionic/angular';
 import { SwiperContainer } from 'swiper/element/bundle';
 import { DpiService } from './services/dpi/dpi-service.service';
@@ -7,7 +7,7 @@ import { ModalVideoSelfieServices } from './services/modal-services/modal-video-
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
 import * as i0 from "@angular/core";
-export declare class IdVisionComponent implements OnInit, AfterViewInit {
+export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     private modalController;
     private dpiService;
     private alertController;
@@ -35,8 +35,10 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit {
         dpiBack: boolean;
         videoSelfie: boolean;
     };
+    swiperRef: any;
     ngOnInit(): void;
     ngAfterViewInit(): void;
+    ngOnDestroy(): void;
     handleClick(): void;
     handleSlide(slide: number): Promise<void>;
     handleGetInit(): void;

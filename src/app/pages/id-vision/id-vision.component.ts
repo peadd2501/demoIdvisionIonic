@@ -4,6 +4,7 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   Input,
+  OnDestroy,
   OnInit,
   signal,
   ViewChild,
@@ -45,7 +46,7 @@ register();
   styleUrls: ['./id-vision.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class IdVisionComponent implements OnInit, AfterViewInit {
+export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
   private isAndroid: boolean;
   private isIOS: boolean;
@@ -77,6 +78,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
 
   swiperElement = signal<SwiperContainer | null>(null);
   private modalRef: HTMLIonModalElement | null = null;
+
   @Input() isSwipe: boolean = false;
   @Input() dpiCode: string = '';
   validateMetaG: {
@@ -84,30 +86,34 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     dpiBack: boolean;
     videoSelfie: boolean;
   };
+  swiperRef: any;
 
   ngOnInit() {
-    const swiperElemConstructor = document.querySelector('swiper-container');
+    // const swiperElemConstructor = document.querySelector('swiper-container');
 
-    const swiperOptions: SwiperOptions = {
-      slidesPerView: 1,
-      pagination: false,
-      navigation: {
-        enabled: false,
-      },
-      allowTouchMove: this.isSwipe,
-    };
-    Object.assign(swiperElemConstructor!, swiperOptions);
-    this.swiperElement.set(swiperElemConstructor as SwiperContainer);
-    this.swiperElement()?.initialize();
+    // this.swiperRef = swiperElemConstructor;
+    // const swiperOptions: SwiperOptions = {
+    //   slidesPerView: 1,
+    //   pagination: false,
+    //   navigation: {
+    //     enabled: false,
+    //   },
+    //   allowTouchMove: this.isSwipe,
+    // };
+    // Object.assign(swiperElemConstructor!, swiperOptions);
+    // this.swiperElement.set(swiperElemConstructor as SwiperContainer);
+    // this.swiperElement()?.initialize();
+
+
+    //swiper 
+
+
+
+    //swiper
 
     this.modalDpiServices.closeOverlay$.subscribe(() => {
       this.closeOverlay();
     });
-
-    // this.modalVideoSelfieServices.closeOverlayModal$.subscribe(async () => {
-    //   await this.closeModalOverlay();
-    //   console.log('suscribiendose modalVideoSelfieS');
-    // });
 
     this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(() => {
       this.closeModalOverlay();
@@ -152,6 +158,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    
+    const swiperElement = document.querySelector('swiper-container') as SwiperContainer;
+
     if (this.dpi) {
       this.dpi.value = this.dpiCode ?? '';
       console.log('DPI inicializado:', this.dpi.value);
@@ -159,6 +168,28 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
       console.error('IonInput no está disponible en ngAfterViewInit');
     }
 
+
+    if (swiperElement) {
+      // Configuración del Swiper
+      const swiperOptions: SwiperOptions = {
+          slidesPerView: 1,
+          pagination: false,
+          navigation: {
+            enabled: false,
+          },
+          allowTouchMove: this.isSwipe,
+        };
+  
+      // Asigna las opciones al elemento
+      Object.assign(swiperElement, swiperOptions);
+  
+      // Inicializa Swiper en el elemento
+      swiperElement.initialize();
+      this.swiperRef = swiperElement;
+      console.log('Swiper inicializado correctamente:', this.swiperRef);
+    } else {
+      console.error('El elemento <swiper-container> no está disponible.');
+    }
     //tests
     // const buttons = document.querySelectorAll('ion-button');
     // buttons.forEach(button => {
@@ -166,6 +197,18 @@ export class IdVisionComponent implements OnInit, AfterViewInit {
     //     console.log(`Botón clickeado (ionClick): ${button.textContent?.trim()}`);
     //   });
     // });
+  }
+
+  ngOnDestroy(): void {
+    // this.swiperRef = null;
+    console.log('SWIPER: ' ,this.swiperRef);
+
+    if (this.swiperRef) {
+      this.swiperRef.destroy(true, true);
+      console.log('SWIPER2: ' ,this.swiperRef);
+      
+      console.log('Swiper destruido correctamente.');
+    }
   }
 
   handleClick() {
