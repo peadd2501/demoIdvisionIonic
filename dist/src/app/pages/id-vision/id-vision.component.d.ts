@@ -1,11 +1,11 @@
 import { AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, IonInput, LoadingController, ModalController, NavController, Platform } from '@ionic/angular';
-import { SwiperContainer } from 'swiper/element/bundle';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
+import { SwiperContainer } from './../../../swiper-wrapper';
 import * as i0 from "@angular/core";
 export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     private modalController;

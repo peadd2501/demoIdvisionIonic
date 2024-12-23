@@ -19,8 +19,8 @@ import {
   NavController,
   Platform,
 } from '@ionic/angular';
-import { register, SwiperContainer } from 'swiper/element/bundle';
-import { Swiper, SwiperOptions } from 'swiper/types';
+// import { register, SwiperContainer } from 'swiper/element/bundle'; 
+// import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
 import { DpiService } from './services/dpi/dpi-service.service';
@@ -31,6 +31,8 @@ import { SdkCommunicationService } from './services/modal-services/sdk-communica
 import { Router } from '@angular/router';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
 import { HttpClientModule } from '@angular/common/http';
+import { register, SwiperContainer, Swiper, SwiperOptions } from './../../../swiper-wrapper';
+
 
 register();
 
@@ -161,14 +163,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     
     const swiperElement = document.querySelector('swiper-container') as SwiperContainer;
 
-    if (this.dpi) {
-      this.dpi.value = this.dpiCode ?? '';
-      console.log('DPI inicializado:', this.dpi.value);
-    } else {
-      console.error('IonInput no está disponible en ngAfterViewInit');
-    }
-
-
     if (swiperElement) {
       // Configuración del Swiper
       const swiperOptions: SwiperOptions = {
@@ -182,14 +176,23 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   
       // Asigna las opciones al elemento
       Object.assign(swiperElement, swiperOptions);
-  
-      // Inicializa Swiper en el elemento
-      swiperElement.initialize();
+      // swiperElement.initialize();
       this.swiperRef = swiperElement;
+
+      this.swiperElement.set(swiperElement as SwiperContainer);
+      this.swiperElement()?.initialize();
       console.log('Swiper inicializado correctamente:', this.swiperRef);
     } else {
       console.error('El elemento <swiper-container> no está disponible.');
     }
+    
+    if (this.dpi) {
+      this.dpi.value = this.dpiCode ?? '';
+      console.log('DPI inicializado:', this.dpi.value);
+    } else {
+      console.error('IonInput no está disponible en ngAfterViewInit');
+    }
+
     //tests
     // const buttons = document.querySelectorAll('ion-button');
     // buttons.forEach(button => {
@@ -204,7 +207,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('SWIPER: ' ,this.swiperRef);
 
     if (this.swiperRef) {
-      this.swiperRef.destroy(true, true);
+      // this.swiperRef.destroy(true, true);
       console.log('SWIPER2: ' ,this.swiperRef);
       
       console.log('Swiper destruido correctamente.');
