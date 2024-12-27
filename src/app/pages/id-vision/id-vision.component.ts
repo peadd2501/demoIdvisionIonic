@@ -19,7 +19,7 @@ import {
   NavController,
   Platform,
 } from '@ionic/angular';
-// import { register, SwiperContainer } from 'swiper/element/bundle'; 
+// import { register, SwiperContainer } from 'swiper/element/bundle';
 // import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
@@ -31,8 +31,12 @@ import { SdkCommunicationService } from './services/modal-services/sdk-communica
 import { Router } from '@angular/router';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
 import { HttpClientModule } from '@angular/common/http';
-import { register, SwiperContainer, Swiper, SwiperOptions } from './../../../swiper-wrapper';
-
+import {
+  register,
+  SwiperContainer,
+  Swiper,
+  SwiperOptions,
+} from './../../../swiper-wrapper';
 
 register();
 
@@ -106,10 +110,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.swiperElement.set(swiperElemConstructor as SwiperContainer);
     // this.swiperElement()?.initialize();
 
-
-    //swiper 
-
-
+    //swiper
 
     //swiper
 
@@ -119,8 +120,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(() => {
       this.closeModalOverlay();
-            console.log('suscribiendose modalVideoSelfieS');
-    })
+      console.log('suscribiendose modalVideoSelfieS');
+    });
 
     // Selecciona el elemento de video
     const video: HTMLVideoElement | null = document.getElementById(
@@ -160,23 +161,33 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    
-    const swiperElement = document.querySelector('swiper-container') as SwiperContainer;
+    // Busca todos los elementos swiper-container en el DOM
+    const swiperContainers = document.querySelectorAll('swiper-container');
+
+    swiperContainers.forEach((container: any) => {
+      // Verifica si el Swiper tiene una instancia y la destruye
+      if (container.swiper) {
+        console.log('Destruyendo Swiper existente:', container.swiper);
+        container.swiper.destroy(true, true);
+      }
+    });
+
+    const swiperElement = document.querySelector(
+      'swiper-container'
+    ) as SwiperContainer;
 
     if (swiperElement) {
       // Configuración del Swiper
       const swiperOptions: SwiperOptions = {
-          slidesPerView: 1,
-          pagination: false,
-          navigation: {
-            enabled: false,
-          },
-          allowTouchMove: this.isSwipe,
-        };
-  
+        slidesPerView: 1,
+        pagination: false,
+        navigation: {
+          enabled: false,
+        },
+        allowTouchMove: this.isSwipe,
+      };
       // Asigna las opciones al elemento
       Object.assign(swiperElement, swiperOptions);
-      // swiperElement.initialize();
       this.swiperRef = swiperElement;
 
       this.swiperElement.set(swiperElement as SwiperContainer);
@@ -185,7 +196,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       console.error('El elemento <swiper-container> no está disponible.');
     }
-    
+
     if (this.dpi) {
       this.dpi.value = this.dpiCode ?? '';
       console.log('DPI inicializado:', this.dpi.value);
@@ -204,12 +215,12 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     // this.swiperRef = null;
-    console.log('SWIPER: ' ,this.swiperRef);
+    console.log('SWIPER: ', this.swiperRef);
 
     if (this.swiperRef) {
       // this.swiperRef.destroy(true, true);
-      console.log('SWIPER2: ' ,this.swiperRef);
-      
+      console.log('SWIPER2: ', this.swiperRef);
+
       console.log('Swiper destruido correctamente.');
     }
   }

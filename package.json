@@ -1,6 +1,6 @@
 {
   "name": "meta-g",
-  "version": "1.0.409",
+  "version": "1.0.413",
   "author": "FGE",
   "homepage": "https://ionicframework.com/",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "dist",
     "src/theme/variables.scss",
     "scripts/postinstall.js"
-    ],
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,8 +21,14 @@
     "prepare": "node scripts/postinstall.js",
     "postinstall": "node scripts/postinstall.js",
     "publish:npm": "npm run build && npm publish --access=public"
-    },
-  "keywords": ["camera", "video", "sdk", "ionic", "capacitor"],
+  },
+  "keywords": [
+    "camera",
+    "video",
+    "sdk",
+    "ionic",
+    "capacitor"
+  ],
   "dependencies": {
     "@angular/animations": "^18.0.0",
     "@angular/common": "^18.2.11",
@@ -46,7 +52,7 @@
     "@ionic/storage-angular": "^4.0.0",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
-    "swiper": "^11.1.14",
+    "swiper": "^11.1.15",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
   },
@@ -78,7 +84,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.0"
   },
-"description": "SDK de MetaG para validación de documentos y prueba de vida con Angular e Ionic.",
+  "description": "SDK de MetaG para validación de documentos y prueba de vida con Angular e Ionic.",
   "styles": [
     "src/theme/global.scss"
   ]

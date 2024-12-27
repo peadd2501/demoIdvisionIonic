@@ -2,7 +2,7 @@ import { __awaiter } from "tslib";
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, signal, ViewChild, ViewEncapsulation, } from '@angular/core';
 import { AlertController, IonicModule, IonInput, LoadingController, ModalController, NavController, Platform, } from '@ionic/angular';
-// import { register, SwiperContainer } from 'swiper/element/bundle'; 
+// import { register, SwiperContainer } from 'swiper/element/bundle';
 // import { Swiper, SwiperOptions } from 'swiper/types';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
@@ -11,7 +11,7 @@ import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
-import { register } from './../../../swiper-wrapper';
+import { register, } from './../../../swiper-wrapper';
 import * as i0 from "@angular/core";
 import * as i1 from "@ionic/angular";
 import * as i2 from "./services/dpi/dpi-service.service";
@@ -80,7 +80,7 @@ export class IdVisionComponent {
         // Object.assign(swiperElemConstructor!, swiperOptions);
         // this.swiperElement.set(swiperElemConstructor as SwiperContainer);
         // this.swiperElement()?.initialize();
-        //swiper 
+        //swiper
         //swiper
         this.modalDpiServices.closeOverlay$.subscribe(() => {
             this.closeOverlay();
@@ -123,6 +123,15 @@ export class IdVisionComponent {
     }
     ngAfterViewInit() {
         var _a, _b;
+        // Busca todos los elementos swiper-container en el DOM
+        const swiperContainers = document.querySelectorAll('swiper-container');
+        swiperContainers.forEach((container) => {
+            // Verifica si el Swiper tiene una instancia y la destruye
+            if (container.swiper) {
+                console.log('Destruyendo Swiper existente:', container.swiper);
+                container.swiper.destroy(true, true);
+            }
+        });
         const swiperElement = document.querySelector('swiper-container');
         if (swiperElement) {
             // Configuración del Swiper
@@ -136,7 +145,6 @@ export class IdVisionComponent {
             };
             // Asigna las opciones al elemento
             Object.assign(swiperElement, swiperOptions);
-            // swiperElement.initialize();
             this.swiperRef = swiperElement;
             this.swiperElement.set(swiperElement);
             (_a = this.swiperElement()) === null || _a === void 0 ? void 0 : _a.initialize();
