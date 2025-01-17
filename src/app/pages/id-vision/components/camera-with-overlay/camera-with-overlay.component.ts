@@ -18,7 +18,7 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   @Input() text1: string = '';
   @Input() text2: string = '';
   @Input() overlaySrc: string = '';
-  @Input() onTakePicture!: (filePath: String) => Promise<boolean>;
+  @Input() onTakePicture!: (filePath: File) => Promise<boolean>;
   @Output() closeRequested = new EventEmitter<void>();
 
   capturedImage: SafeUrl | null = null;
@@ -61,11 +61,13 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   }
 
   async requestPermissions() {
-    if (this.isAndroid || this.isIOS) {
-      const permissions = await Camera.requestPermissions();
-      if (permissions.camera === 'denied') {
-        console.error('Permiso de cámara denegado');
-        return;
+    if(Capacitor.getPlatform() !== 'web') {
+      if (this.isAndroid || this.isIOS) {
+        const permissions = await Camera.requestPermissions();
+        if (permissions.camera === 'denied') {
+          console.error('Permiso de cámara denegado');
+          return;
+        }
       }
     }
   }
@@ -77,7 +79,8 @@ export class CameraWithOverlayComponent implements AfterViewInit {
           width: { ideal: 1920 },
           height: { ideal: 1080 },
           facingMode: 'environment'
-        }
+        },
+        audio: false
       };
 
       this.stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -100,39 +103,63 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   }
 
   async capturePhoto() {
-    if (!this.stream) return;
+    if (!this.stream) {
+      console.error('La cámara no está inicializada.');
+      return;
+    };
   
     const canvas = document.createElement('canvas');
     const videoElement = this.videoElement.nativeElement;
   
-    canvas.width =videoElement.videoWidth;
-    canvas.height = videoElement.videoHeight;
+    canvas.width =videoElement.videoWidth || 1920;
+    canvas.height = videoElement.videoHeight || 1080;
   
+    console.log('Video width:', videoElement.videoWidth);
+    console.log('Video height:', videoElement.videoHeight);
+    console.log('Stream activo:', !!this.stream);
+    console.log('Canvas width:', canvas.width);
+    console.log('Canvas height:', canvas.height);
+
     const context = canvas.getContext('2d');
     if (context) {
       context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
       
       // Convierte el contenido del canvas a un Blob
       canvas.toBlob((blob) => {
-        if (blob) {
-          this.file = new File([blob], 'dpi.png', { type: 'image/png' });
-          
-          this.capturedImageUrl = URL.createObjectURL(this.file); // Crea una URL temporal
-          
+        if (blob && blob.size > 0) {
+          console.log('Blob generado correctamente:', blob);
+      
+
+          this.file = this.blobToFile(blob, 'dpi.jpeg');
+
+          // this.file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
+          console.log('Archivo creado:', this.file);
+      
           videoElement.pause();
-          this.onTakePicture(this.capturedImageUrl).then(() => {
-            //this.closeOverlay();
-          });
-          
-          // this.uploadPhoto(file); // Llama a una función para enviar el archivo
+          this.onTakePicture(this.file).catch(
+            (err) => console.error('Error en onTakePicture:', err)
+          );
+        } else {
+          console.error('El Blob generado está vacío o no válido.');
         }
-      }, 'image/jpeg', 0.7);
+      }, 'image/jpeg', 0.75);
 
       
       //this.closeOverlay();
     }
   }
 
+  blobToFile(blob: Blob, fileName: string): File { 
+    const b: any = blob;
+    b.lastModified = new Date().getTime();
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+
+    console.log('Blob to file:', b);
+    //Cast to a File() type
+    return <File>b;
+  }
+  
   stopCamera() {
     if (this.stream) {
       this.stream.getTracks().forEach(track => track.stop());

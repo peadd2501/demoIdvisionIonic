@@ -161,42 +161,77 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // Busca todos los elementos swiper-container en el DOM
-    const swiperContainers = document.querySelectorAll('swiper-container');
+    // // Busca todos los elementos swiper-container en el DOM
+    // const swiperContainers = document.querySelectorAll('swiper-container');
 
-    swiperContainers.forEach((container: any) => {
-      // Verifica si el Swiper tiene una instancia y la destruye
-      if (container.swiper) {
-        console.log('Destruyendo Swiper existente:', container.swiper);
-        container.swiper.destroy(true, true);
+    // swiperContainers.forEach((container: any) => {
+    //   // Verifica si el Swiper tiene una instancia y la destruye
+    //   if (container.swiper) {
+    //     console.log('Destruyendo Swiper existente:', container.swiper);
+    //     container.swiper.destroy(true, true);
+    //   }
+    // });
+
+    // const swiperElement = document.querySelector(
+    //   'swiper-container'
+    // ) as SwiperContainer;
+
+    // if (swiperElement) {
+    //   // Configuración del Swiper
+    //   const swiperOptions: SwiperOptions = {
+    //     slidesPerView: 1,
+    //     pagination: false,
+    //     navigation: {
+    //       enabled: false,
+    //     },
+    //     allowTouchMove: this.isSwipe,
+    //   };
+    //   // Asigna las opciones al elemento
+    //   Object.assign(swiperElement, swiperOptions);
+    //   this.swiperRef = swiperElement;
+
+    //   this.swiperElement.set(swiperElement as SwiperContainer);
+    //   this.swiperElement()?.initialize();
+    //   console.log('Swiper inicializado correctamente:', this.swiperRef);
+    // } else {
+    //   console.error('El elemento <swiper-container> no está disponible.');
+    // }
+
+    setTimeout(() => {
+      // const swiperElement = document.querySelector(
+      //   'swiper-container'
+      // ) as SwiperContainer;
+    
+      const swiperElement = document.querySelector('.custom-swiper') as SwiperContainer;
+
+      if (swiperElement) {
+        const swiperOptions: SwiperOptions = {
+          slidesPerView: 1,
+          pagination: false,
+          navigation: {
+            enabled: false,
+          },
+          allowTouchMove: this.isSwipe,
+        };
+        try {
+          Object.assign(swiperElement, swiperOptions);
+          // swiperElement.initialize();
+          this.swiperRef = swiperElement;
+          
+          this.swiperElement.set(swiperElement as SwiperContainer);
+          
+          this.swiperElement()?.initialize();
+          console.log('Swiper inicializado correctamente después de un retraso:', this.swiperRef);
+          
+        } catch (error) {
+          console.warn('Error al inicializar swiper: ', error);
+        }
+      } else {
+        console.error('El elemento <swiper-container> no está disponible.');
       }
-    });
+    }, 100);
 
-    const swiperElement = document.querySelector(
-      'swiper-container'
-    ) as SwiperContainer;
-
-    if (swiperElement) {
-      // Configuración del Swiper
-      const swiperOptions: SwiperOptions = {
-        slidesPerView: 1,
-        pagination: false,
-        navigation: {
-          enabled: false,
-        },
-        allowTouchMove: this.isSwipe,
-      };
-      // Asigna las opciones al elemento
-      Object.assign(swiperElement, swiperOptions);
-      this.swiperRef = swiperElement;
-
-      this.swiperElement.set(swiperElement as SwiperContainer);
-      this.swiperElement()?.initialize();
-      console.log('Swiper inicializado correctamente:', this.swiperRef);
-    } else {
-      console.error('El elemento <swiper-container> no está disponible.');
-    }
-
+    
     if (this.dpi) {
       this.dpi.value = this.dpiCode ?? '';
       console.log('DPI inicializado:', this.dpi.value);
@@ -309,15 +344,21 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           },
         });
     } catch (error) {
-      alert('error');
       console.log(error);
     }
   }
 
-  async DpiFrontProccess(filePath: string) {
+  async DpiFrontProccess(filePath: File) {
+
+    if (!filePath || filePath.size === 0) {
+      console.error('El archivo proporcionado no es válido:', filePath);
+      return;
+    }
+
     let loader: HTMLIonLoadingElement | null = null;
 
     try {
+      
       // Muestra el loader
       loader = await this.loadingController.create({
         message: 'Procesando...',
@@ -327,14 +368,13 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       await loader.present();
 
       console.log('enviando DPI front');
-      const file = await this.convertImagePathToFile(
-        filePath,
-        'imagen_temporal.png'
-      );
-      console.log('Archivo temporal creado:', file);
+      // const file = await this.convertImagePathToFile(
+      //   filePath,
+      //   'imagen_temporal.png'
+      // );
+      // console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? '';
-      console.log('codigo antes', codigo);
-      await this.dpiService.uploadFrontDPI(file, codigo).subscribe({
+      await this.dpiService.uploadFrontDPI(filePath/*file*/, codigo).subscribe({
         next: (response: any) => {
           // Oculta el loader cuando se recibe una respuesta
           if (loader) {
@@ -371,7 +411,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       });
     } catch (error) {
-      alert('error');
       console.log(error);
     }
   }
@@ -399,7 +438,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     return new File([blob], fileName, { type: blob.type });
   }
 
-  async DpiBackProccess(filePath: string) {
+  async DpiBackProccess(filePath: File) {
     let loader: HTMLIonLoadingElement | null = null;
 
     try {
@@ -411,13 +450,13 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
       await loader.present();
 
-      const file = await this.convertImagePathToFile(
-        filePath,
-        'imagen_temporal_back.jpg'
-      );
+      // const file = await this.convertImagePathToFile(
+      //   filePath,
+      //   'imagen_temporal_back.jpg'
+      // );
       // console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? '';
-      this.dpiService.uploadBackDPI(file, codigo).subscribe({
+      this.dpiService.uploadBackDPI(filePath/*file*/, codigo).subscribe({
         next: (response: any) => {
           if (loader) {
             loader.dismiss();
@@ -450,7 +489,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       });
     } catch (error) {
-      alert('error');
       console.log(error);
     }
   }
@@ -495,12 +533,11 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       });
     } catch (error) {
-      alert('error');
       console.log(error);
     }
   }
 
-  async validateDPIFront(filePath: string): Promise<boolean> {
+  async validateDPIFront(filePath: File): Promise<boolean> {
     await this.DpiFrontProccess(filePath);
     return true;
   }
@@ -512,13 +549,15 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     onConfirm?: () => void,
     subMessage?: string
   ) {
-    const detailsMessage = details
-      ? details.map((detail) => `${detail}           `).join('')
+    const detailsMessage = Array.isArray(details)
+    ? details.map((detail) => `${detail}           `).join('')
       : '';
+      console.log('Valor de details:', details);
 
     const fullMessage = message + (detailsMessage ? `${detailsMessage}` : '');
 
     const alert = await this.alertController.create({
+      backdropDismiss: false,
       header,
       message: fullMessage,
       buttons: [
@@ -559,7 +598,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('test videoselfie');
   }
   //Trasero dpi services
-  async validateDPIBack(filePath: string): Promise<boolean> {
+  async validateDPIBack(filePath: File): Promise<boolean> {
     this.modalController.dismiss();
     await this.DpiBackProccess(filePath);
     return true;

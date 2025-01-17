@@ -26,20 +26,27 @@ export class DpiService {
   constructor(private http: HttpClient) {}
 
   uploadFrontDPI(file: File, code: string): Observable<DPIProcessResponse> {
+    if (!file || file.size === 0) {
+      console.error('El archivo proporcionado no es válido:', file);
+    }
+
     const formData = new FormData();
+    console.log('file', file);
 
     // Detectar el tipo MIME
-    const fileType = file.type || 'application/octet-stream';
-    if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
-      return throwError(() => new Error('Formato de archivo no válido.'));
-    }
+    // const fileType = typeof file.type === 'string' ? file.type : 'application/octet-stream';
+    // if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
+    //   return throwError(() => new Error('Formato de archivo no válido.'));
+    // }
     // Convertir el archivo a Blob con tipo MIME
-    const blob = new Blob([file], { type: fileType });
+    // const blob = new Blob([file], { type: fileType });
 
-    formData.append('file', blob, file.name);
+    formData.append('file', file, file.name);
 
     // formData.append('file', file, file.name);
     formData.append('codigo', code);
+
+    console.log('formData generado', formData);
 
     return this.http
       .post<DPIProcessResponse>(
@@ -62,17 +69,21 @@ export class DpiService {
   uploadBackDPI(file: File, code: string): Observable<DPIProcessResponse> {
     const formData = new FormData();
 
+    console.log('file', file);
+    
+    
     // Detectar el tipo MIME
-    const fileType = file.type || 'application/octet-stream';
-    if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
-      return throwError(() => new Error('Formato de archivo no válido.'));
-    }
-    // Convertir el archivo a Blob con tipo MIME
-    const blob = new Blob([file], { type: fileType });
-
-    formData.append('file', blob, file.name);
-    formData.append('codigo', code);
-
+    // const fileType = typeof file.type === 'string' ? file.type : 'application/octet-stream';
+    // if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
+      //   return throwError(() => new Error('Formato de archivo no válido.'));
+      // }
+      // Convertir el archivo a Blob con tipo MIME
+      // const blob = new Blob([file], { type: fileType });
+      
+      formData.append('file', file, file.name);
+      formData.append('codigo', code);
+      
+      console.log('formData', formData);
     // formData.append('file', file, file.name);
     // formData.append('codigo', code);
 

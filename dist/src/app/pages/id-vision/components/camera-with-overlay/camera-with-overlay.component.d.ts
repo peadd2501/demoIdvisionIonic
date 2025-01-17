@@ -12,7 +12,7 @@ export declare class CameraWithOverlayComponent implements AfterViewInit {
     text1: string;
     text2: string;
     overlaySrc: string;
-    onTakePicture: (filePath: String) => Promise<boolean>;
+    onTakePicture: (filePath: File) => Promise<boolean>;
     closeRequested: EventEmitter<void>;
     capturedImage: SafeUrl | null;
     stream: MediaStream | null;
@@ -26,6 +26,7 @@ export declare class CameraWithOverlayComponent implements AfterViewInit {
     requestPermissions(): Promise<void>;
     initCamera(): Promise<void>;
     capturePhoto(): Promise<void>;
+    blobToFile(blob: Blob, fileName: string): File;
     stopCamera(): void;
     closeOverlay(): void;
     closeRequestedFunction(): void;

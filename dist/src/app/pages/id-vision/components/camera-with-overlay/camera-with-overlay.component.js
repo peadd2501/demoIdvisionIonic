@@ -3,6 +3,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEnca
 import { ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Capacitor } from '@capacitor/core';
 import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 import * as i0 from "@angular/core";
 import * as i1 from "@ionic/angular";
@@ -50,11 +51,13 @@ export class CameraWithOverlayComponent {
     }
     requestPermissions() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.isAndroid || this.isIOS) {
-                const permissions = yield Camera.requestPermissions();
-                if (permissions.camera === 'denied') {
-                    console.error('Permiso de cámara denegado');
-                    return;
+            if (Capacitor.getPlatform() !== 'web') {
+                if (this.isAndroid || this.isIOS) {
+                    const permissions = yield Camera.requestPermissions();
+                    if (permissions.camera === 'denied') {
+                        console.error('Permiso de cámara denegado');
+                        return;
+                    }
                 }
             }
         });
@@ -67,7 +70,8 @@ export class CameraWithOverlayComponent {
                         width: { ideal: 1920 },
                         height: { ideal: 1080 },
                         facingMode: 'environment'
-                    }
+                    },
+                    audio: false
                 };
                 this.stream = yield navigator.mediaDevices.getUserMedia(constraints);
                 const videoElement = this.videoElement.nativeElement;
@@ -89,30 +93,49 @@ export class CameraWithOverlayComponent {
     }
     capturePhoto() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.stream)
+            if (!this.stream) {
+                console.error('La cámara no está inicializada.');
                 return;
+            }
+            ;
             const canvas = document.createElement('canvas');
             const videoElement = this.videoElement.nativeElement;
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
+            canvas.width = videoElement.videoWidth || 1920;
+            canvas.height = videoElement.videoHeight || 1080;
+            console.log('Video width:', videoElement.videoWidth);
+            console.log('Video height:', videoElement.videoHeight);
+            console.log('Stream activo:', !!this.stream);
+            console.log('Canvas width:', canvas.width);
+            console.log('Canvas height:', canvas.height);
             const context = canvas.getContext('2d');
             if (context) {
                 context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
                 // Convierte el contenido del canvas a un Blob
                 canvas.toBlob((blob) => {
-                    if (blob) {
-                        this.file = new File([blob], 'dpi.png', { type: 'image/png' });
-                        this.capturedImageUrl = URL.createObjectURL(this.file); // Crea una URL temporal
+                    if (blob && blob.size > 0) {
+                        console.log('Blob generado correctamente:', blob);
+                        this.file = this.blobToFile(blob, 'dpi.jpeg');
+                        // this.file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
+                        console.log('Archivo creado:', this.file);
                         videoElement.pause();
-                        this.onTakePicture(this.capturedImageUrl).then(() => {
-                            //this.closeOverlay();
-                        });
-                        // this.uploadPhoto(file); // Llama a una función para enviar el archivo
+                        this.onTakePicture(this.file).catch((err) => console.error('Error en onTakePicture:', err));
                     }
-                }, 'image/jpeg', 0.7);
+                    else {
+                        console.error('El Blob generado está vacío o no válido.');
+                    }
+                }, 'image/jpeg', 0.75);
                 //this.closeOverlay();
             }
         });
+    }
+    blobToFile(blob, fileName) {
+        const b = blob;
+        b.lastModified = new Date().getTime();
+        b.lastModifiedDate = new Date();
+        b.name = fileName;
+        console.log('Blob to file:', b);
+        //Cast to a File() type
+        return b;
     }
     stopCamera() {
         if (this.stream) {

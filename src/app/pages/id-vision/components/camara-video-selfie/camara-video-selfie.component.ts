@@ -1,10 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ModalVideoSelfieServices } from '../../services/modal-services/modal-video-selfie-services';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-camara-video-selfie',
@@ -12,7 +13,7 @@ import { ModalDpiServices } from '../../services/modal-services/modal-dpi-servic
   styleUrls: ['./camara-video-selfie.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class CamaraVideoSelfieComponent implements AfterViewInit {
+export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
   @ViewChild('progressRing') progressRing!: ElementRef<HTMLElement>;
 
@@ -57,13 +58,15 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   }
 
   async ngAfterViewInit() {
-    if (this.isAndroid || this.isIOS) {
-      const { brightness } = await ScreenBrightness.getBrightness();
-      this.defaultBrightness = brightness;
+      if (this.isAndroid || this.isIOS) {
+        const { brightness } = await ScreenBrightness.getBrightness();
+        this.defaultBrightness = brightness;
+  
+        await ScreenBrightness.setBrightness({ brightness: 1.0 });
+        await this.requestPermissions();
+      }
+    
 
-      await ScreenBrightness.setBrightness({ brightness: 1.0 });
-      await this.requestPermissions();
-    }
     await this.initCamera();
     // await this.startRecording();
     await this.waitForCameraReady();
@@ -71,6 +74,15 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     this.modalDpiServices.closeModalAndChangeBrightness$.subscribe( async () => {
       await this.closeOverlayVideo();
     });
+  }
+
+  async ngOnDestroy() {
+    this.stopCamera();
+    if (this.defaultBrightness !== null) {
+      await ScreenBrightness.setBrightness({
+        brightness: this.defaultBrightness,
+      });
+    }
   }
 
   async waitForCameraReady(): Promise<void> {
@@ -82,11 +94,13 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
   }
 
   async requestPermissions() {
-    if (this.isAndroid || this.isIOS) {
-      const permissions = await Camera.requestPermissions();
-      if (permissions.camera === 'denied') {
-        console.error('Permiso de cámara denegado');
-        return;
+    if(Capacitor.getPlatform() !== 'web') {
+      if (this.isAndroid || this.isIOS) {
+        const permissions = await Camera.requestPermissions();
+        if (permissions.camera === 'denied') {
+          console.error('Permiso de cámara denegado');
+          return;
+        }
       }
     }
   }
@@ -156,11 +170,14 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       const fileExtension = this.isIOS ? 'mp4' : 'webm';
 
       const videoBlob = new Blob(chunks, { type: fileType });
-      const videoFile = new File([videoBlob], `video-selfie.${fileExtension}`, {
-        type: fileType,
-      });
+      // const videoFile = new File([videoBlob], `video-selfie.${fileExtension}`, {
+      //   type: fileType,
+      // });
+      const videoFile = this.blobToFile(videoBlob, `video-selfie.${fileExtension}`);
 
-      // console.log('Archivo generado en el hijo:', videoFile);
+      console.log('blob:', videoBlob); 
+      
+      console.log('Archivo generado en el hijo:', videoFile);
 
       if (this.backFunction) {
         // console.log('Enviando archivo al padre:', videoFile);
@@ -175,6 +192,17 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
     // setTimeout(async () => {
     //   await this.stopRecording();
     // }, 10000);
+  }
+
+  blobToFile(blob: Blob, fileName: string): File { 
+    const b: any = blob;
+    b.lastModified = new Date().getTime();
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+
+    console.log('Blob to file:', b);
+    //Cast to a File() type
+    return <File>b;
   }
 
   recordVideo() {
@@ -249,6 +277,8 @@ export class CamaraVideoSelfieComponent implements AfterViewInit {
       'progress-active'
     );
   }
+
+
 
   async closeOverlayVideo() {
     console.log('Ejecutando close desde video selfie');
