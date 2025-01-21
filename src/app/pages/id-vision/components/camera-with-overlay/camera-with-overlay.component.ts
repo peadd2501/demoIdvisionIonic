@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ import { ModalDpiServices } from '../../services/modal-services/modal-dpi-servic
   styleUrls: ['./camera-with-overlay.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class CameraWithOverlayComponent implements AfterViewInit {
+export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
   
 
@@ -42,6 +42,10 @@ export class CameraWithOverlayComponent implements AfterViewInit {
   ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
+  }
+
+  async ngOnDestroy() {
+    this.stopCamera();
   }
 
   async ngAfterViewInit() {
