@@ -16,7 +16,6 @@ export class Slide1Component  implements OnInit {
   }
   
   goToNext() {
-    console.log("test");
   }
   
 }

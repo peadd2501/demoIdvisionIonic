@@ -120,7 +120,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(() => {
       this.closeModalOverlay();
-      console.log('suscribiendose modalVideoSelfieS');
     });
 
     // Selecciona el elemento de video
@@ -161,47 +160,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // // Busca todos los elementos swiper-container en el DOM
-    // const swiperContainers = document.querySelectorAll('swiper-container');
-
-    // swiperContainers.forEach((container: any) => {
-    //   // Verifica si el Swiper tiene una instancia y la destruye
-    //   if (container.swiper) {
-    //     console.log('Destruyendo Swiper existente:', container.swiper);
-    //     container.swiper.destroy(true, true);
-    //   }
-    // });
-
-    // const swiperElement = document.querySelector(
-    //   'swiper-container'
-    // ) as SwiperContainer;
-
-    // if (swiperElement) {
-    //   // Configuración del Swiper
-    //   const swiperOptions: SwiperOptions = {
-    //     slidesPerView: 1,
-    //     pagination: false,
-    //     navigation: {
-    //       enabled: false,
-    //     },
-    //     allowTouchMove: this.isSwipe,
-    //   };
-    //   // Asigna las opciones al elemento
-    //   Object.assign(swiperElement, swiperOptions);
-    //   this.swiperRef = swiperElement;
-
-    //   this.swiperElement.set(swiperElement as SwiperContainer);
-    //   this.swiperElement()?.initialize();
-    //   console.log('Swiper inicializado correctamente:', this.swiperRef);
-    // } else {
-    //   console.error('El elemento <swiper-container> no está disponible.');
-    // }
-
-    setTimeout(() => {
-      // const swiperElement = document.querySelector(
-      //   'swiper-container'
-      // ) as SwiperContainer;
-    
+    setTimeout(() => {  
       const swiperElement = document.querySelector('.custom-swiper') as SwiperContainer;
 
       if (swiperElement) {
@@ -215,14 +174,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         try {
           Object.assign(swiperElement, swiperOptions);
-          // swiperElement.initialize();
           this.swiperRef = swiperElement;
-          
           this.swiperElement.set(swiperElement as SwiperContainer);
-          
-          this.swiperElement()?.initialize();
-          console.log('Swiper inicializado correctamente después de un retraso:', this.swiperRef);
-          
+          this.swiperElement()?.initialize();          
         } catch (error) {
           console.warn('Error al inicializar swiper: ', error);
         }
@@ -234,29 +188,16 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     
     if (this.dpi) {
       this.dpi.value = this.dpiCode ?? '';
-      console.log('DPI inicializado:', this.dpi.value);
     } else {
       console.error('IonInput no está disponible en ngAfterViewInit');
     }
-
-    //tests
-    // const buttons = document.querySelectorAll('ion-button');
-    // buttons.forEach(button => {
-    //   button.addEventListener('ionClick', () => {
-    //     console.log(`Botón clickeado (ionClick): ${button.textContent?.trim()}`);
-    //   });
-    // });
   }
 
   ngOnDestroy(): void {
     // this.swiperRef = null;
-    console.log('SWIPER: ', this.swiperRef);
 
     if (this.swiperRef) {
       // this.swiperRef.destroy(true, true);
-      console.log('SWIPER2: ', this.swiperRef);
-
-      console.log('Swiper destruido correctamente.');
     }
   }
 
@@ -316,7 +257,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         .InitProccess(this.dpi.value + '', '673259d3f027711b51e71202')
         .subscribe({
           next: (response: any) => {
-            console.log(response);
             if (loader) {
               loader.dismiss();
             }
@@ -366,22 +306,12 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       await loader.present();
-
-      console.log('enviando DPI front');
-      // const file = await this.convertImagePathToFile(
-      //   filePath,
-      //   'imagen_temporal.png'
-      // );
-      // console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? '';
       await this.dpiService.uploadFrontDPI(filePath/*file*/, codigo).subscribe({
         next: (response: any) => {
-          // Oculta el loader cuando se recibe una respuesta
           if (loader) {
             loader.dismiss();
           }
-          console.log(response);
-
           if (!response['error']) {
             this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
               this.closeModalFromParent();
@@ -389,7 +319,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.validateMetaG.dpiFront = true;
               this.handleSlide(2);
             });
-            // this.swiperElement()?.swiper?.slideNext();
           } else {
             this.showAlert(response['mensage'], '', response['details'], () => {
               this.resumeCameraFromParent();
@@ -403,7 +332,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           });
 
           this.validateMetaG.dpiFront = false;
-          // Oculta el loader en caso de error
           if (loader) {
             loader.dismiss();
           }
@@ -449,12 +377,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       await loader.present();
-
-      // const file = await this.convertImagePathToFile(
-      //   filePath,
-      //   'imagen_temporal_back.jpg'
-      // );
-      // console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? '';
       this.dpiService.uploadBackDPI(filePath/*file*/, codigo).subscribe({
         next: (response: any) => {
@@ -468,7 +390,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.validateMetaG.dpiBack = true;
               this.handleSlide(3);
             });
-            // this.swiperElement()?.swiper?.slideNext();
           } else {
             this.showAlert(response['mensage'], '', response['details'], () => {
               this.resumeCameraFromParent();
@@ -500,10 +421,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         message: 'Procesando...',
         spinner: 'crescent',
       });
-
       await loader.present();
-      // const file = await this.convertImagePathToFile(filePath, this.isIOS ? 'video_selfie.mp4' : 'video_selfie.webm',);
-      // console.log('Archivo temporal creado:', file);
       const codigo = localStorage.getItem('codigo') ?? '';
       this.dpiService.videoSelfie(file, codigo).subscribe({
         next: (response: any) => {
@@ -552,8 +470,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     const detailsMessage = Array.isArray(details)
     ? details.map((detail) => `${detail}           `).join('')
       : '';
-      console.log('Valor de details:', details);
-
     const fullMessage = message + (detailsMessage ? `${detailsMessage}` : '');
 
     const alert = await this.alertController.create({
@@ -591,11 +507,11 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async closeOverlay() {
-    console.log('Modal cerrada desde el componente padre');
+    // console.log('Modal cerrada desde el componente padre');
   }
 
   async closeModalOverlay() {
-    console.log('test videoselfie');
+    // console.log('test videoselfie');
   }
   //Trasero dpi services
   async validateDPIBack(filePath: File): Promise<boolean> {
@@ -628,10 +544,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async getBackModal(file: File) {
     if (!file || file.size === 0) {
-      // console.log('Archivo temporal recibido está vacío o no válido.');
       return;
     }
-    //this.modalController.dismiss();
     await this.VideoSelfieProcccess(file);
   }
 
@@ -644,7 +558,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         text2: 'Guatemala',
         overlaySrc: 'assets/overlay-image.png',
         backFunction: async (file: File) => {
-          // console.log('Video recibido en el padre:', file);
           await this.getBackModal(file);
         },
         closeRequested: () => this.closeModalOverlay(),

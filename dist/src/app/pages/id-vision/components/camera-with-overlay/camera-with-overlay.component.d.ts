@@ -1,9 +1,9 @@
-import { AfterViewInit, ElementRef, EventEmitter } from '@angular/core';
+import { AfterViewInit, ElementRef, EventEmitter, OnDestroy } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 import * as i0 from "@angular/core";
-export declare class CameraWithOverlayComponent implements AfterViewInit {
+export declare class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     private platform;
     private modalController;
     private sanitizer;
@@ -22,6 +22,7 @@ export declare class CameraWithOverlayComponent implements AfterViewInit {
     file?: File;
     capturedImageUrl: string | null;
     constructor(platform: Platform, modalController: ModalController, sanitizer: DomSanitizer, modaldpiServices: ModalDpiServices);
+    ngOnDestroy(): Promise<void>;
     ngAfterViewInit(): Promise<void>;
     requestPermissions(): Promise<void>;
     initCamera(): Promise<void>;

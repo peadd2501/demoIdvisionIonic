@@ -31,22 +31,8 @@ export class DpiService {
     }
 
     const formData = new FormData();
-    console.log('file', file);
-
-    // Detectar el tipo MIME
-    // const fileType = typeof file.type === 'string' ? file.type : 'application/octet-stream';
-    // if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
-    //   return throwError(() => new Error('Formato de archivo no válido.'));
-    // }
-    // Convertir el archivo a Blob con tipo MIME
-    // const blob = new Blob([file], { type: fileType });
-
     formData.append('file', file, file.name);
-
-    // formData.append('file', file, file.name);
     formData.append('codigo', code);
-
-    console.log('formData generado', formData);
 
     return this.http
       .post<DPIProcessResponse>(
@@ -68,25 +54,9 @@ export class DpiService {
 
   uploadBackDPI(file: File, code: string): Observable<DPIProcessResponse> {
     const formData = new FormData();
-
-    console.log('file', file);
-    
-    
-    // Detectar el tipo MIME
-    // const fileType = typeof file.type === 'string' ? file.type : 'application/octet-stream';
-    // if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
-      //   return throwError(() => new Error('Formato de archivo no válido.'));
-      // }
-      // Convertir el archivo a Blob con tipo MIME
-      // const blob = new Blob([file], { type: fileType });
-      
       formData.append('file', file, file.name);
       formData.append('codigo', code);
-      
-      console.log('formData', formData);
-    // formData.append('file', file, file.name);
-    // formData.append('codigo', code);
-
+    
     return this.http
       .post<DPIProcessResponse>(
         `${this.apiUrl}dpi/api/validateBackDPIAWS`,

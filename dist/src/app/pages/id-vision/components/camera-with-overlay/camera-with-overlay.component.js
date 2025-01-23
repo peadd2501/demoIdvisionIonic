@@ -34,6 +34,11 @@ export class CameraWithOverlayComponent {
         this.isAndroid = this.platform.is('android');
         this.isIOS = this.platform.is('ios');
     }
+    ngOnDestroy() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.stopCamera();
+        });
+    }
     ngAfterViewInit() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.isAndroid || this.isIOS) {
@@ -102,18 +107,12 @@ export class CameraWithOverlayComponent {
             const videoElement = this.videoElement.nativeElement;
             canvas.width = videoElement.videoWidth || 1920;
             canvas.height = videoElement.videoHeight || 1080;
-            console.log('Video width:', videoElement.videoWidth);
-            console.log('Video height:', videoElement.videoHeight);
-            console.log('Stream activo:', !!this.stream);
-            console.log('Canvas width:', canvas.width);
-            console.log('Canvas height:', canvas.height);
             const context = canvas.getContext('2d');
             if (context) {
                 context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
                 // Convierte el contenido del canvas a un Blob
                 canvas.toBlob((blob) => {
                     if (blob && blob.size > 0) {
-                        console.log('Blob generado correctamente:', blob);
                         this.file = this.blobToFile(blob, 'dpi.jpeg');
                         // this.file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
                         console.log('Archivo creado:', this.file);
@@ -153,7 +152,6 @@ export class CameraWithOverlayComponent {
     }
     resumeCamera() {
         var _a;
-        console.log('ejecutando resume');
         const videoElement = (_a = this.videoElement) === null || _a === void 0 ? void 0 : _a.nativeElement;
         if (videoElement && videoElement.paused) {
             videoElement.play().catch((error) => {

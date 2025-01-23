@@ -12,12 +12,6 @@ const projectThemePath = path.resolve(projectDir, './src/theme/variables.scss');
 
 (async () => {
   try {
-    console.log('--- Iniciando copia manual de archivos ---');
-    console.log('Origen - Assets:', distImagesPath);
-    console.log('Destino - Assets:', projectAssetsPath);
-    console.log('Origen - Theme:', distThemePath);
-    console.log('Destino - Theme:', projectThemePath);
-
     // Verificar y copiar assets
     if (await fse.pathExists(distImagesPath)) {
       await fse.ensureDir(projectAssetsPath);

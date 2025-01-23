@@ -118,11 +118,6 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     canvas.width =videoElement.videoWidth || 1920;
     canvas.height = videoElement.videoHeight || 1080;
   
-    console.log('Video width:', videoElement.videoWidth);
-    console.log('Video height:', videoElement.videoHeight);
-    console.log('Stream activo:', !!this.stream);
-    console.log('Canvas width:', canvas.width);
-    console.log('Canvas height:', canvas.height);
 
     const context = canvas.getContext('2d');
     if (context) {
@@ -130,15 +125,9 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
       
       // Convierte el contenido del canvas a un Blob
       canvas.toBlob((blob) => {
-        if (blob && blob.size > 0) {
-          console.log('Blob generado correctamente:', blob);
-      
+        if (blob && blob.size > 0) {      
 
           this.file = this.blobToFile(blob, 'dpi.jpeg');
-
-          // this.file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
-          console.log('Archivo creado:', this.file);
-      
           videoElement.pause();
           this.onTakePicture(this.file).catch(
             (err) => console.error('Error en onTakePicture:', err)
@@ -158,8 +147,6 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     b.lastModified = new Date().getTime();
     b.lastModifiedDate = new Date();
     b.name = fileName;
-
-    console.log('Blob to file:', b);
     //Cast to a File() type
     return <File>b;
   }
@@ -182,7 +169,6 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
   }
 
   resumeCamera() {
-    console.log('ejecutando resume');
     const videoElement = this.videoElement?.nativeElement;
     if (videoElement && videoElement.paused) {
       videoElement.play().catch((error) => {

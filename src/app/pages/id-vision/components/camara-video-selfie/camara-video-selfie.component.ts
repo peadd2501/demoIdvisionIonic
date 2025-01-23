@@ -59,10 +59,13 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
 
   async ngAfterViewInit() {
       if (this.isAndroid || this.isIOS) {
-        const { brightness } = await ScreenBrightness.getBrightness();
-        this.defaultBrightness = brightness;
-  
-        await ScreenBrightness.setBrightness({ brightness: 1.0 });
+        try {
+          const { brightness } = await ScreenBrightness.getBrightness();
+          this.defaultBrightness = brightness;
+          await ScreenBrightness.setBrightness({ brightness: 1.0 });
+        } catch (error) {
+         console.warn('Error al obtener el brillo de la pantalla:', error); 
+        }
         await this.requestPermissions();
       }
     
@@ -78,11 +81,16 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
 
   async ngOnDestroy() {
     this.stopCamera();
-    if (this.defaultBrightness !== null) {
-      await ScreenBrightness.setBrightness({
-        brightness: this.defaultBrightness,
-      });
+    try {
+      if (this.defaultBrightness !== null) {
+        await ScreenBrightness.setBrightness({
+          brightness: this.defaultBrightness,
+        });
+      }
+    } catch (error) {
+      console.warn('Error al restaurar el brillo original:', error);
     }
+
   }
 
   async waitForCameraReady(): Promise<void> {
@@ -165,33 +173,14 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
         console.error('No se capturaron datos en la grabación.');
         return;
       }
-
       const fileType = this.isIOS ? 'video/mp4' : 'video/webm';
       const fileExtension = this.isIOS ? 'mp4' : 'webm';
-
       const videoBlob = new Blob(chunks, { type: fileType });
-      // const videoFile = new File([videoBlob], `video-selfie.${fileExtension}`, {
-      //   type: fileType,
-      // });
       const videoFile = this.blobToFile(videoBlob, `video-selfie.${fileExtension}`);
-
-      console.log('blob:', videoBlob); 
-      
-      console.log('Archivo generado en el hijo:', videoFile);
-
       if (this.backFunction) {
-        // console.log('Enviando archivo al padre:', videoFile);
         await this.backFunction(videoFile);
       }
     };
-
-    // Inicia la animación de borde progresiva
-    // this.renderer.addClass(this.progressRing.nativeElement, 'progress-active');
-
-    // Detiene la grabación después de 10 segundos
-    // setTimeout(async () => {
-    //   await this.stopRecording();
-    // }, 10000);
   }
 
   blobToFile(blob: Blob, fileName: string): File { 
@@ -199,8 +188,6 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
     b.lastModified = new Date().getTime();
     b.lastModifiedDate = new Date();
     b.name = fileName;
-
-    console.log('Blob to file:', b);
     //Cast to a File() type
     return <File>b;
   }
@@ -281,7 +268,6 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
 
 
   async closeOverlayVideo() {
-    console.log('Ejecutando close desde video selfie');
     this.stopCamera();
     // Restaura el brillo original si estaba guardado
     if (this.defaultBrightness !== null) {

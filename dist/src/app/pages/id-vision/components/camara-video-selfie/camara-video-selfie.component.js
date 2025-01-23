@@ -273,7 +273,6 @@ export class CamaraVideoSelfieComponent {
     }
     closeOverlayVideo() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('Ejecutando close desde video selfie');
             this.stopCamera();
             // Restaura el brillo original si estaba guardado
             if (this.defaultBrightness !== null) {
