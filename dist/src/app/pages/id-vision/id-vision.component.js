@@ -58,6 +58,8 @@ export class IdVisionComponent {
         this.modalRef = null;
         this.isSwipe = false;
         this.dpiCode = '';
+        this.connection = '';
+        this.apikey = '';
         this.isAndroid = this.platform.is('android');
         this.isIOS = this.platform.is('ios');
         this.validateMetaG = {
@@ -87,7 +89,6 @@ export class IdVisionComponent {
         });
         this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(() => {
             this.closeModalOverlay();
-            console.log('suscribiendose modalVideoSelfieS');
         });
         // Selecciona el elemento de video
         const video = document.getElementById('dpiFront');
@@ -122,42 +123,8 @@ export class IdVisionComponent {
         }
     }
     ngAfterViewInit() {
-        // // Busca todos los elementos swiper-container en el DOM
-        // const swiperContainers = document.querySelectorAll('swiper-container');
         var _a;
-        // swiperContainers.forEach((container: any) => {
-        //   // Verifica si el Swiper tiene una instancia y la destruye
-        //   if (container.swiper) {
-        //     console.log('Destruyendo Swiper existente:', container.swiper);
-        //     container.swiper.destroy(true, true);
-        //   }
-        // });
-        // const swiperElement = document.querySelector(
-        //   'swiper-container'
-        // ) as SwiperContainer;
-        // if (swiperElement) {
-        //   // Configuración del Swiper
-        //   const swiperOptions: SwiperOptions = {
-        //     slidesPerView: 1,
-        //     pagination: false,
-        //     navigation: {
-        //       enabled: false,
-        //     },
-        //     allowTouchMove: this.isSwipe,
-        //   };
-        //   // Asigna las opciones al elemento
-        //   Object.assign(swiperElement, swiperOptions);
-        //   this.swiperRef = swiperElement;
-        //   this.swiperElement.set(swiperElement as SwiperContainer);
-        //   this.swiperElement()?.initialize();
-        //   console.log('Swiper inicializado correctamente:', this.swiperRef);
-        // } else {
-        //   console.error('El elemento <swiper-container> no está disponible.');
-        // }
         setTimeout(() => {
-            // const swiperElement = document.querySelector(
-            //   'swiper-container'
-            // ) as SwiperContainer;
             var _a;
             const swiperElement = document.querySelector('.custom-swiper');
             if (swiperElement) {
@@ -171,11 +138,9 @@ export class IdVisionComponent {
                 };
                 try {
                     Object.assign(swiperElement, swiperOptions);
-                    // swiperElement.initialize();
                     this.swiperRef = swiperElement;
                     this.swiperElement.set(swiperElement);
                     (_a = this.swiperElement()) === null || _a === void 0 ? void 0 : _a.initialize();
-                    // console.log('Swiper inicializado correctamente después de un retraso:', this.swiperRef);
                 }
                 catch (error) {
                     console.warn('Error al inicializar swiper: ', error);
@@ -187,26 +152,15 @@ export class IdVisionComponent {
         }, 100);
         if (this.dpi) {
             this.dpi.value = (_a = this.dpiCode) !== null && _a !== void 0 ? _a : '';
-            console.log('DPI inicializado:', this.dpi.value);
         }
         else {
             console.error('IonInput no está disponible en ngAfterViewInit');
         }
-        //tests
-        // const buttons = document.querySelectorAll('ion-button');
-        // buttons.forEach(button => {
-        //   button.addEventListener('ionClick', () => {
-        //     console.log(`Botón clickeado (ionClick): ${button.textContent?.trim()}`);
-        //   });
-        // });
     }
     ngOnDestroy() {
         // this.swiperRef = null;
-        // console.log('SWIPER: ', this.swiperRef);
         if (this.swiperRef) {
             // this.swiperRef.destroy(true, true);
-            // console.log('SWIPER2: ', this.swiperRef);
-            // console.log('Swiper destruido correctamente.');
         }
     }
     handleClick() {
@@ -258,10 +212,9 @@ export class IdVisionComponent {
                 });
                 yield loader.present();
                 this.dpiService
-                    .InitProccess(this.dpi.value + '', '673259d3f027711b51e71202')
+                    .InitProccess(this.dpi.value + '', this.connection, this.apikey) // '673259d3f027711b51e71202')
                     .subscribe({
                     next: (response) => {
-                        console.log(response);
                         if (loader) {
                             loader.dismiss();
                         }
@@ -278,7 +231,7 @@ export class IdVisionComponent {
                                 this.showAlert('Error', response['message'], []);
                             }
                             else {
-                                const errorMessage = response['message']['errors']['CUI'][0];
+                                const errorMessage = response['message'];
                                 this.showAlert('Error', errorMessage, []);
                             }
                         }
@@ -308,20 +261,12 @@ export class IdVisionComponent {
                     spinner: 'crescent',
                 });
                 yield loader.present();
-                console.log('enviando DPI front');
-                // const file = await this.convertImagePathToFile(
-                //   filePath,
-                //   'imagen_temporal.png'
-                // );
-                // console.log('Archivo temporal creado:', file);
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : '';
-                yield this.dpiService.uploadFrontDPI(filePath /*file*/, codigo).subscribe({
+                yield this.dpiService.uploadFrontDPI(filePath /*file*/, codigo, this.connection, this.apikey).subscribe({
                     next: (response) => {
-                        // Oculta el loader cuando se recibe una respuesta
                         if (loader) {
                             loader.dismiss();
                         }
-                        console.log(response);
                         if (!response['error']) {
                             this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
                                 this.closeModalFromParent();
@@ -329,7 +274,6 @@ export class IdVisionComponent {
                                 this.validateMetaG.dpiFront = true;
                                 this.handleSlide(2);
                             });
-                            // this.swiperElement()?.swiper?.slideNext();
                         }
                         else {
                             this.showAlert(response['mensage'], '', response['details'], () => {
@@ -343,7 +287,6 @@ export class IdVisionComponent {
                             this.resumeCameraFromParent();
                         });
                         this.validateMetaG.dpiFront = false;
-                        // Oculta el loader en caso de error
                         if (loader) {
                             loader.dismiss();
                         }
@@ -385,13 +328,8 @@ export class IdVisionComponent {
                     spinner: 'crescent',
                 });
                 yield loader.present();
-                // const file = await this.convertImagePathToFile(
-                //   filePath,
-                //   'imagen_temporal_back.jpg'
-                // );
-                // console.log('Archivo temporal creado:', file);
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : '';
-                this.dpiService.uploadBackDPI(filePath /*file*/, codigo).subscribe({
+                this.dpiService.uploadBackDPI(filePath /*file*/, codigo, this.connection, this.apikey).subscribe({
                     next: (response) => {
                         if (loader) {
                             loader.dismiss();
@@ -403,7 +341,6 @@ export class IdVisionComponent {
                                 this.validateMetaG.dpiBack = true;
                                 this.handleSlide(3);
                             });
-                            // this.swiperElement()?.swiper?.slideNext();
                         }
                         else {
                             this.showAlert(response['mensage'], '', response['details'], () => {
@@ -439,10 +376,8 @@ export class IdVisionComponent {
                     spinner: 'crescent',
                 });
                 yield loader.present();
-                // const file = await this.convertImagePathToFile(filePath, this.isIOS ? 'video_selfie.mp4' : 'video_selfie.webm',);
-                // console.log('Archivo temporal creado:', file);
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : '';
-                this.dpiService.videoSelfie(file, codigo).subscribe({
+                this.dpiService.videoSelfie(file, codigo, this.connection, this.apikey).subscribe({
                     next: (response) => {
                         if (loader) {
                             loader.dismiss();
@@ -486,7 +421,6 @@ export class IdVisionComponent {
             const detailsMessage = Array.isArray(details)
                 ? details.map((detail) => `${detail}           `).join('')
                 : '';
-            console.log('Valor de details:', details);
             const fullMessage = message + (detailsMessage ? `${detailsMessage}` : '');
             const alert = yield this.alertController.create({
                 backdropDismiss: false,
@@ -524,12 +458,12 @@ export class IdVisionComponent {
     }
     closeOverlay() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('Modal cerrada desde el componente padre');
+            // console.log('Modal cerrada desde el componente padre');
         });
     }
     closeModalOverlay() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('test videoselfie');
+            // console.log('test videoselfie');
         });
     }
     //Trasero dpi services
@@ -563,10 +497,8 @@ export class IdVisionComponent {
     getBackModal(file) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!file || file.size === 0) {
-                // console.log('Archivo temporal recibido está vacío o no válido.');
                 return;
             }
-            //this.modalController.dismiss();
             yield this.VideoSelfieProcccess(file);
         });
     }
@@ -580,7 +512,6 @@ export class IdVisionComponent {
                     text2: 'Guatemala',
                     overlaySrc: 'assets/overlay-image.png',
                     backFunction: (file) => __awaiter(this, void 0, void 0, function* () {
-                        // console.log('Video recibido en el padre:', file);
                         yield this.getBackModal(file);
                     }),
                     closeRequested: () => this.closeModalOverlay(),
@@ -597,7 +528,7 @@ IdVisionComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: IdVisionC
     } if (rf & 2) {
         let _t;
         i0.ɵɵqueryRefresh(_t = i0.ɵɵloadQuery()) && (ctx.dpi = _t.first);
-    } }, inputs: { isSwipe: "isSwipe", dpiCode: "dpiCode" }, standalone: true, features: [i0.ɵɵProvidersFeature([DpiService]), i0.ɵɵStandaloneFeature], decls: 98, vars: 2, consts: [["dpi", ""], ["init", "false", 1, "custom-swiper"], [1, "content"], [1, "head"], [1, "p-justify"], [1, "rounded-input"], ["type", "number", "placeholder", "Digita tu n\u00FAmero de DPI"], [1, "verify-container"], [1, "image-container"], ["src", "assets/imagesIdvision/documentsImage.png", "alt", ""], [1, "container-text"], ["src", "assets/imagesIdvision/rostroImage.png", "alt", ""], [1, "fixed-footer"], ["expand", "block", 1, "custom-button", 3, "click"], [1, "p-center", "p-info"], [1, "dpi-container"], ["id", "dpiFront", "autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-front.mp4", "type", "video/mp4"], ["id", "dpiBack", "autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-back-1.mp4", "type", "video/mp4"], ["src", "assets/imagesIdvision/Foco.png", "alt", ""], ["src", "assets/imagesIdvision/Selfie-rostro.png", "alt", ""], ["class", "col-confirmation", 4, "ngIf"], ["color", "white"], [1, "col-confirmation"], [1, "font-confirmation"], ["color", "white", 1, "image-item"], ["src", "assets/imagesIdvision/blue-check.png", "alt", ""]], template: function IdVisionComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { isSwipe: "isSwipe", dpiCode: "dpiCode", connection: "connection", apikey: "apikey" }, standalone: true, features: [i0.ɵɵProvidersFeature([DpiService]), i0.ɵɵStandaloneFeature], decls: 98, vars: 2, consts: [["dpi", ""], ["init", "false", 1, "custom-swiper"], [1, "content"], [1, "head"], [1, "p-justify"], [1, "rounded-input"], ["type", "number", "placeholder", "Digita tu n\u00FAmero de DPI"], [1, "verify-container"], [1, "image-container"], ["src", "assets/imagesIdvision/documentsImage.png", "alt", ""], [1, "container-text"], ["src", "assets/imagesIdvision/rostroImage.png", "alt", ""], [1, "fixed-footer"], ["expand", "block", 1, "custom-button", 3, "click"], [1, "p-center", "p-info"], [1, "dpi-container"], ["id", "dpiFront", "autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-front.mp4", "type", "video/mp4"], ["id", "dpiBack", "autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-back-1.mp4", "type", "video/mp4"], ["src", "assets/imagesIdvision/Foco.png", "alt", ""], ["src", "assets/imagesIdvision/Selfie-rostro.png", "alt", ""], ["class", "col-confirmation", 4, "ngIf"], ["color", "white"], [1, "col-confirmation"], [1, "font-confirmation"], ["color", "white", 1, "image-item"], ["src", "assets/imagesIdvision/blue-check.png", "alt", ""]], template: function IdVisionComponent_Template(rf, ctx) { if (rf & 1) {
         const _r1 = i0.ɵɵgetCurrentView();
         i0.ɵɵelementStart(0, "swiper-container", 1)(1, "swiper-slide")(2, "div", 2)(3, "div", 3)(4, "h2", 4);
         i0.ɵɵtext(5, "Verifiquemos tu identidad");
@@ -701,6 +632,10 @@ IdVisionComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: IdVisionC
         }], isSwipe: [{
             type: Input
         }], dpiCode: [{
+            type: Input
+        }], connection: [{
+            type: Input
+        }], apikey: [{
             type: Input
         }] }); })();
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassDebugInfo(IdVisionComponent, { className: "IdVisionComponent" }); })();

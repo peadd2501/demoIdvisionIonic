@@ -25,7 +25,7 @@ export class DpiService {
 
   constructor(private http: HttpClient) {}
 
-  uploadFrontDPI(file: File, code: string): Observable<DPIProcessResponse> {
+  uploadFrontDPI(file: File, code: string, connection: string, apikey: string): Observable<DPIProcessResponse> {
     if (!file || file.size === 0) {
       console.error('El archivo proporcionado no es válido:', file);
     }
@@ -34,14 +34,17 @@ export class DpiService {
     formData.append('file', file, file.name);
     formData.append('codigo', code);
 
+    const headers = new HttpHeaders({
+      Accept: 'application/json',
+      'connection-mg': connection,
+      'api-key': apikey
+    });
     return this.http
       .post<DPIProcessResponse>(
         `${this.apiUrl}dpi/api/validateFrontDPIAWS`,
         formData,
         {
-          headers: new HttpHeaders({
-            Accept: 'application/json',
-          }),
+          headers
         }
       )
       .pipe(
@@ -52,19 +55,25 @@ export class DpiService {
       );
   }
 
-  uploadBackDPI(file: File, code: string): Observable<DPIProcessResponse> {
+  uploadBackDPI(file: File, code: string, connection: string, apikey: string): Observable<DPIProcessResponse> {
     const formData = new FormData();
       formData.append('file', file, file.name);
       formData.append('codigo', code);
     
+
+    const headers = new HttpHeaders({
+      Accept: 'application/json',
+      'connection-mg': connection,
+      'api-key': apikey
+    });
+
+
     return this.http
       .post<DPIProcessResponse>(
         `${this.apiUrl}dpi/api/validateBackDPIAWS`,
         formData,
         {
-          headers: new HttpHeaders({
-            Accept: 'application/json',
-          }),
+          headers
         }
       )
       .pipe(
@@ -75,15 +84,26 @@ export class DpiService {
       );
   }
 
-  videoSelfie(file: File, code: string): Observable<DPIProcessResponse> {
+  videoSelfie(file: File, code: string, connection: string, apikey: string): Observable<DPIProcessResponse> {
     const formData = new FormData();
     formData.append('file', file, file.name);
     formData.append('codigo', code);
 
+
+
+    const headers = new HttpHeaders({
+      'connection-mg': connection,
+      'api-key': apikey
+    });
+
+
     return this.http
       .post<DPIProcessResponse>(
         `${this.apiUrl}videoSelfie/api/validate`,
-        formData
+        formData,
+        {
+          headers
+        }
       )
       .pipe(
         map((response: DPIProcessResponse) => response),
@@ -95,17 +115,27 @@ export class DpiService {
 
   InitProccess(
     identificador: string,
-    connection: string
+    connection: string,
+    apikey: string
   ): Observable<DPIProcessResponse> {
     const requestBody = {
       identificador,
       connection,
+      apikey
     };
+
+    const headers = new HttpHeaders({
+      'connection-mg': connection,
+      'api-key': apikey
+    });
 
     return this.http
       .post<DPIProcessResponse>(
         `${this.apiUrl}initProces/api/initWhitDPINumber`,
-        requestBody
+        requestBody,
+        {
+          headers
+        }
       )
       .pipe(
         map((response: DPIProcessResponse) => response),

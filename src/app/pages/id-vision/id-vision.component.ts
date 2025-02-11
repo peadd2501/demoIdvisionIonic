@@ -87,6 +87,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() isSwipe: boolean = false;
   @Input() dpiCode: string = '';
+  @Input() connection: string = '';
+  @Input() apikey: string = '';
+
   validateMetaG: {
     dpiFront: boolean;
     dpiBack: boolean;
@@ -254,7 +257,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       await loader.present();
 
       this.dpiService
-        .InitProccess(this.dpi.value + '', '673259d3f027711b51e71202')
+        .InitProccess(this.dpi.value + '',  this.connection, this.apikey)// '673259d3f027711b51e71202')
         .subscribe({
           next: (response: any) => {
             if (loader) {
@@ -274,7 +277,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               } else if (dpiValue && dpiValue.length > 12) {
                 this.showAlert('Error', response['message'], []);
               } else {
-                const errorMessage = response['message']['errors']['CUI'][0];
+                const errorMessage = response['message'];
                 this.showAlert('Error', errorMessage, []);
               }
             }
@@ -307,7 +310,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
       await loader.present();
       const codigo = localStorage.getItem('codigo') ?? '';
-      await this.dpiService.uploadFrontDPI(filePath/*file*/, codigo).subscribe({
+      await this.dpiService.uploadFrontDPI(filePath/*file*/, codigo, this.connection, this.apikey).subscribe({
         next: (response: any) => {
           if (loader) {
             loader.dismiss();
@@ -378,7 +381,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
       await loader.present();
       const codigo = localStorage.getItem('codigo') ?? '';
-      this.dpiService.uploadBackDPI(filePath/*file*/, codigo).subscribe({
+      this.dpiService.uploadBackDPI(filePath/*file*/, codigo, this.connection, this.apikey).subscribe({
         next: (response: any) => {
           if (loader) {
             loader.dismiss();
@@ -423,7 +426,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       await loader.present();
       const codigo = localStorage.getItem('codigo') ?? '';
-      this.dpiService.videoSelfie(file, codigo).subscribe({
+      this.dpiService.videoSelfie(file, codigo, this.connection, this.apikey).subscribe({
         next: (response: any) => {
           if (loader) {
             loader.dismiss();

@@ -114,8 +114,6 @@ export class CameraWithOverlayComponent {
                 canvas.toBlob((blob) => {
                     if (blob && blob.size > 0) {
                         this.file = this.blobToFile(blob, 'dpi.jpeg');
-                        // this.file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
-                        console.log('Archivo creado:', this.file);
                         videoElement.pause();
                         this.onTakePicture(this.file).catch((err) => console.error('Error en onTakePicture:', err));
                     }
@@ -132,7 +130,6 @@ export class CameraWithOverlayComponent {
         b.lastModified = new Date().getTime();
         b.lastModifiedDate = new Date();
         b.name = fileName;
-        console.log('Blob to file:', b);
         //Cast to a File() type
         return b;
     }

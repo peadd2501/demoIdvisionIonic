@@ -11,69 +11,67 @@ export class DpiService {
         this.http = http;
         this.apiUrl = environments.url;
     }
-    uploadFrontDPI(file, code) {
+    uploadFrontDPI(file, code, connection, apikey) {
         if (!file || file.size === 0) {
             console.error('El archivo proporcionado no es válido:', file);
         }
         const formData = new FormData();
-        console.log('file', file);
-        // Detectar el tipo MIME
-        // const fileType = typeof file.type === 'string' ? file.type : 'application/octet-stream';
-        // if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
-        //   return throwError(() => new Error('Formato de archivo no válido.'));
-        // }
-        // Convertir el archivo a Blob con tipo MIME
-        // const blob = new Blob([file], { type: fileType });
         formData.append('file', file, file.name);
-        // formData.append('file', file, file.name);
         formData.append('codigo', code);
-        console.log('formData generado', formData);
+        const headers = new HttpHeaders({
+            Accept: 'application/json',
+            'connection-mg': connection,
+            'api-key': apikey
+        });
         return this.http
             .post(`${this.apiUrl}dpi/api/validateFrontDPIAWS`, formData, {
-            headers: new HttpHeaders({
-                Accept: 'application/json',
-            }),
+            headers
         })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
-    uploadBackDPI(file, code) {
+    uploadBackDPI(file, code, connection, apikey) {
         const formData = new FormData();
-        console.log('file', file);
-        // Detectar el tipo MIME
-        // const fileType = typeof file.type === 'string' ? file.type : 'application/octet-stream';
-        // if (!fileType.startsWith('image/') && !fileType.includes('pdf')) {
-        //   return throwError(() => new Error('Formato de archivo no válido.'));
-        // }
-        // Convertir el archivo a Blob con tipo MIME
-        // const blob = new Blob([file], { type: fileType });
         formData.append('file', file, file.name);
         formData.append('codigo', code);
-        console.log('formData', formData);
-        // formData.append('file', file, file.name);
-        // formData.append('codigo', code);
+        const headers = new HttpHeaders({
+            Accept: 'application/json',
+            'connection-mg': connection,
+            'api-key': apikey
+        });
         return this.http
             .post(`${this.apiUrl}dpi/api/validateBackDPIAWS`, formData, {
-            headers: new HttpHeaders({
-                Accept: 'application/json',
-            }),
+            headers
         })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
-    videoSelfie(file, code) {
+    videoSelfie(file, code, connection, apikey) {
         const formData = new FormData();
         formData.append('file', file, file.name);
         formData.append('codigo', code);
+        const headers = new HttpHeaders({
+            'connection-mg': connection,
+            'api-key': apikey
+        });
         return this.http
-            .post(`${this.apiUrl}videoSelfie/api/validate`, formData)
+            .post(`${this.apiUrl}videoSelfie/api/validate`, formData, {
+            headers
+        })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
-    InitProccess(identificador, connection) {
+    InitProccess(identificador, connection, apikey) {
         const requestBody = {
             identificador,
             connection,
+            apikey
         };
+        const headers = new HttpHeaders({
+            'connection-mg': connection,
+            'api-key': apikey
+        });
         return this.http
-            .post(`${this.apiUrl}initProces/api/initWhitDPINumber`, requestBody)
+            .post(`${this.apiUrl}initProces/api/initWhitDPINumber`, requestBody, {
+            headers
+        })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
 }

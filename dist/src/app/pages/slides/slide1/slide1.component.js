@@ -7,7 +7,6 @@ export class Slide1Component {
         this.temp = "";
     }
     goToNext() {
-        console.log("test");
     }
 }
 Slide1Component.ɵfac = function Slide1Component_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || Slide1Component)(); };
