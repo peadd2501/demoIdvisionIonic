@@ -32,13 +32,19 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     dpiCode: string;
     connection: string;
     apikey: string;
+    validationConfig: any[];
     validateMetaG: {
         dpiFront: boolean;
         dpiBack: boolean;
         videoSelfie: boolean;
     };
     swiperRef: any;
-    ngOnInit(): void;
+    showDpiFront: boolean;
+    showDpiBack: boolean;
+    showVideoSelfie: boolean;
+    loadMockValidationConfig(): Promise<void>;
+    setValidationConfig(): void;
+    ngOnInit(): Promise<void>;
     ngAfterViewInit(): void;
     ngOnDestroy(): void;
     handleClick(): void;
@@ -66,6 +72,6 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     getBackModal(file: File): Promise<void>;
     openAcuerdoVideo(): Promise<void>;
     static ɵfac: i0.ɵɵFactoryDeclaration<IdVisionComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<IdVisionComponent, "app-id-vision", never, { "isSwipe": { "alias": "isSwipe"; "required": false; }; "dpiCode": { "alias": "dpiCode"; "required": false; }; "connection": { "alias": "connection"; "required": false; }; "apikey": { "alias": "apikey"; "required": false; }; }, {}, never, never, true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<IdVisionComponent, "app-id-vision", never, { "isSwipe": { "alias": "isSwipe"; "required": false; }; "dpiCode": { "alias": "dpiCode"; "required": false; }; "connection": { "alias": "connection"; "required": false; }; "apikey": { "alias": "apikey"; "required": false; }; "validationConfig": { "alias": "validationConfig"; "required": false; }; }, {}, never, never, true, never>;
 }
 //# sourceMappingURL=id-vision.component.d.ts.map

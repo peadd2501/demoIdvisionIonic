@@ -14,6 +14,7 @@ export declare class DpiService {
     uploadBackDPI(file: File, code: string, connection: string, apikey: string): Observable<DPIProcessResponse>;
     videoSelfie(file: File, code: string, connection: string, apikey: string): Observable<DPIProcessResponse>;
     InitProccess(identificador: string, connection: string, apikey: string): Observable<DPIProcessResponse>;
+    getConnectionById(id: string): Observable<DPIProcessResponse>;
     static ɵfac: i0.ɵɵFactoryDeclaration<DpiService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<DpiService>;
 }

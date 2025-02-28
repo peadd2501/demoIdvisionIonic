@@ -74,6 +74,14 @@ export class DpiService {
         })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
+    getConnectionById(id) {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        return this.http
+            .get(`${this.apiUrl}connection/api/getConnectionXID/${id}`, { headers })
+            .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
+    }
 }
 DpiService.ɵfac = function DpiService_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || DpiService)(i0.ɵɵinject(i1.HttpClient)); };
 DpiService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: DpiService, factory: DpiService.ɵfac, providedIn: 'root' });

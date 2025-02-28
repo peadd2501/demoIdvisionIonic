@@ -144,4 +144,21 @@ export class DpiService {
         )
       );
   }
+
+  getConnectionById(id: string): Observable<DPIProcessResponse> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+  
+    return this.http
+      .get<DPIProcessResponse>(`${this.apiUrl}connection/api/getConnectionXID/${id}`, { headers })
+      .pipe(
+        map((response: DPIProcessResponse) => response),
+        catchError((error: HttpErrorResponse) =>
+          throwError(() => new Error(error.message))
+        )
+      );
+  }
+  
 }
+

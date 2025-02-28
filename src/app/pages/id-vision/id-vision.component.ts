@@ -89,6 +89,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dpiCode: string = '';
   @Input() connection: string = '';
   @Input() apikey: string = '';
+  @Input() validationConfig: any[] = []; // Luego se obtendrá del servicio
 
   validateMetaG: {
     dpiFront: boolean;
@@ -97,25 +98,76 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   swiperRef: any;
 
-  ngOnInit() {
-    // const swiperElemConstructor = document.querySelector('swiper-container');
+  // Booleans para habilitar cada step
+  showDpiFront: boolean = false;
+  showDpiBack: boolean = false;
+  showVideoSelfie: boolean = false;
 
-    // this.swiperRef = swiperElemConstructor;
-    // const swiperOptions: SwiperOptions = {
-    //   slidesPerView: 1,
-    //   pagination: false,
-    //   navigation: {
-    //     enabled: false,
-    //   },
-    //   allowTouchMove: this.isSwipe,
-    // };
-    // Object.assign(swiperElemConstructor!, swiperOptions);
-    // this.swiperElement.set(swiperElemConstructor as SwiperContainer);
-    // this.swiperElement()?.initialize();
+  // async loadMockValidationConfig() {
+  //   this.dpiService.getConnectionById(this.connection).subscribe({
+  //     next: (connection: any) => {
+  //       console.log(connection.details);
+  //       console.log(connection.details.config);
 
-    //swiper
+  //       this.validationConfig = [
+  //         { id: 1, type: 2, order: "1" }, // DPI Frontal
+  //         { id: 2, type: 3, order: "2" }, // DPI Trasero
+  //         { id: 3, type: 4, order: "3" }  // Video Selfie
+  //       ];
 
-    //swiper
+  //     },
+  //     error: (err) => {
+  //       console.error("Error al obtener la conexión:", err);
+  //     }
+  //   });
+  // }
+  
+  async loadMockValidationConfig() {
+    this.dpiService.getConnectionById(this.connection).subscribe({
+      next: (connection: any) => {
+        if (connection && connection.details && Array.isArray(connection.details.config)) {
+          console.log("Configuración obtenida:", connection.details.config);
+  
+          this.validationConfig = connection.details.config
+            .map((config: { id: number, type: number, order: string }) => ({
+              id: config.id,
+              type: config.type,
+              order: Number(config.order) // Convertimos order a número
+            }))
+            .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos por order
+  
+          console.log("Configuración ordenada:", this.validationConfig);
+        } else {
+          console.warn("La configuración obtenida no es válida:", connection);
+        }
+      },
+      error: (err) => {
+        console.error("Error al obtener la conexión:", err);
+      }
+    });
+  }
+  
+
+  setValidationConfig() {
+    this.validationConfig.forEach(config => {
+      switch (config.type) {
+        case 2:
+          this.showDpiFront = true;
+          break;
+        case 3:
+          this.showDpiBack = true;
+          break;
+        case 4:
+          this.showVideoSelfie = true;
+          break;
+      }
+    });
+  }
+
+  async ngOnInit () {
+    await this.loadMockValidationConfig();
+    this.setValidationConfig();
+
 
     this.modalDpiServices.closeOverlay$.subscribe(() => {
       this.closeOverlay();
@@ -220,20 +272,49 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.swiperElement()?.swiper?.slideTo(0);
   }
 
+  // handleExit(): void {
+  //   const result =
+  //     this.validateMetaG.dpiBack &&
+  //     this.validateMetaG.dpiFront &&
+  //     this.validateMetaG.videoSelfie;
+  //   this.sdkCommunicationService.emitExit(result);
+  //   this.navController.back();
+  // }
+
+
   handleExit(): void {
     const result =
-      this.validateMetaG.dpiBack &&
-      this.validateMetaG.dpiFront &&
-      this.validateMetaG.videoSelfie;
+      (!this.showDpiFront || this.validateMetaG.dpiFront) &&
+      (!this.showDpiBack || this.validateMetaG.dpiBack) &&
+      (!this.showVideoSelfie || this.validateMetaG.videoSelfie);
+  
     this.sdkCommunicationService.emitExit(result);
     this.navController.back();
   }
 
+  
+  // isAllValid(): boolean {
+  //   let isValid =
+  //     this.validateMetaG.dpiFront &&
+  //     this.validateMetaG.dpiBack &&
+  //     this.validateMetaG.videoSelfie;
+  //   this.validateMetaGService.setValidateMetaG(isValid);
+  //   return isValid;
+  // }
+
   isAllValid(): boolean {
-    let isValid =
-      this.validateMetaG.dpiFront &&
-      this.validateMetaG.dpiBack &&
-      this.validateMetaG.videoSelfie;
+    let isValid = true;
+  
+    if (this.showDpiFront) {
+      isValid = isValid && this.validateMetaG.dpiFront;
+    }
+    if (this.showDpiBack) {
+      isValid = isValid && this.validateMetaG.dpiBack;
+    }
+    if (this.showVideoSelfie) {
+      isValid = isValid && this.validateMetaG.videoSelfie;
+    }
+  
     this.validateMetaGService.setValidateMetaG(isValid);
     return isValid;
   }
@@ -265,6 +346,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             if (!response['error']) {
               localStorage.setItem('codigo', response['details']);
+              console.log('Codigo:', response);
               this.handleSlide(1);
             } else {
               const dpiValue = this.dpi.value as string;
