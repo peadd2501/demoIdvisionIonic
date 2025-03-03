@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   Input,
@@ -71,7 +72,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     private modalVideoSelfieServices: ModalVideoSelfieServices,
     private sdkCommunicationService: SdkCommunicationService,
     private navController: NavController,
-    private validateMetaGService: ValidateMetaGService
+    private validateMetaGService: ValidateMetaGService,
+    private cdRef: ChangeDetectorRef,
   ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
@@ -125,18 +127,23 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   async loadMockValidationConfig() {
     this.dpiService.getConnectionById(this.connection).subscribe({
       next: (connection: any) => {
-        if (connection && connection.details && Array.isArray(connection.details.config)) {
+        if (connection?.details?.config && Array.isArray(connection.details.config)) {
           console.log("Configuración obtenida:", connection.details.config);
   
+          // 🔥 Procesamos la configuración recibida
           this.validationConfig = connection.details.config
             .map((config: { id: number, type: number, order: string }) => ({
               id: config.id,
               type: config.type,
-              order: Number(config.order) // Convertimos order a número
+              order: Number(config.order) // Convertimos `order` a número
             }))
-            .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos por order
+            .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos por `order`
   
           console.log("Configuración ordenada:", this.validationConfig);
+  
+          // 🔥 Asegurar que los flags de visibilidad se actualicen correctamente
+          this.setValidationConfig();
+  
         } else {
           console.warn("La configuración obtenida no es válida:", connection);
         }
@@ -147,8 +154,12 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   
+  
 
   setValidationConfig() {
+    // 🔥 Depuración en consola
+    console.log("Ejecutando setValidationConfig con:", this.validationConfig);
+  
     this.validationConfig.forEach(config => {
       switch (config.type) {
         case 2:
@@ -162,6 +173,15 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           break;
       }
     });
+  
+    console.log("Valores actualizados:", {
+      showDpiFront: this.showDpiFront,
+      showDpiBack: this.showDpiBack,
+      showVideoSelfie: this.showVideoSelfie
+    });
+  
+    // 🔥 Forzar la detección de cambios para actualizar la UI
+    this.cdRef.detectChanges();
   }
 
   async ngOnInit () {

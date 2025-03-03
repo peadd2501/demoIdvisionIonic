@@ -1,4 +1,4 @@
-import { AfterViewInit, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, IonInput, LoadingController, ModalController, NavController, Platform } from '@ionic/angular';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
@@ -18,6 +18,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     private sdkCommunicationService;
     private navController;
     private validateMetaGService;
+    private cdRef;
     dpi: IonInput;
     private isAndroid;
     private isIOS;
@@ -25,7 +26,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     tutoImage2: string;
     tutoImage3: string;
     tutoImage4: string;
-    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController, validateMetaGService: ValidateMetaGService);
+    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController, validateMetaGService: ValidateMetaGService, cdRef: ChangeDetectorRef);
     swiperElement: import("@angular/core").WritableSignal<SwiperContainer | null>;
     private modalRef;
     isSwipe: boolean;

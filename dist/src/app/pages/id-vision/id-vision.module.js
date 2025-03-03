@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { Slide1Component } from '../slides/slide1/slide1.component';
-import { Slide2Component } from '../slides/slide2/slide2.component';
-import { Slide3Component } from '../slides/slide3/slide3.component';
-import { Slide4Component } from '../slides/slide4/slide4.component';
 import * as i0 from "@angular/core";
 export class IdVisionModule {
 }
@@ -15,11 +11,10 @@ IdVisionModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [CommonMod
         type: NgModule,
         args: [{
                 declarations: [
-                    // IdVisionComponent, // Declara el componente de la página
-                    Slide1Component, // Declara los slides aquí
-                    Slide2Component,
-                    Slide3Component,
-                    Slide4Component,
+                // IdVisionComponent, // Declara el componente de la página
+                // DpiFrontComponent, // Declara los slides aquí
+                // DpiBackComponent,
+                // VideoSelfieComponent,
                 ],
                 imports: [CommonModule, IonicModule],
                 exports: [
@@ -27,10 +22,5 @@ IdVisionModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [CommonMod
                 ],
             }]
     }], null, null); })();
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(IdVisionModule, { declarations: [
-        // IdVisionComponent, // Declara el componente de la página
-        Slide1Component, // Declara los slides aquí
-        Slide2Component,
-        Slide3Component,
-        Slide4Component], imports: [CommonModule, IonicModule] }); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(IdVisionModule, { imports: [CommonModule, IonicModule] }); })();
 //# sourceMappingURL=id-vision.module.js.map
