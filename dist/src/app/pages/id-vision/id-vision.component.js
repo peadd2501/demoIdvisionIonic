@@ -21,85 +21,97 @@ import * as i5 from "./services/modal-services/sdk-communication-services";
 import * as i6 from "./services/validate-meta-g/validate-meta-g";
 import * as i7 from "@angular/common";
 const _c0 = ["dpi"];
-function IdVisionComponent_swiper_slide_29_Template(rf, ctx) { if (rf & 1) {
+function IdVisionComponent_swiper_slide_27_div_2_Template(rf, ctx) { if (rf & 1) {
     const _r2 = i0.ɵɵgetCurrentView();
-    i0.ɵɵelementStart(0, "swiper-slide")(1, "div", 2)(2, "div", 3)(3, "h2");
-    i0.ɵɵtext(4, "Coloca la parte frontal de tu DPI");
+    i0.ɵɵelementStart(0, "div")(1, "div", 3)(2, "h2");
+    i0.ɵɵtext(3, "Coloca la parte frontal de tu DPI");
     i0.ɵɵelementEnd();
-    i0.ɵɵelementStart(5, "p", 17);
-    i0.ɵɵtext(6, " Evita sombras, reflejos y coloca tu documento dentro del recuadro. ");
+    i0.ɵɵelementStart(4, "p", 20);
+    i0.ɵɵtext(5, "Evita sombras, reflejos y coloca tu documento dentro del recuadro.");
     i0.ɵɵelementEnd()();
-    i0.ɵɵelementStart(7, "div", 18)(8, "video", 19);
-    i0.ɵɵelement(9, "source", 20);
+    i0.ɵɵelementStart(6, "div", 21)(7, "video", 22);
+    i0.ɵɵelement(8, "source", 23);
     i0.ɵɵelementEnd()();
-    i0.ɵɵelementStart(10, "div", 12)(11, "ion-button", 13);
-    i0.ɵɵlistener("click", function IdVisionComponent_swiper_slide_29_Template_ion_button_click_11_listener() { i0.ɵɵrestoreView(_r2); const ctx_r2 = i0.ɵɵnextContext(); return i0.ɵɵresetView(ctx_r2.openCameraOverlayFrontal()); });
-    i0.ɵɵtext(12, "Tomar una foto");
-    i0.ɵɵelementEnd()()()();
+    i0.ɵɵelementStart(9, "div", 12)(10, "ion-button", 13);
+    i0.ɵɵlistener("click", function IdVisionComponent_swiper_slide_27_div_2_Template_ion_button_click_10_listener() { i0.ɵɵrestoreView(_r2); const step_r3 = i0.ɵɵnextContext().$implicit; return i0.ɵɵresetView(step_r3.action()); });
+    i0.ɵɵtext(11, "Tomar una foto");
+    i0.ɵɵelementEnd()()();
 } }
-function IdVisionComponent_swiper_slide_30_Template(rf, ctx) { if (rf & 1) {
+function IdVisionComponent_swiper_slide_27_div_3_Template(rf, ctx) { if (rf & 1) {
     const _r4 = i0.ɵɵgetCurrentView();
-    i0.ɵɵelementStart(0, "swiper-slide")(1, "div", 2)(2, "div", 3)(3, "h2");
-    i0.ɵɵtext(4, "Coloca el reverso de tu DPI");
+    i0.ɵɵelementStart(0, "div")(1, "div", 3)(2, "h2");
+    i0.ɵɵtext(3, "Coloca el reverso de tu DPI");
     i0.ɵɵelementEnd();
-    i0.ɵɵelementStart(5, "p", 17);
-    i0.ɵɵtext(6, " Evita sombras, reflejos y coloca tu documento dentro del recuadro.");
+    i0.ɵɵelementStart(4, "p", 20);
+    i0.ɵɵtext(5, "Evita sombras, reflejos y coloca tu documento dentro del recuadro.");
     i0.ɵɵelementEnd()();
-    i0.ɵɵelementStart(7, "div", 18)(8, "video", 21);
-    i0.ɵɵelement(9, "source", 22);
+    i0.ɵɵelementStart(6, "div", 21)(7, "video", 22);
+    i0.ɵɵelement(8, "source", 24);
     i0.ɵɵelementEnd()();
-    i0.ɵɵelementStart(10, "div", 12)(11, "ion-button", 13);
-    i0.ɵɵlistener("click", function IdVisionComponent_swiper_slide_30_Template_ion_button_click_11_listener() { i0.ɵɵrestoreView(_r4); const ctx_r2 = i0.ɵɵnextContext(); return i0.ɵɵresetView(ctx_r2.openCameraOverlayTrasero()); });
-    i0.ɵɵtext(12, "Tomar una foto");
-    i0.ɵɵelementEnd()()()();
+    i0.ɵɵelementStart(9, "div", 12)(10, "ion-button", 13);
+    i0.ɵɵlistener("click", function IdVisionComponent_swiper_slide_27_div_3_Template_ion_button_click_10_listener() { i0.ɵɵrestoreView(_r4); const step_r3 = i0.ɵɵnextContext().$implicit; return i0.ɵɵresetView(step_r3.action()); });
+    i0.ɵɵtext(11, "Tomar una foto");
+    i0.ɵɵelementEnd()()();
 } }
-function IdVisionComponent_swiper_slide_31_Template(rf, ctx) { if (rf & 1) {
+function IdVisionComponent_swiper_slide_27_div_4_Template(rf, ctx) { if (rf & 1) {
     const _r5 = i0.ɵɵgetCurrentView();
-    i0.ɵɵelementStart(0, "swiper-slide")(1, "div", 2)(2, "div", 3)(3, "h2");
-    i0.ɵɵtext(4, "Video Selfie");
+    i0.ɵɵelementStart(0, "div")(1, "div", 3)(2, "h2");
+    i0.ɵɵtext(3, "Video Selfie");
     i0.ɵɵelementEnd();
-    i0.ɵɵelementStart(5, "p", 4);
-    i0.ɵɵtext(6, "Graba un breve video para completar tu proceso de identificaci\u00F3n.");
+    i0.ɵɵelementStart(4, "p", 4);
+    i0.ɵɵtext(5, "Graba un breve video para completar tu proceso de identificaci\u00F3n.");
     i0.ɵɵelementEnd()();
-    i0.ɵɵelementStart(7, "ion-grid", 7);
-    i0.ɵɵelement(8, "br")(9, "br")(10, "br");
-    i0.ɵɵelementStart(11, "ion-row")(12, "ion-row")(13, "div", 8);
-    i0.ɵɵelement(14, "img", 23);
+    i0.ɵɵelementStart(6, "ion-grid", 7)(7, "ion-row")(8, "div", 8);
+    i0.ɵɵelement(9, "img", 25);
     i0.ɵɵelementEnd();
-    i0.ɵɵelementStart(15, "div", 10)(16, "p");
-    i0.ɵɵtext(17, " Si est\u00E1s en interiores, aseg\u00FArate de que la luz est\u00E9 frente a ti, no detr\u00E1s. ");
-    i0.ɵɵelementEnd()()()();
-    i0.ɵɵelementStart(18, "ion-row")(19, "ion-row")(20, "div", 8);
-    i0.ɵɵelement(21, "img", 11);
+    i0.ɵɵelementStart(10, "div", 10)(11, "p");
+    i0.ɵɵtext(12, "Si est\u00E1s en interiores, aseg\u00FArate de que la luz est\u00E9 frente a ti, no detr\u00E1s.");
+    i0.ɵɵelementEnd()()();
+    i0.ɵɵelementStart(13, "ion-row")(14, "div", 8);
+    i0.ɵɵelement(15, "img", 11);
     i0.ɵɵelementEnd();
-    i0.ɵɵelementStart(22, "div", 10)(23, "p");
-    i0.ɵɵtext(24, " Aseg\u00FArate de que tu rostro sea visible y de no usar anteojos ni sombreros. ");
+    i0.ɵɵelementStart(16, "div", 10)(17, "p");
+    i0.ɵɵtext(18, "Aseg\u00FArate de que tu rostro sea visible y de no usar anteojos ni sombreros.");
     i0.ɵɵelementEnd()()()();
-    i0.ɵɵelementStart(25, "ion-row")(26, "ion-row")(27, "div", 8);
-    i0.ɵɵelement(28, "img", 24);
-    i0.ɵɵelementEnd();
-    i0.ɵɵelementStart(29, "div", 10)(30, "p");
-    i0.ɵɵtext(31, " Activa la c\u00E1mara frontal y verifica que tu rostro est\u00E9 bien centrado.. ");
-    i0.ɵɵelementEnd()()()()();
-    i0.ɵɵelementStart(32, "div", 12)(33, "ion-button", 13);
-    i0.ɵɵlistener("click", function IdVisionComponent_swiper_slide_31_Template_ion_button_click_33_listener() { i0.ɵɵrestoreView(_r5); const ctx_r2 = i0.ɵɵnextContext(); return i0.ɵɵresetView(ctx_r2.openAcuerdoVideo()); });
-    i0.ɵɵtext(34, "Abrir la c\u00E1mara");
-    i0.ɵɵelementEnd()()()();
+    i0.ɵɵelementStart(19, "div", 12)(20, "ion-button", 13);
+    i0.ɵɵlistener("click", function IdVisionComponent_swiper_slide_27_div_4_Template_ion_button_click_20_listener() { i0.ɵɵrestoreView(_r5); const step_r3 = i0.ɵɵnextContext().$implicit; return i0.ɵɵresetView(step_r3.action()); });
+    i0.ɵɵtext(21, "Abrir la c\u00E1mara");
+    i0.ɵɵelementEnd()()();
 } }
-function IdVisionComponent_ion_col_34_Template(rf, ctx) { if (rf & 1) {
-    i0.ɵɵelementStart(0, "ion-col", 25)(1, "ion-item", 16)(2, "p", 26);
-    i0.ɵɵtext(3, " Informaci\u00F3n procesada de manera correcta ");
-    i0.ɵɵelementEnd()();
-    i0.ɵɵelementStart(4, "ion-item", 27);
-    i0.ɵɵelement(5, "img", 28);
+function IdVisionComponent_swiper_slide_27_div_5_Template(rf, ctx) { if (rf & 1) {
+    i0.ɵɵelementStart(0, "div")(1, "h2");
+    i0.ɵɵtext(2, "Paso desconocido");
     i0.ɵɵelementEnd()();
 } }
-function IdVisionComponent_ion_col_35_Template(rf, ctx) { if (rf & 1) {
-    i0.ɵɵelementStart(0, "ion-col", 25)(1, "ion-item", 16)(2, "p", 26);
-    i0.ɵɵtext(3, " Ocurri\u00F3 un error al procesar la informaci\u00F3n ");
+function IdVisionComponent_swiper_slide_27_Template(rf, ctx) { if (rf & 1) {
+    i0.ɵɵelementStart(0, "swiper-slide")(1, "div", 17);
+    i0.ɵɵtemplate(2, IdVisionComponent_swiper_slide_27_div_2_Template, 12, 0, "div", 18)(3, IdVisionComponent_swiper_slide_27_div_3_Template, 12, 0, "div", 18)(4, IdVisionComponent_swiper_slide_27_div_4_Template, 22, 0, "div", 18)(5, IdVisionComponent_swiper_slide_27_div_5_Template, 3, 0, "div", 19);
     i0.ɵɵelementEnd()();
-    i0.ɵɵelementStart(4, "ion-item", 27);
-    i0.ɵɵelement(5, "img", 28);
+} if (rf & 2) {
+    const step_r3 = ctx.$implicit;
+    i0.ɵɵadvance();
+    i0.ɵɵproperty("ngSwitch", step_r3.type);
+    i0.ɵɵadvance();
+    i0.ɵɵproperty("ngSwitchCase", 2);
+    i0.ɵɵadvance();
+    i0.ɵɵproperty("ngSwitchCase", 3);
+    i0.ɵɵadvance();
+    i0.ɵɵproperty("ngSwitchCase", 4);
+} }
+function IdVisionComponent_ion_col_30_Template(rf, ctx) { if (rf & 1) {
+    i0.ɵɵelementStart(0, "ion-col", 26)(1, "ion-item", 16)(2, "p", 27);
+    i0.ɵɵtext(3, "Informaci\u00F3n procesada de manera correcta");
+    i0.ɵɵelementEnd()();
+    i0.ɵɵelementStart(4, "ion-item", 28);
+    i0.ɵɵelement(5, "img", 29);
+    i0.ɵɵelementEnd()();
+} }
+function IdVisionComponent_ion_col_31_Template(rf, ctx) { if (rf & 1) {
+    i0.ɵɵelementStart(0, "ion-col", 26)(1, "ion-item", 16)(2, "p", 27);
+    i0.ɵɵtext(3, "Ocurri\u00F3 un error al procesar la informaci\u00F3n");
+    i0.ɵɵelementEnd()();
+    i0.ɵɵelementStart(4, "ion-item", 28);
+    i0.ɵɵelement(5, "img", 29);
     i0.ɵɵelementEnd()();
 } }
 register();
@@ -131,6 +143,7 @@ export class IdVisionComponent {
         this.showDpiFront = false;
         this.showDpiBack = false;
         this.showVideoSelfie = false;
+        this.isValid = false;
         this.isAndroid = this.platform.is('android');
         this.isIOS = this.platform.is('ios');
         this.validateMetaG = {
@@ -155,6 +168,32 @@ export class IdVisionComponent {
     //     }
     //   });
     // }
+    //renderizado dinamico
+    // async loadMockValidationConfig() {
+    //   this.dpiService.getConnectionById(this.connection).subscribe({
+    //     next: (connection: any) => {
+    //       if (connection?.details?.config && Array.isArray(connection.details.config)) {
+    //         console.log("Configuración obtenida:", connection.details.config);
+    //         // 🔥 Procesamos la configuración recibida
+    //         this.validationConfig = connection.details.config
+    //           .map((config: { id: number, type: number, order: string }) => ({
+    //             id: config.id,
+    //             type: config.type,
+    //             order: Number(config.order) // Convertimos `order` a número
+    //           }))
+    //           .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos por `order`
+    //         console.log("Configuración ordenada:", this.validationConfig);
+    //         // 🔥 Asegurar que los flags de visibilidad se actualicen correctamente
+    //         this.setValidationConfig();
+    //       } else {
+    //         console.warn("La configuración obtenida no es válida:", connection);
+    //       }
+    //     },
+    //     error: (err) => {
+    //       console.error("Error al obtener la conexión:", err);
+    //     }
+    //   });
+    // }
     loadMockValidationConfig() {
         return __awaiter(this, void 0, void 0, function* () {
             this.dpiService.getConnectionById(this.connection).subscribe({
@@ -162,16 +201,16 @@ export class IdVisionComponent {
                     var _a;
                     if (((_a = connection === null || connection === void 0 ? void 0 : connection.details) === null || _a === void 0 ? void 0 : _a.config) && Array.isArray(connection.details.config)) {
                         console.log("Configuración obtenida:", connection.details.config);
-                        // 🔥 Procesamos la configuración recibida
+                        // 🔥 Transformamos la configuración y ordenamos los pasos
                         this.validationConfig = connection.details.config
                             .map((config) => ({
                             id: config.id,
                             type: config.type,
-                            order: Number(config.order) // Convertimos `order` a número
+                            order: Number(config.order), // Convertimos `order` a número
+                            action: this.getStepAction(config.type) // Asignamos acción específica
                         }))
-                            .sort((a, b) => a.order - b.order); // Ordenamos por `order`
-                        console.log("Configuración ordenada:", this.validationConfig);
-                        // 🔥 Asegurar que los flags de visibilidad se actualicen correctamente
+                            .sort((a, b) => a.order - b.order); // Ordenamos dinámicamente por `order`
+                        console.log("Configuración ordenada y lista:", this.validationConfig);
                         this.setValidationConfig();
                     }
                     else {
@@ -183,6 +222,14 @@ export class IdVisionComponent {
                 }
             });
         });
+    }
+    getStepAction(type) {
+        switch (type) {
+            case 2: return () => this.openCameraOverlayFrontal();
+            case 3: return () => this.openCameraOverlayTrasero();
+            case 4: return () => this.openAcuerdoVideo();
+            default: return () => console.warn('Tipo de paso desconocido:', type);
+        }
     }
     setValidationConfig() {
         // 🔥 Depuración en consola
@@ -211,7 +258,6 @@ export class IdVisionComponent {
     ngOnInit() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.loadMockValidationConfig();
-            this.setValidationConfig();
             this.modalDpiServices.closeOverlay$.subscribe(() => {
                 this.closeOverlay();
             });
@@ -317,10 +363,18 @@ export class IdVisionComponent {
     //   this.sdkCommunicationService.emitExit(result);
     //   this.navController.back();
     // }
+    // handleExit(): void {
+    //   const result =
+    //     (!this.showDpiFront || this.validateMetaG.dpiFront) &&
+    //     (!this.showDpiBack || this.validateMetaG.dpiBack) &&
+    //     (!this.showVideoSelfie || this.validateMetaG.videoSelfie);
+    //   this.sdkCommunicationService.emitExit(result);
+    //   this.navController.back();
+    // }
     handleExit() {
-        const result = (!this.showDpiFront || this.validateMetaG.dpiFront) &&
-            (!this.showDpiBack || this.validateMetaG.dpiBack) &&
-            (!this.showVideoSelfie || this.validateMetaG.videoSelfie);
+        this.updateValidation();
+        const result = this.isAllValid(); // Usamos la validación corregida
+        console.log("🚀 Resultado final de validación en handleExit:", result);
         this.sdkCommunicationService.emitExit(result);
         this.navController.back();
     }
@@ -333,26 +387,76 @@ export class IdVisionComponent {
     //   return isValid;
     // }
     isAllValid() {
+        console.log('🔎 Verificando estado de los pasos:');
+        console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
+        console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
+        console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
+        // Si NO hay pasos activados, devolvemos `false`
+        if (!this.showDpiFront && !this.showDpiBack && !this.showVideoSelfie) {
+            console.log('⚠️ No hay pasos activos, devolviendo `false`.');
+            return false;
+        }
         let isValid = true;
-        if (this.showDpiFront) {
-            isValid = isValid && this.validateMetaG.dpiFront;
+        // Evaluamos cada paso ACTIVADO y verificamos si fue completado
+        if (this.showDpiFront && !this.validateMetaG.dpiFront) {
+            isValid = false;
+            console.log('❌ DPI Frontal NO completado.');
         }
-        if (this.showDpiBack) {
-            isValid = isValid && this.validateMetaG.dpiBack;
+        if (this.showDpiBack && !this.validateMetaG.dpiBack) {
+            isValid = false;
+            console.log('❌ DPI Trasero NO completado.');
         }
-        if (this.showVideoSelfie) {
-            isValid = isValid && this.validateMetaG.videoSelfie;
+        if (this.showVideoSelfie && !this.validateMetaG.videoSelfie) {
+            isValid = false;
+            console.log('❌ Video Selfie NO completado.');
         }
-        this.validateMetaGService.setValidateMetaG(isValid);
+        console.log('🚀 Resultado final de validación:', isValid);
         return isValid;
+    }
+    updateValidation() {
+        console.log('🔄 Actualizando validación...');
+        console.log('Estado ANTES de validar:');
+        console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
+        console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
+        console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
+        // Validamos los pasos visibles
+        const dpiFrontValid = this.showDpiFront ? this.validateMetaG.dpiFront : true;
+        const dpiBackValid = this.showDpiBack ? this.validateMetaG.dpiBack : true;
+        const videoSelfieValid = this.showVideoSelfie ? this.validateMetaG.videoSelfie : true;
+        this.isValid = dpiFrontValid && dpiBackValid && videoSelfieValid;
+        console.log('🚀 Estado FINAL de validación:', this.isValid);
+        // 🔥 Forzamos la actualización de la UI
+        this.cdRef.detectChanges();
     }
     handleSkipTutorial() {
         var _a, _b;
         (_b = (_a = this.swiperElement()) === null || _a === void 0 ? void 0 : _a.swiper) === null || _b === void 0 ? void 0 : _b.slideTo(5);
     }
     handleNext() {
-        var _a, _b;
-        (_b = (_a = this.swiperElement()) === null || _a === void 0 ? void 0 : _a.swiper) === null || _b === void 0 ? void 0 : _b.slideNext();
+        setTimeout(() => {
+            var _a, _b, _c;
+            if ((_a = this.swiperElement()) === null || _a === void 0 ? void 0 : _a.swiper) {
+                (_c = (_b = this.swiperElement()) === null || _b === void 0 ? void 0 : _b.swiper) === null || _c === void 0 ? void 0 : _c.slideNext();
+                // this.swiperElement()?.swiper.slideTo(slide);
+            }
+        }, 300);
+    }
+    moveToNextStep(currentType) {
+        console.log(`Buscando el siguiente paso después de Type ${currentType}`);
+        const currentIndex = this.validationConfig.findIndex(step => step.type === currentType);
+        if (currentIndex === -1) {
+            console.warn('No se encontró el paso actual en validationConfig.');
+            return;
+        }
+        const nextStep = this.validationConfig[currentIndex + 1];
+        if (nextStep) {
+            console.log(`Moviendo al siguiente paso: Type ${nextStep.type}, Order ${nextStep.order}`);
+            this.handleSlide(nextStep.order);
+        }
+        else {
+            console.log('No hay más pasos, proceso finalizado.');
+            this.handleSlide(this.validationConfig.length + 1);
+        }
     }
     InitProccess() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -425,7 +529,10 @@ export class IdVisionComponent {
                                 this.closeModalFromParent();
                                 this.modalController.dismiss();
                                 this.validateMetaG.dpiFront = true;
-                                this.handleSlide(2);
+                                this.updateValidation();
+                                // this.handleSlide(2);
+                                // this.handleNext();
+                                this.moveToNextStep(2);
                             });
                         }
                         else {
@@ -433,6 +540,7 @@ export class IdVisionComponent {
                                 this.resumeCameraFromParent();
                             });
                             this.validateMetaG.dpiFront = false;
+                            this.updateValidation();
                         }
                     },
                     error: (error) => {
@@ -440,6 +548,7 @@ export class IdVisionComponent {
                             this.resumeCameraFromParent();
                         });
                         this.validateMetaG.dpiFront = false;
+                        this.updateValidation();
                         if (loader) {
                             loader.dismiss();
                         }
@@ -492,7 +601,10 @@ export class IdVisionComponent {
                                 this.closeModalFromParent();
                                 this.modalController.dismiss();
                                 this.validateMetaG.dpiBack = true;
-                                this.handleSlide(3);
+                                this.updateValidation();
+                                // this.handleSlide(3);
+                                // this.handleNext();
+                                this.moveToNextStep(3);
                             });
                         }
                         else {
@@ -500,6 +612,7 @@ export class IdVisionComponent {
                                 this.resumeCameraFromParent();
                             });
                             this.validateMetaG.dpiBack = false;
+                            this.updateValidation();
                         }
                     },
                     error: (error) => {
@@ -510,6 +623,7 @@ export class IdVisionComponent {
                             loader.dismiss();
                         }
                         this.validateMetaG.dpiBack = false;
+                        this.updateValidation();
                         console.error('Error al llamar al servicio:', error);
                     },
                 });
@@ -540,7 +654,10 @@ export class IdVisionComponent {
                                 this.closeModalVideoSelfie();
                                 this.modalController.dismiss();
                                 this.validateMetaG.videoSelfie = true;
-                                this.handleSlide(4);
+                                this.updateValidation();
+                                // this.handleSlide(4);
+                                // this.handleNext();
+                                this.moveToNextStep(4);
                             });
                         }
                         else {
@@ -548,6 +665,7 @@ export class IdVisionComponent {
                                 this.closeModalVideoSelfie();
                             });
                             this.validateMetaG.videoSelfie = false;
+                            this.updateValidation();
                         }
                     },
                     error: (error) => {
@@ -681,7 +799,7 @@ IdVisionComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: IdVisionC
     } if (rf & 2) {
         let _t;
         i0.ɵɵqueryRefresh(_t = i0.ɵɵloadQuery()) && (ctx.dpi = _t.first);
-    } }, inputs: { isSwipe: "isSwipe", dpiCode: "dpiCode", connection: "connection", apikey: "apikey", validationConfig: "validationConfig" }, standalone: true, features: [i0.ɵɵProvidersFeature([DpiService]), i0.ɵɵStandaloneFeature], decls: 40, vars: 5, consts: [["dpi", ""], ["init", "false", 1, "custom-swiper"], [1, "content"], [1, "head"], [1, "p-justify"], [1, "rounded-input"], ["type", "number", "disabled", "true", "placeholder", "Digita tu n\u00FAmero de DPI"], [1, "verify-container"], [1, "image-container"], ["src", "assets/imagesIdvision/documentsImage.png", "alt", ""], [1, "container-text"], ["src", "assets/imagesIdvision/rostroImage.png", "alt", ""], [1, "fixed-footer"], ["expand", "block", 1, "custom-button", 3, "click"], [4, "ngIf"], ["class", "col-confirmation", 4, "ngIf"], ["color", "white"], [1, "p-center", "p-info"], [1, "dpi-container"], ["id", "dpiFront", "autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-front.mp4", "type", "video/mp4"], ["id", "dpiBack", "autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-back-1.mp4", "type", "video/mp4"], ["src", "assets/imagesIdvision/Foco.png", "alt", ""], ["src", "assets/imagesIdvision/Selfie-rostro.png", "alt", ""], [1, "col-confirmation"], [1, "font-confirmation"], ["color", "white", 1, "image-item"], ["src", "assets/imagesIdvision/blue-check.png", "alt", ""]], template: function IdVisionComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { isSwipe: "isSwipe", dpiCode: "dpiCode", connection: "connection", apikey: "apikey", validationConfig: "validationConfig" }, standalone: true, features: [i0.ɵɵProvidersFeature([DpiService]), i0.ɵɵStandaloneFeature], decls: 36, vars: 3, consts: [["dpi", ""], ["init", "false", 1, "custom-swiper"], [1, "content"], [1, "head"], [1, "p-justify"], [1, "rounded-input"], ["type", "number", "disabled", "true", "placeholder", "Digita tu n\u00FAmero de DPI"], [1, "verify-container"], [1, "image-container"], ["src", "assets/imagesIdvision/documentsImage.png", "alt", ""], [1, "container-text"], ["src", "assets/imagesIdvision/rostroImage.png", "alt", ""], [1, "fixed-footer"], ["expand", "block", 1, "custom-button", 3, "click"], [4, "ngFor", "ngForOf"], ["class", "col-confirmation", 4, "ngIf"], ["color", "white"], [1, "content", 3, "ngSwitch"], [4, "ngSwitchCase"], [4, "ngSwitchDefault"], [1, "p-center", "p-info"], [1, "dpi-container"], ["autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-front.mp4", "type", "video/mp4"], ["src", "assets/imagesIdvision/Dpi-back.mp4", "type", "video/mp4"], ["src", "assets/imagesIdvision/Foco.png", "alt", ""], [1, "col-confirmation"], [1, "font-confirmation"], ["color", "white", 1, "image-item"], ["src", "assets/imagesIdvision/blue-check.png", "alt", ""]], template: function IdVisionComponent_Template(rf, ctx) { if (rf & 1) {
         const _r1 = i0.ɵɵgetCurrentView();
         i0.ɵɵelementStart(0, "swiper-container", 1)(1, "swiper-slide")(2, "div", 2)(3, "div", 3)(4, "h2", 4);
         i0.ɵɵtext(5, "Verifiquemos tu identidad");
@@ -692,44 +810,40 @@ IdVisionComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: IdVisionC
         i0.ɵɵelementStart(8, "ion-item", 5);
         i0.ɵɵelement(9, "ion-input", 6, 0);
         i0.ɵɵelementEnd()();
-        i0.ɵɵelementStart(11, "ion-grid", 7)(12, "ion-row")(13, "ion-row")(14, "div", 8);
-        i0.ɵɵelement(15, "img", 9);
+        i0.ɵɵelementStart(11, "ion-grid", 7)(12, "ion-row")(13, "div", 8);
+        i0.ɵɵelement(14, "img", 9);
         i0.ɵɵelementEnd();
-        i0.ɵɵelementStart(16, "div", 10)(17, "p");
-        i0.ɵɵtext(18, "Sube fotos de documentos que prueben tu identidad");
-        i0.ɵɵelementEnd()()()();
-        i0.ɵɵelementStart(19, "ion-row")(20, "ion-row")(21, "div", 8);
-        i0.ɵɵelement(22, "img", 11);
+        i0.ɵɵelementStart(15, "div", 10)(16, "p");
+        i0.ɵɵtext(17, "Sube fotos de documentos que prueben tu identidad");
+        i0.ɵɵelementEnd()()();
+        i0.ɵɵelementStart(18, "ion-row")(19, "div", 8);
+        i0.ɵɵelement(20, "img", 11);
         i0.ɵɵelementEnd();
-        i0.ɵɵelementStart(23, "div", 10)(24, "p");
-        i0.ɵɵtext(25, "Graba un video selfie mientras lees el texto en voz alta");
-        i0.ɵɵelementEnd()()()()();
-        i0.ɵɵelementStart(26, "div", 12)(27, "ion-button", 13);
-        i0.ɵɵlistener("click", function IdVisionComponent_Template_ion_button_click_27_listener() { i0.ɵɵrestoreView(_r1); return i0.ɵɵresetView(ctx.handleClick()); });
-        i0.ɵɵtext(28, "Empecemos");
+        i0.ɵɵelementStart(21, "div", 10)(22, "p");
+        i0.ɵɵtext(23, "Graba un video selfie mientras lees el texto en voz alta");
         i0.ɵɵelementEnd()()()();
-        i0.ɵɵtemplate(29, IdVisionComponent_swiper_slide_29_Template, 13, 0, "swiper-slide", 14)(30, IdVisionComponent_swiper_slide_30_Template, 13, 0, "swiper-slide", 14)(31, IdVisionComponent_swiper_slide_31_Template, 35, 0, "swiper-slide", 14);
-        i0.ɵɵelementStart(32, "swiper-slide")(33, "div", 2);
-        i0.ɵɵtemplate(34, IdVisionComponent_ion_col_34_Template, 6, 0, "ion-col", 15)(35, IdVisionComponent_ion_col_35_Template, 6, 0, "ion-col", 15);
-        i0.ɵɵelementStart(36, "ion-item", 16)(37, "div", 12)(38, "ion-button", 13);
-        i0.ɵɵlistener("click", function IdVisionComponent_Template_ion_button_click_38_listener() { i0.ɵɵrestoreView(_r1); return i0.ɵɵresetView(ctx.handleExit()); });
-        i0.ɵɵtext(39, "Salir");
+        i0.ɵɵelementStart(24, "div", 12)(25, "ion-button", 13);
+        i0.ɵɵlistener("click", function IdVisionComponent_Template_ion_button_click_25_listener() { i0.ɵɵrestoreView(_r1); return i0.ɵɵresetView(ctx.handleClick()); });
+        i0.ɵɵtext(26, "Empecemos");
+        i0.ɵɵelementEnd()()()();
+        i0.ɵɵtemplate(27, IdVisionComponent_swiper_slide_27_Template, 6, 4, "swiper-slide", 14);
+        i0.ɵɵelementStart(28, "swiper-slide")(29, "div", 2);
+        i0.ɵɵtemplate(30, IdVisionComponent_ion_col_30_Template, 6, 0, "ion-col", 15)(31, IdVisionComponent_ion_col_31_Template, 6, 0, "ion-col", 15);
+        i0.ɵɵelementStart(32, "ion-item", 16)(33, "div", 12)(34, "ion-button", 13);
+        i0.ɵɵlistener("click", function IdVisionComponent_Template_ion_button_click_34_listener() { i0.ɵɵrestoreView(_r1); return i0.ɵɵresetView(ctx.handleExit()); });
+        i0.ɵɵtext(35, "Salir");
         i0.ɵɵelementEnd()()()()()();
     } if (rf & 2) {
-        i0.ɵɵadvance(29);
-        i0.ɵɵproperty("ngIf", ctx.showDpiFront);
-        i0.ɵɵadvance();
-        i0.ɵɵproperty("ngIf", ctx.showDpiBack);
-        i0.ɵɵadvance();
-        i0.ɵɵproperty("ngIf", ctx.showVideoSelfie);
+        i0.ɵɵadvance(27);
+        i0.ɵɵproperty("ngForOf", ctx.validationConfig);
         i0.ɵɵadvance(3);
-        i0.ɵɵproperty("ngIf", ctx.isAllValid());
+        i0.ɵɵproperty("ngIf", ctx.isValid);
         i0.ɵɵadvance();
-        i0.ɵɵproperty("ngIf", !ctx.isAllValid());
-    } }, dependencies: [IonicModule, i1.IonButton, i1.IonCol, i1.IonGrid, i1.IonInput, i1.IonItem, i1.IonRow, i1.NumericValueAccessor, CommonModule, i7.NgIf], styles: [".content[_ngcontent-%COMP%] {\n    padding: 10px;\n    align-items: center;\n    justify-content: center;\n    height: 100vh;\n    background-color: #fff;\n    font-size: 18px;\n    background-image: url('assets/imagesIdvision/background.png');\n\n    background-size: cover;\n    background-repeat: no-repeat;\n    background-position: center;\n    \n}\n\n\nh2[_ngcontent-%COMP%] {\n    font-size: 1.5em;\n    font-weight: bold;\n    color: var(--orange-primary, orange);\n    text-align: center;\n    margin-top: 20px;\n  }\n  \n  p[_ngcontent-%COMP%] {\n    font-size: 1em;\n    color: #666;\n    text-align: center;\n    margin: 0;\n  }\n  \n  ion-grid[_ngcontent-%COMP%] {\n    margin-top: 20px;\n  }\n  \n  ion-row[_ngcontent-%COMP%] {\n    margin: 15px 0;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n  \n  ion-col[_ngcontent-%COMP%] {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    text-align: center;\n  }\n  \n  ion-icon[_ngcontent-%COMP%] {\n    font-size: 3em; // Tama\u00F1o del \u00EDcono para que sea m\u00E1s destacado\n    color: #ff8c00; // Color similar al amarillo-naranja\n    margin-bottom: 10px;\n  }\n\n.container-text[_ngcontent-%COMP%] {\n  text-align: justify !important;\n    width: 180px;\n}\n\np[_ngcontent-%COMP%] {\n  text-align: start;\n}\n\n.p-center[_ngcontent-%COMP%]{\ntext-align: center;\n}\n\n.p-justify[_ngcontent-%COMP%]{\n  text-align: start;\n  }\n\n.head[_ngcontent-%COMP%] {\n    padding: 30px;\n    margin-top: 75px;\n    margin-bottom: 20px;\n}\n\n\n.verify-container[_ngcontent-%COMP%] {\n   // padding: 60px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    height: 40%; // Ocupa todo el espacio disponible en el ion-content\n    text-align: center;\n    //background-color: black;\n}\n\n.fixed-footer[_ngcontent-%COMP%] {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    width: 100%;\n    padding: 0px 10px 25px 10px;\n    // background-color: black; // Color de fondo, opcional\n   // box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); // Sombra suave para que resalte\n  \n    ion-button {\n      width: 90%;\n      max-width: 300px;\n      margin: 0 auto;\n      background-color: #ffcc00;\n      color: #ffffff;\n      font-weight: bold;\n      border-radius: 20px;\n  \n      &:hover {\n        background-color: #ffb300;\n      }\n  \n      &:active {\n        background-color: #e6a800;\n      }\n    }\n  }\n\n  .dpi-container[_ngcontent-%COMP%] {\n    display: flex;\n    //width: 100%;\n    justify-content: center;\n    align-items: center;\n    height: 50vh;\n  }\n.dpi-image[_ngcontent-%COMP%] {\n    width: 200px;\n}\n\n.image-container[_ngcontent-%COMP%] {\n    width: 100px;\n    max-width: 90px;\n}\n\n.col-confirmation[_ngcontent-%COMP%] {\n  margin-top: 100px;\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 20px; \n\n}\n\n.image-item[_ngcontent-%COMP%] {\n  margin-top: 50px;\n  padding-top: 70px;\n}\n\n.font-confirmation[_ngcontent-%COMP%] {\n  font-size: 26px;\n  text-align: center;\n  // color: #005da9;\n  color: var(--purple-primary);\n  font-weight: bold;\n}\n\n\n.rounded-input[_ngcontent-%COMP%] {\n  margin-top: 15px;\n  background-color: #f4f6fc; \n\n  border-radius: 10px; \n\n  padding: 5px 5px; \n\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); \n\n  --ion-border-color: transparent; \n\n}\n\nion-input[_ngcontent-%COMP%] {\n  text-align: center;\n  color: var(--orange-primary);\n  --padding-start: 8px;\n}\n\n.custom-footer[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  display: flex;\n  justify-content: space-between; \n\n  background-color: #ffffff; \n\n  //box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); \n\n}\n\n.custom-footer[_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%] {\n  flex: 0 0 48%; \n\n}\n\n.custom-footer[_ngcontent-%COMP%]   .left-button[_ngcontent-%COMP%] {\n  max-width: 140px;\n  color: black;\n\n  --background: white;\n\n  --color: var(--purple-primary);\n\n  --border-radius: 20px;\n  --border-color: white;\n  margin-right: auto; \n\n  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.0);\n\n}\n\n.custom-footer[_ngcontent-%COMP%]   .right-button[_ngcontent-%COMP%] {\n  margin-left: auto; \n\n}\n\n.tutorial-head[_ngcontent-%COMP%] {\n  padding-top:50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: black;\n}\n\n.center-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 60vh; \n\n  width: 100%;\n}\n\n.tutorial-title[_ngcontent-%COMP%] {\n  text-align: center;\n}\n\n.rounded-input[_ngcontent-%COMP%]   ion-input[_ngcontent-%COMP%] {\n  font-size: 14px; \n\n  color: #333; \n\n}\n\n.rounded-input[_ngcontent-%COMP%]::part(native) {\n  background: transparent; \n\n}\n\n.p-info[_ngcontent-%COMP%]{\n  font-weight: bold;\n  color: #714e93\n}\n\n.custom-button[_ngcontent-%COMP%] {\n    --background: var(--purple-primary, #82298F) !important;\n    --background-hover: var(--purple-secondary, #2b0d30) !important;\n    --background-activated: var(--purple-secondary, #2b0d30) !important;\n    --color: #ffffff !important;\n    --border-radius: 20px !important;\n    --padding-top: 10px !important;\n    --padding-bottom: 10px !important;\n    --box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25) !important;\n    text-transform: none;\n\n      pointer-events: auto;\n\n  }"] });
+        i0.ɵɵproperty("ngIf", !ctx.isValid);
+    } }, dependencies: [IonicModule, i1.IonButton, i1.IonCol, i1.IonGrid, i1.IonInput, i1.IonItem, i1.IonRow, i1.NumericValueAccessor, CommonModule, i7.NgForOf, i7.NgIf, i7.NgSwitch, i7.NgSwitchCase, i7.NgSwitchDefault], styles: [".content[_ngcontent-%COMP%] {\n    padding: 10px;\n    align-items: center;\n    justify-content: center;\n    height: 100vh;\n    background-color: #fff;\n    font-size: 18px;\n    background-image: url('assets/imagesIdvision/background.png');\n\n    background-size: cover;\n    background-repeat: no-repeat;\n    background-position: center;\n    \n}\n\n\nh2[_ngcontent-%COMP%] {\n    font-size: 1.5em;\n    font-weight: bold;\n    color: var(--orange-primary, orange);\n    text-align: center;\n    margin-top: 20px;\n  }\n  \n  p[_ngcontent-%COMP%] {\n    font-size: 1em;\n    color: #666;\n    text-align: center;\n    margin: 0;\n  }\n  \n  ion-grid[_ngcontent-%COMP%] {\n    margin-top: 20px;\n  }\n  \n  ion-row[_ngcontent-%COMP%] {\n    margin: 15px 0;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n  \n  ion-col[_ngcontent-%COMP%] {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    text-align: center;\n  }\n  \n  ion-icon[_ngcontent-%COMP%] {\n    font-size: 3em; // Tama\u00F1o del \u00EDcono para que sea m\u00E1s destacado\n    color: #ff8c00; // Color similar al amarillo-naranja\n    margin-bottom: 10px;\n  }\n\n.container-text[_ngcontent-%COMP%] {\n  text-align: justify !important;\n    width: 180px;\n}\n\np[_ngcontent-%COMP%] {\n  text-align: start;\n}\n\n.p-center[_ngcontent-%COMP%]{\ntext-align: center;\n}\n\n.p-justify[_ngcontent-%COMP%]{\n  text-align: start;\n  }\n\n.head[_ngcontent-%COMP%] {\n    padding: 30px;\n    margin-top: 75px;\n    margin-bottom: 20px;\n}\n\n\n.verify-container[_ngcontent-%COMP%] {\n   // padding: 60px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    height: 40%; // Ocupa todo el espacio disponible en el ion-content\n    text-align: center;\n    //background-color: black;\n}\n\n.fixed-footer[_ngcontent-%COMP%] {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    width: 100%;\n    padding: 0px 10px 25px 10px;\n    // background-color: black; // Color de fondo, opcional\n   // box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); // Sombra suave para que resalte\n  \n    ion-button {\n      width: 90%;\n      max-width: 300px;\n      margin: 0 auto;\n      background-color: #ffcc00;\n      color: #ffffff;\n      font-weight: bold;\n      border-radius: 20px;\n  \n      &:hover {\n        background-color: #ffb300;\n      }\n  \n      &:active {\n        background-color: #e6a800;\n      }\n    }\n  }\n\n  .dpi-container[_ngcontent-%COMP%] {\n    display: flex;\n    //width: 100%;\n    justify-content: center;\n    align-items: center;\n    height: 50vh;\n  }\n.dpi-image[_ngcontent-%COMP%] {\n    width: 200px;\n}\n\n.image-container[_ngcontent-%COMP%] {\n    width: 100px;\n    max-width: 90px;\n}\n\n.col-confirmation[_ngcontent-%COMP%] {\n  margin-top: 100px;\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 20px; \n\n}\n\n.image-item[_ngcontent-%COMP%] {\n  margin-top: 50px;\n  padding-top: 70px;\n}\n\n.font-confirmation[_ngcontent-%COMP%] {\n  font-size: 26px;\n  text-align: center;\n  // color: #005da9;\n  color: var(--purple-primary);\n  font-weight: bold;\n}\n\n\n.rounded-input[_ngcontent-%COMP%] {\n  margin-top: 15px;\n  background-color: #f4f6fc; \n\n  border-radius: 10px; \n\n  padding: 5px 5px; \n\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); \n\n  --ion-border-color: transparent; \n\n}\n\nion-input[_ngcontent-%COMP%] {\n  text-align: center;\n  color: var(--orange-primary);\n  --padding-start: 8px;\n}\n\n.custom-footer[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  display: flex;\n  justify-content: space-between; \n\n  background-color: #ffffff; \n\n  //box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); \n\n}\n\n.custom-footer[_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%] {\n  flex: 0 0 48%; \n\n}\n\n.custom-footer[_ngcontent-%COMP%]   .left-button[_ngcontent-%COMP%] {\n  max-width: 140px;\n  color: black;\n\n  --background: white;\n\n  --color: var(--purple-primary);\n\n  --border-radius: 20px;\n  --border-color: white;\n  margin-right: auto; \n\n  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.0);\n\n}\n\n.custom-footer[_ngcontent-%COMP%]   .right-button[_ngcontent-%COMP%] {\n  margin-left: auto; \n\n}\n\n.tutorial-head[_ngcontent-%COMP%] {\n  padding-top:50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: black;\n}\n\n.center-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 60vh; \n\n  width: 100%;\n}\n\n.tutorial-title[_ngcontent-%COMP%] {\n  text-align: center;\n}\n\n.rounded-input[_ngcontent-%COMP%]   ion-input[_ngcontent-%COMP%] {\n  font-size: 14px; \n\n  color: #333; \n\n}\n\n.rounded-input[_ngcontent-%COMP%]::part(native) {\n  background: transparent; \n\n}\n\n.p-info[_ngcontent-%COMP%]{\n  font-weight: bold;\n  color: #714e93\n}\n\n.custom-button[_ngcontent-%COMP%] {\n    --background: var(--purple-primary, #82298F) !important;\n    --background-hover: var(--purple-secondary, #2b0d30) !important;\n    --background-activated: var(--purple-secondary, #2b0d30) !important;\n    --color: #ffffff !important;\n    --border-radius: 20px !important;\n    --padding-top: 10px !important;\n    --padding-bottom: 10px !important;\n    --box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25) !important;\n    text-transform: none;\n\n      pointer-events: auto;\n\n  }"] });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(IdVisionComponent, [{
         type: Component,
-        args: [{ selector: 'app-id-vision', standalone: true, schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [IonicModule, CommonModule], providers: [DpiService], encapsulation: ViewEncapsulation.Emulated, template: "<swiper-container init=\"false\" class=\"custom-swiper\"> \n  <swiper-slide>\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2 class=\"p-justify\">Verifiquemos tu identidad</h2>\n        <p class=\"p-justify\">Para completar tu verificaci\u00F3n, por favor ingresa tu n\u00FAmero de identificaci\u00F3n (DPI).</p>\n        <ion-item class=\"rounded-input\">\n          <ion-input #dpi type=\"number\" disabled=\"true\" placeholder=\"Digita tu n\u00FAmero de DPI\"></ion-input>\n        </ion-item>\n      </div>\n      <ion-grid class=\"verify-container\">\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/documentsImage.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>Sube fotos de documentos que prueben tu identidad</p>\n            </div>\n          </ion-row>\n        </ion-row>\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/rostroImage.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>Graba un video selfie mientras lees el texto en voz alta</p>\n            </div>\n          </ion-row>\n        </ion-row>\n      </ion-grid>\n\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"handleClick()\">Empecemos</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n  <swiper-slide *ngIf=\"showDpiFront\">\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2>Coloca la parte frontal de tu DPI</h2>\n        <p class=\"p-center p-info\">\n          Evita sombras, reflejos y coloca tu documento dentro del recuadro.\n        </p>\n       \n      </div>\n      <div class=\"dpi-container\">\n        <video id=\"dpiFront\" autoplay loop muted playsinline  width=\"1280\" height=\"300\">\n          <source src=\"assets/imagesIdvision/Dpi-front.mp4\" type=\"video/mp4\">\n        </video>\n      </div>\n\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"openCameraOverlayFrontal()\">Tomar una foto</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n  <swiper-slide *ngIf=\"showDpiBack\">\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2>Coloca el reverso de tu DPI</h2>\n        <p class=\"p-center p-info\">\n          Evita sombras, reflejos y coloca tu documento dentro del recuadro.</p>\n      </div>\n      <div class=\"dpi-container\">\n        <video id=\"dpiBack\" autoplay loop muted playsinline width=\"1280\" height=\"300\">\n          <source src=\"assets/imagesIdvision/Dpi-back-1.mp4\" type=\"video/mp4\">\n        </video>\n      </div>\n\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"openCameraOverlayTrasero()\">Tomar una foto</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n  <swiper-slide *ngIf=\"showVideoSelfie\">\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2>Video Selfie</h2>\n        <p class=\"p-justify\">Graba un breve video para completar tu proceso de identificaci\u00F3n.</p>\n      </div>\n      <ion-grid class=\"verify-container\">\n        <br/>\n        <br/>\n        <br/>\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/Foco.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>\n                Si est\u00E1s en interiores, aseg\u00FArate de que la luz est\u00E9 frente a ti, no detr\u00E1s.\n              </p>\n            </div>\n          </ion-row>\n        </ion-row>\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/rostroImage.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>\n                Aseg\u00FArate de que tu rostro sea visible y de no usar anteojos ni\n                sombreros.\n              </p>\n            </div>\n          </ion-row>\n        </ion-row>\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/Selfie-rostro.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>\n                Activa la c\u00E1mara frontal y verifica que tu rostro est\u00E9 bien centrado..\n              </p>\n            </div>\n          </ion-row>\n        </ion-row>\n      </ion-grid>\n\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"openAcuerdoVideo()\">Abrir la c\u00E1mara</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n  <swiper-slide>\n    <div class=\"content\">\n      <ion-col class=\"col-confirmation\" *ngIf=\"isAllValid()\">\n        <ion-item color=\"white\">\n          <p class=\"font-confirmation\">\n            Informaci\u00F3n procesada de manera correcta\n          </p>\n        </ion-item>\n        <ion-item color=\"white\" class=\"image-item\">\n          <img src=\"assets/imagesIdvision/blue-check.png\" alt=\"\" />\n        </ion-item>\n      </ion-col>\n\n      <ion-col class=\"col-confirmation\" *ngIf=\"!isAllValid()\">\n        <ion-item color=\"white\">\n          <p class=\"font-confirmation\">\n            Ocurri\u00F3 un error al procesar la informaci\u00F3n \n          </p>\n        </ion-item>\n        <ion-item color=\"white\" class=\"image-item\">\n          <img src=\"assets/imagesIdvision/blue-check.png\" alt=\"\" />\n        </ion-item>\n      </ion-col>\n      <ion-item color=\"white\">\n        <div class=\"fixed-footer\">\n          <ion-button class=\"custom-button\" expand=\"block\" (click)=\"handleExit()\">Salir</ion-button>\n        </div>\n      </ion-item>\n    </div>\n  </swiper-slide>\n</swiper-container>", styles: ["\n.content {\n    padding: 10px;\n    align-items: center;\n    justify-content: center;\n    height: 100vh;\n    background-color: #fff;\n    font-size: 18px;\n    background-image: url('assets/imagesIdvision/background.png');\n\n    background-size: cover;\n    background-repeat: no-repeat;\n    background-position: center;\n    \n}\n\n\nh2 {\n    font-size: 1.5em;\n    font-weight: bold;\n    color: var(--orange-primary, orange);\n    text-align: center;\n    margin-top: 20px;\n  }\n  \n  p {\n    font-size: 1em;\n    color: #666;\n    text-align: center;\n    margin: 0;\n  }\n  \n  ion-grid {\n    margin-top: 20px;\n  }\n  \n  ion-row {\n    margin: 15px 0;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n  \n  ion-col {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    text-align: center;\n  }\n  \n  ion-icon {\n    font-size: 3em; // Tama\u00F1o del \u00EDcono para que sea m\u00E1s destacado\n    color: #ff8c00; // Color similar al amarillo-naranja\n    margin-bottom: 10px;\n  }\n\n.container-text {\n  text-align: justify !important;\n    width: 180px;\n}\n\np {\n  text-align: start;\n}\n\n.p-center{\ntext-align: center;\n}\n\n.p-justify{\n  text-align: start;\n  }\n\n.head {\n    padding: 30px;\n    margin-top: 75px;\n    margin-bottom: 20px;\n}\n\n\n.verify-container {\n   // padding: 60px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    height: 40%; // Ocupa todo el espacio disponible en el ion-content\n    text-align: center;\n    //background-color: black;\n}\n\n.fixed-footer {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    width: 100%;\n    padding: 0px 10px 25px 10px;\n    // background-color: black; // Color de fondo, opcional\n   // box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); // Sombra suave para que resalte\n  \n    ion-button {\n      width: 90%;\n      max-width: 300px;\n      margin: 0 auto;\n      background-color: #ffcc00;\n      color: #ffffff;\n      font-weight: bold;\n      border-radius: 20px;\n  \n      &:hover {\n        background-color: #ffb300;\n      }\n  \n      &:active {\n        background-color: #e6a800;\n      }\n    }\n  }\n\n  .dpi-container {\n    display: flex;\n    //width: 100%;\n    justify-content: center;\n    align-items: center;\n    height: 50vh;\n  }\n.dpi-image {\n    width: 200px;\n}\n\n.image-container {\n    width: 100px;\n    max-width: 90px;\n}\n\n.col-confirmation {\n  margin-top: 100px;\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 20px; /* Ajusta el espacio entre los elementos */\n}\n\n.image-item {\n  margin-top: 50px;\n  padding-top: 70px;\n}\n\n.font-confirmation {\n  font-size: 26px;\n  text-align: center;\n  // color: #005da9;\n  color: var(--purple-primary);\n  font-weight: bold;\n}\n\n\n.rounded-input {\n  margin-top: 15px;\n  background-color: #f4f6fc; /* Color de fondo suave */\n  border-radius: 10px; /* Bordes redondeados */\n  padding: 5px 5px; /* Espaciado interno */\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */\n  --ion-border-color: transparent; /* Quita cualquier borde por defecto */\n}\n\nion-input {\n  text-align: center;\n  color: var(--orange-primary);\n  --padding-start: 8px;\n}\n\n.custom-footer {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  display: flex;\n  justify-content: space-between; /* Alinea los botones a los extremos */\n  background-color: #ffffff; /* Fondo opcional */\n  //box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Sombra opcional */\n}\n\n.custom-footer ion-button {\n  flex: 0 0 48%; /* Los botones ocupan casi la mitad del espacio */\n}\n\n.custom-footer .left-button {\n  max-width: 140px;\n  color: black;\n\n  --background: white;\n\n  --color: var(--purple-primary);\n\n  --border-radius: 20px;\n  --border-color: white;\n  margin-right: auto; /* Opcional si necesitas ajustes de margen */\n  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.0);\n\n}\n\n.custom-footer .right-button {\n  margin-left: auto; /* Opcional si necesitas ajustes de margen */\n}\n\n.tutorial-head {\n  padding-top:50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: black;\n}\n\n.center-container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 60vh; /* Ajusta este valor si quieres m\u00E1s o menos espacio vertical */\n  width: 100%;\n}\n\n.tutorial-title {\n  text-align: center;\n}\n\n.rounded-input ion-input {\n  font-size: 14px; /* Tama\u00F1o de texto */\n  color: #333; /* Color del texto */\n}\n\n.rounded-input::part(native) {\n  background: transparent; /* Fondo transparente para evitar conflictos */\n}\n\n.p-info{\n  font-weight: bold;\n  color: #714e93\n}\n\n.custom-button {\n    --background: var(--purple-primary, #82298F) !important;\n    --background-hover: var(--purple-secondary, #2b0d30) !important;\n    --background-activated: var(--purple-secondary, #2b0d30) !important;\n    --color: #ffffff !important;\n    --border-radius: 20px !important;\n    --padding-top: 10px !important;\n    --padding-bottom: 10px !important;\n    --box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25) !important;\n    text-transform: none;\n\n      pointer-events: auto;\n\n  }\n  "] }]
+        args: [{ selector: 'app-id-vision', standalone: true, schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [IonicModule, CommonModule], providers: [DpiService], encapsulation: ViewEncapsulation.Emulated, template: "<!-- <swiper-container init=\"false\" class=\"custom-swiper\"> \n  <swiper-slide>\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2 class=\"p-justify\">Verifiquemos tu identidad</h2>\n        <p class=\"p-justify\">Para completar tu verificaci\u00F3n, por favor ingresa tu n\u00FAmero de identificaci\u00F3n (DPI).</p>\n        <ion-item class=\"rounded-input\">\n          <ion-input #dpi type=\"number\" disabled=\"true\" placeholder=\"Digita tu n\u00FAmero de DPI\"></ion-input>\n        </ion-item>\n      </div>\n      <ion-grid class=\"verify-container\">\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/documentsImage.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>Sube fotos de documentos que prueben tu identidad</p>\n            </div>\n          </ion-row>\n        </ion-row>\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/rostroImage.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>Graba un video selfie mientras lees el texto en voz alta</p>\n            </div>\n          </ion-row>\n        </ion-row>\n      </ion-grid>\n\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"handleClick()\">Empecemos</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n  <swiper-slide *ngIf=\"showDpiFront\">\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2>Coloca la parte frontal de tu DPI</h2>\n        <p class=\"p-center p-info\">\n          Evita sombras, reflejos y coloca tu documento dentro del recuadro.\n        </p>\n       \n      </div>\n      <div class=\"dpi-container\">\n        <video id=\"dpiFront\" autoplay loop muted playsinline  width=\"1280\" height=\"300\">\n          <source src=\"assets/imagesIdvision/Dpi-front.mp4\" type=\"video/mp4\">\n        </video>\n      </div>\n\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"openCameraOverlayFrontal()\">Tomar una foto</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n  <swiper-slide *ngIf=\"showDpiBack\">\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2>Coloca el reverso de tu DPI</h2>\n        <p class=\"p-center p-info\">\n          Evita sombras, reflejos y coloca tu documento dentro del recuadro.</p>\n      </div>\n      <div class=\"dpi-container\">\n        <video id=\"dpiBack\" autoplay loop muted playsinline width=\"1280\" height=\"300\">\n          <source src=\"assets/imagesIdvision/Dpi-back-1.mp4\" type=\"video/mp4\">\n        </video>\n      </div>\n\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"openCameraOverlayTrasero()\">Tomar una foto</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n  <swiper-slide *ngIf=\"showVideoSelfie\">\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2>Video Selfie</h2>\n        <p class=\"p-justify\">Graba un breve video para completar tu proceso de identificaci\u00F3n.</p>\n      </div>\n      <ion-grid class=\"verify-container\">\n        <br/>\n        <br/>\n        <br/>\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/Foco.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>\n                Si est\u00E1s en interiores, aseg\u00FArate de que la luz est\u00E9 frente a ti, no detr\u00E1s.\n              </p>\n            </div>\n          </ion-row>\n        </ion-row>\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/rostroImage.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>\n                Aseg\u00FArate de que tu rostro sea visible y de no usar anteojos ni\n                sombreros.\n              </p>\n            </div>\n          </ion-row>\n        </ion-row>\n        <ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/Selfie-rostro.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>\n                Activa la c\u00E1mara frontal y verifica que tu rostro est\u00E9 bien centrado..\n              </p>\n            </div>\n          </ion-row>\n        </ion-row>\n      </ion-grid>\n\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"openAcuerdoVideo()\">Abrir la c\u00E1mara</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n  <swiper-slide>\n    <div class=\"content\">\n      <ion-col class=\"col-confirmation\" *ngIf=\"isAllValid()\">\n        <ion-item color=\"white\">\n          <p class=\"font-confirmation\">\n            Informaci\u00F3n procesada de manera correcta\n          </p>\n        </ion-item>\n        <ion-item color=\"white\" class=\"image-item\">\n          <img src=\"assets/imagesIdvision/blue-check.png\" alt=\"\" />\n        </ion-item>\n      </ion-col>\n\n      <ion-col class=\"col-confirmation\" *ngIf=\"!isAllValid()\">\n        <ion-item color=\"white\">\n          <p class=\"font-confirmation\">\n            Ocurri\u00F3 un error al procesar la informaci\u00F3n \n          </p>\n        </ion-item>\n        <ion-item color=\"white\" class=\"image-item\">\n          <img src=\"assets/imagesIdvision/blue-check.png\" alt=\"\" />\n        </ion-item>\n      </ion-col>\n      <ion-item color=\"white\">\n        <div class=\"fixed-footer\">\n          <ion-button class=\"custom-button\" expand=\"block\" (click)=\"handleExit()\">Salir</ion-button>\n        </div>\n      </ion-item>\n    </div>\n  </swiper-slide>\n</swiper-container> -->\n\n<swiper-container init=\"false\" class=\"custom-swiper\">\n\n  <!-- \uD83D\uDD39 PASO 1: Verificaci\u00F3n de Identidad (Est\u00E1tico) -->\n  <swiper-slide>\n    <div class=\"content\">\n      <div class=\"head\">\n        <h2 class=\"p-justify\">Verifiquemos tu identidad</h2>\n        <p class=\"p-justify\">Para completar tu verificaci\u00F3n, por favor ingresa tu n\u00FAmero de identificaci\u00F3n (DPI).</p>\n        <ion-item class=\"rounded-input\">\n          <ion-input #dpi type=\"number\" disabled=\"true\" placeholder=\"Digita tu n\u00FAmero de DPI\"></ion-input>\n        </ion-item>\n      </div>\n      <ion-grid class=\"verify-container\">\n        <ion-row>\n          <div class=\"image-container\">\n            <img src=\"assets/imagesIdvision/documentsImage.png\" alt=\"\" />\n          </div>\n          <div class=\"container-text\">\n            <p>Sube fotos de documentos que prueben tu identidad</p>\n          </div>\n        </ion-row>\n        <ion-row>\n          <div class=\"image-container\">\n            <img src=\"assets/imagesIdvision/rostroImage.png\" alt=\"\" />\n          </div>\n          <div class=\"container-text\">\n            <p>Graba un video selfie mientras lees el texto en voz alta</p>\n          </div>\n        </ion-row>\n      </ion-grid>\n      <div class=\"fixed-footer\">\n        <ion-button class=\"custom-button\" expand=\"block\" (click)=\"handleClick()\">Empecemos</ion-button>\n      </div>\n    </div>\n  </swiper-slide>\n\n  <!-- \uD83D\uDD39 PASOS INTERMEDIOS: Se generan din\u00E1micamente seg\u00FAn el `order` -->\n  <swiper-slide *ngFor=\"let step of validationConfig\">\n    <div class=\"content\" [ngSwitch]=\"step.type\">\n      \n      <!-- \uD83D\uDD39 DPI Frontal -->\n      <div *ngSwitchCase=\"2\">\n        <div class=\"head\">\n          <h2>Coloca la parte frontal de tu DPI</h2>\n          <p class=\"p-center p-info\">Evita sombras, reflejos y coloca tu documento dentro del recuadro.</p>\n        </div>\n        <div class=\"dpi-container\">\n          <video autoplay loop muted playsinline width=\"1280\" height=\"300\">\n            <source src=\"assets/imagesIdvision/Dpi-front.mp4\" type=\"video/mp4\">\n          </video>\n        </div>\n        <div class=\"fixed-footer\">\n          <ion-button class=\"custom-button\" expand=\"block\" (click)=\"step.action()\">Tomar una foto</ion-button>\n        </div>\n      </div>\n\n      <!-- \uD83D\uDD39 DPI Trasero -->\n      <div *ngSwitchCase=\"3\">\n        <div class=\"head\">\n          <h2>Coloca el reverso de tu DPI</h2>\n          <p class=\"p-center p-info\">Evita sombras, reflejos y coloca tu documento dentro del recuadro.</p>\n        </div>\n        <div class=\"dpi-container\">\n          <video autoplay loop muted playsinline width=\"1280\" height=\"300\">\n            <source src=\"assets/imagesIdvision/Dpi-back.mp4\" type=\"video/mp4\">\n          </video>\n        </div>\n        <div class=\"fixed-footer\">\n          <ion-button class=\"custom-button\" expand=\"block\" (click)=\"step.action()\">Tomar una foto</ion-button>\n        </div>\n      </div>\n\n      <!-- \uD83D\uDD39 Video Selfie -->\n      <div *ngSwitchCase=\"4\">\n        <div class=\"head\">\n          <h2>Video Selfie</h2>\n          <p class=\"p-justify\">Graba un breve video para completar tu proceso de identificaci\u00F3n.</p>\n        </div>\n        <ion-grid class=\"verify-container\">\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/Foco.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>Si est\u00E1s en interiores, aseg\u00FArate de que la luz est\u00E9 frente a ti, no detr\u00E1s.</p>\n            </div>\n          </ion-row>\n          <ion-row>\n            <div class=\"image-container\">\n              <img src=\"assets/imagesIdvision/rostroImage.png\" alt=\"\" />\n            </div>\n            <div class=\"container-text\">\n              <p>Aseg\u00FArate de que tu rostro sea visible y de no usar anteojos ni sombreros.</p>\n            </div>\n          </ion-row>\n        </ion-grid>\n        <div class=\"fixed-footer\">\n          <ion-button class=\"custom-button\" expand=\"block\" (click)=\"step.action()\">Abrir la c\u00E1mara</ion-button>\n        </div>\n      </div>\n\n      <!-- \uD83D\uDD39 Caso por defecto (Error en configuraci\u00F3n) -->\n      <div *ngSwitchDefault>\n        <h2>Paso desconocido</h2>\n      </div>\n\n    </div>\n  </swiper-slide>\n\n  <!-- \uD83D\uDD39 PASO FINAL: Confirmaci\u00F3n (Est\u00E1tico) -->\n  <swiper-slide>\n    <div class=\"content\">\n      <ion-col class=\"col-confirmation\" *ngIf=\"isValid\">\n        <ion-item color=\"white\">\n          <p class=\"font-confirmation\">Informaci\u00F3n procesada de manera correcta</p>\n        </ion-item>\n        <ion-item color=\"white\" class=\"image-item\">\n          <img src=\"assets/imagesIdvision/blue-check.png\" alt=\"\" />\n        </ion-item>\n      </ion-col>\n      <ion-col class=\"col-confirmation\" *ngIf=\"!isValid\">\n        <ion-item color=\"white\">\n          <p class=\"font-confirmation\">Ocurri\u00F3 un error al procesar la informaci\u00F3n</p>\n        </ion-item>\n        <ion-item color=\"white\" class=\"image-item\">\n          <img src=\"assets/imagesIdvision/blue-check.png\" alt=\"\" />\n        </ion-item>\n      </ion-col>\n      <ion-item color=\"white\">\n        <div class=\"fixed-footer\">\n          <ion-button class=\"custom-button\" expand=\"block\" (click)=\"handleExit()\">Salir</ion-button>\n        </div>\n      </ion-item>\n    </div>\n  </swiper-slide>\n\n</swiper-container>\n", styles: ["\n.content {\n    padding: 10px;\n    align-items: center;\n    justify-content: center;\n    height: 100vh;\n    background-color: #fff;\n    font-size: 18px;\n    background-image: url('assets/imagesIdvision/background.png');\n\n    background-size: cover;\n    background-repeat: no-repeat;\n    background-position: center;\n    \n}\n\n\nh2 {\n    font-size: 1.5em;\n    font-weight: bold;\n    color: var(--orange-primary, orange);\n    text-align: center;\n    margin-top: 20px;\n  }\n  \n  p {\n    font-size: 1em;\n    color: #666;\n    text-align: center;\n    margin: 0;\n  }\n  \n  ion-grid {\n    margin-top: 20px;\n  }\n  \n  ion-row {\n    margin: 15px 0;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n  \n  ion-col {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    text-align: center;\n  }\n  \n  ion-icon {\n    font-size: 3em; // Tama\u00F1o del \u00EDcono para que sea m\u00E1s destacado\n    color: #ff8c00; // Color similar al amarillo-naranja\n    margin-bottom: 10px;\n  }\n\n.container-text {\n  text-align: justify !important;\n    width: 180px;\n}\n\np {\n  text-align: start;\n}\n\n.p-center{\ntext-align: center;\n}\n\n.p-justify{\n  text-align: start;\n  }\n\n.head {\n    padding: 30px;\n    margin-top: 75px;\n    margin-bottom: 20px;\n}\n\n\n.verify-container {\n   // padding: 60px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    height: 40%; // Ocupa todo el espacio disponible en el ion-content\n    text-align: center;\n    //background-color: black;\n}\n\n.fixed-footer {\n    position: fixed;\n    bottom: 0;\n    left: 0;\n    width: 100%;\n    padding: 0px 10px 25px 10px;\n    // background-color: black; // Color de fondo, opcional\n   // box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); // Sombra suave para que resalte\n  \n    ion-button {\n      width: 90%;\n      max-width: 300px;\n      margin: 0 auto;\n      background-color: #ffcc00;\n      color: #ffffff;\n      font-weight: bold;\n      border-radius: 20px;\n  \n      &:hover {\n        background-color: #ffb300;\n      }\n  \n      &:active {\n        background-color: #e6a800;\n      }\n    }\n  }\n\n  .dpi-container {\n    display: flex;\n    //width: 100%;\n    justify-content: center;\n    align-items: center;\n    height: 50vh;\n  }\n.dpi-image {\n    width: 200px;\n}\n\n.image-container {\n    width: 100px;\n    max-width: 90px;\n}\n\n.col-confirmation {\n  margin-top: 100px;\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 20px; /* Ajusta el espacio entre los elementos */\n}\n\n.image-item {\n  margin-top: 50px;\n  padding-top: 70px;\n}\n\n.font-confirmation {\n  font-size: 26px;\n  text-align: center;\n  // color: #005da9;\n  color: var(--purple-primary);\n  font-weight: bold;\n}\n\n\n.rounded-input {\n  margin-top: 15px;\n  background-color: #f4f6fc; /* Color de fondo suave */\n  border-radius: 10px; /* Bordes redondeados */\n  padding: 5px 5px; /* Espaciado interno */\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */\n  --ion-border-color: transparent; /* Quita cualquier borde por defecto */\n}\n\nion-input {\n  text-align: center;\n  color: var(--orange-primary);\n  --padding-start: 8px;\n}\n\n.custom-footer {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  display: flex;\n  justify-content: space-between; /* Alinea los botones a los extremos */\n  background-color: #ffffff; /* Fondo opcional */\n  //box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Sombra opcional */\n}\n\n.custom-footer ion-button {\n  flex: 0 0 48%; /* Los botones ocupan casi la mitad del espacio */\n}\n\n.custom-footer .left-button {\n  max-width: 140px;\n  color: black;\n\n  --background: white;\n\n  --color: var(--purple-primary);\n\n  --border-radius: 20px;\n  --border-color: white;\n  margin-right: auto; /* Opcional si necesitas ajustes de margen */\n  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.0);\n\n}\n\n.custom-footer .right-button {\n  margin-left: auto; /* Opcional si necesitas ajustes de margen */\n}\n\n.tutorial-head {\n  padding-top:50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: black;\n}\n\n.center-container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 60vh; /* Ajusta este valor si quieres m\u00E1s o menos espacio vertical */\n  width: 100%;\n}\n\n.tutorial-title {\n  text-align: center;\n}\n\n.rounded-input ion-input {\n  font-size: 14px; /* Tama\u00F1o de texto */\n  color: #333; /* Color del texto */\n}\n\n.rounded-input::part(native) {\n  background: transparent; /* Fondo transparente para evitar conflictos */\n}\n\n.p-info{\n  font-weight: bold;\n  color: #714e93\n}\n\n.custom-button {\n    --background: var(--purple-primary, #82298F) !important;\n    --background-hover: var(--purple-secondary, #2b0d30) !important;\n    --background-activated: var(--purple-secondary, #2b0d30) !important;\n    --color: #ffffff !important;\n    --border-radius: 20px !important;\n    --padding-top: 10px !important;\n    --padding-bottom: 10px !important;\n    --box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25) !important;\n    text-transform: none;\n\n      pointer-events: auto;\n\n  }\n  "] }]
     }], () => [{ type: i1.ModalController }, { type: i2.DpiService }, { type: i1.AlertController }, { type: i1.LoadingController }, { type: i1.Platform }, { type: i3.ModalDpiServices }, { type: i4.ModalVideoSelfieServices }, { type: i5.SdkCommunicationService }, { type: i1.NavController }, { type: i6.ValidateMetaGService }, { type: i0.ChangeDetectorRef }], { dpi: [{
             type: ViewChild,
             args: ['dpi', { static: false }]

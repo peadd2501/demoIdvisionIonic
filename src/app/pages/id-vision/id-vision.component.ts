@@ -105,6 +105,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   showDpiBack: boolean = false;
   showVideoSelfie: boolean = false;
 
+  isValid = false;
+
+
   // async loadMockValidationConfig() {
   //   this.dpiService.getConnectionById(this.connection).subscribe({
   //     next: (connection: any) => {
@@ -124,26 +127,55 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   //   });
   // }
   
+  //renderizado dinamico
+  // async loadMockValidationConfig() {
+  //   this.dpiService.getConnectionById(this.connection).subscribe({
+  //     next: (connection: any) => {
+  //       if (connection?.details?.config && Array.isArray(connection.details.config)) {
+  //         console.log("Configuración obtenida:", connection.details.config);
+  
+  //         // 🔥 Procesamos la configuración recibida
+  //         this.validationConfig = connection.details.config
+  //           .map((config: { id: number, type: number, order: string }) => ({
+  //             id: config.id,
+  //             type: config.type,
+  //             order: Number(config.order) // Convertimos `order` a número
+  //           }))
+  //           .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos por `order`
+  
+  //         console.log("Configuración ordenada:", this.validationConfig);
+  
+  //         // 🔥 Asegurar que los flags de visibilidad se actualicen correctamente
+  //         this.setValidationConfig();
+  
+  //       } else {
+  //         console.warn("La configuración obtenida no es válida:", connection);
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error("Error al obtener la conexión:", err);
+  //     }
+  //   });
+  // }
+
   async loadMockValidationConfig() {
     this.dpiService.getConnectionById(this.connection).subscribe({
       next: (connection: any) => {
         if (connection?.details?.config && Array.isArray(connection.details.config)) {
           console.log("Configuración obtenida:", connection.details.config);
   
-          // 🔥 Procesamos la configuración recibida
+          // 🔥 Transformamos la configuración y ordenamos los pasos
           this.validationConfig = connection.details.config
             .map((config: { id: number, type: number, order: string }) => ({
               id: config.id,
               type: config.type,
-              order: Number(config.order) // Convertimos `order` a número
+              order: Number(config.order), // Convertimos `order` a número
+              action: this.getStepAction(config.type) // Asignamos acción específica
             }))
-            .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos por `order`
+            .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos dinámicamente por `order`
   
-          console.log("Configuración ordenada:", this.validationConfig);
-  
-          // 🔥 Asegurar que los flags de visibilidad se actualicen correctamente
+          console.log("Configuración ordenada y lista:", this.validationConfig);
           this.setValidationConfig();
-  
         } else {
           console.warn("La configuración obtenida no es válida:", connection);
         }
@@ -153,6 +185,16 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
+  
+  getStepAction(type: number): () => void {
+    switch (type) {
+      case 2: return () => this.openCameraOverlayFrontal();
+      case 3: return () => this.openCameraOverlayTrasero();
+      case 4: return () => this.openAcuerdoVideo();
+      default: return () => console.warn('Tipo de paso desconocido:', type);
+    }
+  }
+  
   
   
 
@@ -186,7 +228,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit () {
     await this.loadMockValidationConfig();
-    this.setValidationConfig();
 
 
     this.modalDpiServices.closeOverlay$.subscribe(() => {
@@ -302,15 +343,26 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   // }
 
 
+  // handleExit(): void {
+  //   const result =
+  //     (!this.showDpiFront || this.validateMetaG.dpiFront) &&
+  //     (!this.showDpiBack || this.validateMetaG.dpiBack) &&
+  //     (!this.showVideoSelfie || this.validateMetaG.videoSelfie);
+  
+  //   this.sdkCommunicationService.emitExit(result);
+  //   this.navController.back();
+  // }
   handleExit(): void {
-    const result =
-      (!this.showDpiFront || this.validateMetaG.dpiFront) &&
-      (!this.showDpiBack || this.validateMetaG.dpiBack) &&
-      (!this.showVideoSelfie || this.validateMetaG.videoSelfie);
+    this.updateValidation();
+    const result = this.isAllValid(); // Usamos la validación corregida
+    console.log("🚀 Resultado final de validación en handleExit:", result);
   
     this.sdkCommunicationService.emitExit(result);
     this.navController.back();
   }
+  
+  
+  
 
   
   // isAllValid(): boolean {
@@ -323,28 +375,94 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   // }
 
   isAllValid(): boolean {
+    console.log('🔎 Verificando estado de los pasos:');
+    console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
+    console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
+    console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
+  
+    // Si NO hay pasos activados, devolvemos `false`
+    if (!this.showDpiFront && !this.showDpiBack && !this.showVideoSelfie) {
+      console.log('⚠️ No hay pasos activos, devolviendo `false`.');
+      return false;
+    }
+  
     let isValid = true;
   
-    if (this.showDpiFront) {
-      isValid = isValid && this.validateMetaG.dpiFront;
+    // Evaluamos cada paso ACTIVADO y verificamos si fue completado
+    if (this.showDpiFront && !this.validateMetaG.dpiFront) {
+      isValid = false;
+      console.log('❌ DPI Frontal NO completado.');
     }
-    if (this.showDpiBack) {
-      isValid = isValid && this.validateMetaG.dpiBack;
+    if (this.showDpiBack && !this.validateMetaG.dpiBack) {
+      isValid = false;
+      console.log('❌ DPI Trasero NO completado.');
     }
-    if (this.showVideoSelfie) {
-      isValid = isValid && this.validateMetaG.videoSelfie;
+    if (this.showVideoSelfie && !this.validateMetaG.videoSelfie) {
+      isValid = false;
+      console.log('❌ Video Selfie NO completado.');
     }
   
-    this.validateMetaGService.setValidateMetaG(isValid);
+    console.log('🚀 Resultado final de validación:', isValid);
     return isValid;
   }
+  
+
+  updateValidation() {
+    console.log('🔄 Actualizando validación...');
+    
+    console.log('Estado ANTES de validar:');
+    console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
+    console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
+    console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
+  
+    // Validamos los pasos visibles
+    const dpiFrontValid = this.showDpiFront ? this.validateMetaG.dpiFront : true;
+    const dpiBackValid = this.showDpiBack ? this.validateMetaG.dpiBack : true;
+    const videoSelfieValid = this.showVideoSelfie ? this.validateMetaG.videoSelfie : true;
+  
+    this.isValid = dpiFrontValid && dpiBackValid && videoSelfieValid;
+  
+    console.log('🚀 Estado FINAL de validación:', this.isValid);
+  
+    // 🔥 Forzamos la actualización de la UI
+    this.cdRef.detectChanges();
+  }
+  
+
+
 
   handleSkipTutorial() {
     this.swiperElement()?.swiper?.slideTo(5);
   }
 
   handleNext() {
-    this.swiperElement()?.swiper?.slideNext();
+    setTimeout(() => {
+      if (this.swiperElement()?.swiper) {
+        this.swiperElement()?.swiper?.slideNext();
+        // this.swiperElement()?.swiper.slideTo(slide);
+      }
+    }, 300);
+  }
+
+  moveToNextStep(currentType: number) {
+    console.log(`Buscando el siguiente paso después de Type ${currentType}`);
+
+    const currentIndex = this.validationConfig.findIndex(step => step.type === currentType);
+  
+    if (currentIndex === -1) {
+      console.warn('No se encontró el paso actual en validationConfig.');
+      return;
+    }
+  
+    const nextStep = this.validationConfig[currentIndex + 1];
+  
+    if (nextStep) {
+      console.log(`Moviendo al siguiente paso: Type ${nextStep.type}, Order ${nextStep.order}`);
+      this.handleSlide(nextStep.order);
+    } else {
+      console.log('No hay más pasos, proceso finalizado.');
+      this.handleSlide(this.validationConfig.length + 1);
+    }
   }
 
   async InitProccess() {
@@ -422,13 +540,17 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.closeModalFromParent();
               this.modalController.dismiss();
               this.validateMetaG.dpiFront = true;
-              this.handleSlide(2);
+              this.updateValidation();
+              // this.handleSlide(2);
+              // this.handleNext();
+              this.moveToNextStep(2);
             });
           } else {
             this.showAlert(response['mensage'], '', response['details'], () => {
               this.resumeCameraFromParent();
             });
             this.validateMetaG.dpiFront = false;
+            this.updateValidation();
           }
         },
         error: (error) => {
@@ -437,6 +559,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           });
 
           this.validateMetaG.dpiFront = false;
+          this.updateValidation();
           if (loader) {
             loader.dismiss();
           }
@@ -493,13 +616,18 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.closeModalFromParent();
               this.modalController.dismiss();
               this.validateMetaG.dpiBack = true;
-              this.handleSlide(3);
+                            this.updateValidation();
+              // this.handleSlide(3);
+              // this.handleNext();
+              this.moveToNextStep(3);
+
             });
           } else {
             this.showAlert(response['mensage'], '', response['details'], () => {
               this.resumeCameraFromParent();
             });
             this.validateMetaG.dpiBack = false;
+            this.updateValidation();
           }
         },
         error: (error) => {
@@ -511,6 +639,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             loader.dismiss();
           }
           this.validateMetaG.dpiBack = false;
+          this.updateValidation();
           console.error('Error al llamar al servicio:', error);
         },
       });
@@ -538,13 +667,18 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.closeModalVideoSelfie();
               this.modalController.dismiss();
               this.validateMetaG.videoSelfie = true;
-              this.handleSlide(4);
+              this.updateValidation();
+              // this.handleSlide(4);
+              // this.handleNext();
+              this.moveToNextStep(4);
+
             });
           } else {
             this.showAlert('Error', response['message'], [], () => {
               this.closeModalVideoSelfie();
             });
             this.validateMetaG.videoSelfie = false;
+            this.updateValidation();
           }
         },
         error: (error) => {

@@ -43,7 +43,9 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     showDpiFront: boolean;
     showDpiBack: boolean;
     showVideoSelfie: boolean;
+    isValid: boolean;
     loadMockValidationConfig(): Promise<void>;
+    getStepAction(type: number): () => void;
     setValidationConfig(): void;
     ngOnInit(): Promise<void>;
     ngAfterViewInit(): void;
@@ -53,8 +55,10 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     handleGetInit(): void;
     handleExit(): void;
     isAllValid(): boolean;
+    updateValidation(): void;
     handleSkipTutorial(): void;
     handleNext(): void;
+    moveToNextStep(currentType: number): void;
     InitProccess(): Promise<void>;
     DpiFrontProccess(filePath: File): Promise<void>;
     closeModalFromParent(): void;

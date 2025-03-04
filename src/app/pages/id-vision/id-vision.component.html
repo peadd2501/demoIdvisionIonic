@@ -1,4 +1,4 @@
-<swiper-container init="false" class="custom-swiper"> 
+<!-- <swiper-container init="false" class="custom-swiper"> 
   <swiper-slide>
     <div class="content">
       <div class="head">
@@ -158,4 +158,142 @@
       </ion-item>
     </div>
   </swiper-slide>
+</swiper-container> -->
+
+<swiper-container init="false" class="custom-swiper">
+
+  <!-- 🔹 PASO 1: Verificación de Identidad (Estático) -->
+  <swiper-slide>
+    <div class="content">
+      <div class="head">
+        <h2 class="p-justify">Verifiquemos tu identidad</h2>
+        <p class="p-justify">Para completar tu verificación, por favor ingresa tu número de identificación (DPI).</p>
+        <ion-item class="rounded-input">
+          <ion-input #dpi type="number" disabled="true" placeholder="Digita tu número de DPI"></ion-input>
+        </ion-item>
+      </div>
+      <ion-grid class="verify-container">
+        <ion-row>
+          <div class="image-container">
+            <img src="assets/imagesIdvision/documentsImage.png" alt="" />
+          </div>
+          <div class="container-text">
+            <p>Sube fotos de documentos que prueben tu identidad</p>
+          </div>
+        </ion-row>
+        <ion-row>
+          <div class="image-container">
+            <img src="assets/imagesIdvision/rostroImage.png" alt="" />
+          </div>
+          <div class="container-text">
+            <p>Graba un video selfie mientras lees el texto en voz alta</p>
+          </div>
+        </ion-row>
+      </ion-grid>
+      <div class="fixed-footer">
+        <ion-button class="custom-button" expand="block" (click)="handleClick()">Empecemos</ion-button>
+      </div>
+    </div>
+  </swiper-slide>
+
+  <!-- 🔹 PASOS INTERMEDIOS: Se generan dinámicamente según el `order` -->
+  <swiper-slide *ngFor="let step of validationConfig">
+    <div class="content" [ngSwitch]="step.type">
+      
+      <!-- 🔹 DPI Frontal -->
+      <div *ngSwitchCase="2">
+        <div class="head">
+          <h2>Coloca la parte frontal de tu DPI</h2>
+          <p class="p-center p-info">Evita sombras, reflejos y coloca tu documento dentro del recuadro.</p>
+        </div>
+        <div class="dpi-container">
+          <video autoplay loop muted playsinline width="1280" height="300">
+            <source src="assets/imagesIdvision/Dpi-front.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="fixed-footer">
+          <ion-button class="custom-button" expand="block" (click)="step.action()">Tomar una foto</ion-button>
+        </div>
+      </div>
+
+      <!-- 🔹 DPI Trasero -->
+      <div *ngSwitchCase="3">
+        <div class="head">
+          <h2>Coloca el reverso de tu DPI</h2>
+          <p class="p-center p-info">Evita sombras, reflejos y coloca tu documento dentro del recuadro.</p>
+        </div>
+        <div class="dpi-container">
+          <video autoplay loop muted playsinline width="1280" height="300">
+            <source src="assets/imagesIdvision/Dpi-back.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="fixed-footer">
+          <ion-button class="custom-button" expand="block" (click)="step.action()">Tomar una foto</ion-button>
+        </div>
+      </div>
+
+      <!-- 🔹 Video Selfie -->
+      <div *ngSwitchCase="4">
+        <div class="head">
+          <h2>Video Selfie</h2>
+          <p class="p-justify">Graba un breve video para completar tu proceso de identificación.</p>
+        </div>
+        <ion-grid class="verify-container">
+          <ion-row>
+            <div class="image-container">
+              <img src="assets/imagesIdvision/Foco.png" alt="" />
+            </div>
+            <div class="container-text">
+              <p>Si estás en interiores, asegúrate de que la luz esté frente a ti, no detrás.</p>
+            </div>
+          </ion-row>
+          <ion-row>
+            <div class="image-container">
+              <img src="assets/imagesIdvision/rostroImage.png" alt="" />
+            </div>
+            <div class="container-text">
+              <p>Asegúrate de que tu rostro sea visible y de no usar anteojos ni sombreros.</p>
+            </div>
+          </ion-row>
+        </ion-grid>
+        <div class="fixed-footer">
+          <ion-button class="custom-button" expand="block" (click)="step.action()">Abrir la cámara</ion-button>
+        </div>
+      </div>
+
+      <!-- 🔹 Caso por defecto (Error en configuración) -->
+      <div *ngSwitchDefault>
+        <h2>Paso desconocido</h2>
+      </div>
+
+    </div>
+  </swiper-slide>
+
+  <!-- 🔹 PASO FINAL: Confirmación (Estático) -->
+  <swiper-slide>
+    <div class="content">
+      <ion-col class="col-confirmation" *ngIf="isValid">
+        <ion-item color="white">
+          <p class="font-confirmation">Información procesada de manera correcta</p>
+        </ion-item>
+        <ion-item color="white" class="image-item">
+          <img src="assets/imagesIdvision/blue-check.png" alt="" />
+        </ion-item>
+      </ion-col>
+      <ion-col class="col-confirmation" *ngIf="!isValid">
+        <ion-item color="white">
+          <p class="font-confirmation">Ocurrió un error al procesar la información</p>
+        </ion-item>
+        <ion-item color="white" class="image-item">
+          <img src="assets/imagesIdvision/blue-check.png" alt="" />
+        </ion-item>
+      </ion-col>
+      <ion-item color="white">
+        <div class="fixed-footer">
+          <ion-button class="custom-button" expand="block" (click)="handleExit()">Salir</ion-button>
+        </div>
+      </ion-item>
+    </div>
+  </swiper-slide>
+
 </swiper-container>
