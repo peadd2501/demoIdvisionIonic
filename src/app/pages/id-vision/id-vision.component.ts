@@ -391,18 +391,18 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     // Evaluamos cada paso ACTIVADO y verificamos si fue completado
     if (this.showDpiFront && !this.validateMetaG.dpiFront) {
       isValid = false;
-      console.log('❌ DPI Frontal NO completado.');
+      console.log('DPI Frontal NO completado.');
     }
     if (this.showDpiBack && !this.validateMetaG.dpiBack) {
       isValid = false;
-      console.log('❌ DPI Trasero NO completado.');
+      console.log('DPI Trasero NO completado.');
     }
     if (this.showVideoSelfie && !this.validateMetaG.videoSelfie) {
       isValid = false;
-      console.log('❌ Video Selfie NO completado.');
+      console.log('Video Selfie NO completado.');
     }
   
-    console.log('🚀 Resultado final de validación:', isValid);
+    console.log('Resultado final de validación:', isValid);
     return isValid;
   }
   
@@ -485,7 +485,21 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             if (!response['error']) {
               localStorage.setItem('codigo', response['details']);
               console.log('Codigo:', response);
-              this.handleSlide(1);
+              console.log(response['completed']);
+              const isCompleted = response['completed'];
+
+              if(isCompleted) { //TODO modo prueba, quitar !
+                console.log("Paso aca en el if")
+                this.validateMetaG.dpiFront = true;
+                this.validateMetaG.dpiBack = true;
+                this.validateMetaG.videoSelfie = true;
+                this.updateValidation();
+
+                this.handleSlide(this.validationConfig.length + 1);
+              }else {
+                console.log("Paso aca en el else")
+                this.handleSlide(1);
+              }
             } else {
               const dpiValue = this.dpi.value as string;
               if (!dpiValue || dpiValue.trim().length === 0) {
