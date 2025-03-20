@@ -113,6 +113,26 @@ export class DpiService {
       );
   }
 
+  acuerdoVideo(file: File, code: string): Observable<DPIProcessResponse> {
+
+    console.log("acuerdoVideo: ", file, code);
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('codigo', code);
+
+    return this.http
+      .post<DPIProcessResponse>(
+        `${this.apiUrl}acuerdoVideo/api/validate`,
+        formData
+      )
+      .pipe(
+        map((response: DPIProcessResponse) => response),
+        catchError((error: HttpErrorResponse) =>
+          throwError(() => new Error(error.message))
+        )
+      );
+  }
+
   InitProccess(
     identificador: string,
     connection: string,
@@ -159,6 +179,53 @@ export class DpiService {
         )
       );
   }
-  
+
+  photoSelfie(file: File, code: string, connection: string, apikey: string): Observable<DPIProcessResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('codigo', code);
+
+    console.log("Connection: ", connection);
+    console.log("apikey: ", apikey);
+
+    const headers = new HttpHeaders({
+      'connection-mg': connection,
+      'api-key': apikey,
+      // 'Content-Type': 'application/json',
+    });
+
+
+    return this.http.post(`${this.apiUrl}selfieAuth/api/validate`, formData, { headers, responseType: 'text' }) // 🔹 Recibir como texto
+    .pipe(
+      map((response: string) => {
+        try {
+          console.log("Respuesta recibida:", response);
+          return JSON.parse(response); // Intentar parsear JSON si es válido
+        } catch (error) {
+          console.error("Error al parsear JSON:", error);
+          return response; // Si no es JSON, devolver como texto plano
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error("Error en la petición:", error);
+        return throwError(() => new Error(error.message));
+      })
+    );
+
+    // return this.http
+    //   .post<DPIProcessResponse>(
+    //     `${this.apiUrl}selfieAuth/api/validate`,
+    //     formData,
+    //     {
+    //       headers
+    //     }
+    //   )
+    //   .pipe(
+    //     map((response: DPIProcessResponse) => response),
+    //     catchError((error: HttpErrorResponse) =>
+    //       throwError(() => new Error(error.message))
+    //     )
+    //   );  
+    }
 }
 

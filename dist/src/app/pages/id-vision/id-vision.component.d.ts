@@ -6,6 +6,7 @@ import { ModalVideoSelfieServices } from './services/modal-services/modal-video-
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
 import { SwiperContainer } from './../../../swiper-wrapper';
+import { PhotoSelfieServices } from './services/modal-services/photo-selfie-services';
 import * as i0 from "@angular/core";
 export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     private modalController;
@@ -19,6 +20,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     private navController;
     private validateMetaGService;
     private cdRef;
+    private photoSelfieServices;
     dpi: IonInput;
     private isAndroid;
     private isIOS;
@@ -26,7 +28,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     tutoImage2: string;
     tutoImage3: string;
     tutoImage4: string;
-    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController, validateMetaGService: ValidateMetaGService, cdRef: ChangeDetectorRef);
+    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController, validateMetaGService: ValidateMetaGService, cdRef: ChangeDetectorRef, photoSelfieServices: PhotoSelfieServices);
     swiperElement: import("@angular/core").WritableSignal<SwiperContainer | null>;
     private modalRef;
     isSwipe: boolean;
@@ -35,14 +37,19 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     apikey: string;
     validationConfig: any[];
     validateMetaG: {
+        acuerdoVideo: boolean;
         dpiFront: boolean;
         dpiBack: boolean;
         videoSelfie: boolean;
+        photoSelfie: boolean;
     };
     swiperRef: any;
+    simpleProcess: boolean;
+    showAcuerdoVideo: boolean;
     showDpiFront: boolean;
     showDpiBack: boolean;
     showVideoSelfie: boolean;
+    showPhotoSelfie: boolean;
     isValid: boolean;
     loadMockValidationConfig(): Promise<void>;
     getStepAction(type: number): () => void;
@@ -63,7 +70,10 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     DpiFrontProccess(filePath: File): Promise<void>;
     closeModalFromParent(): void;
     closeModalVideoSelfie(): void;
+    closeModalAcuerdoVideo(): void;
+    resumePhotoFromParent(): void;
     resumeCameraFromParent(): void;
+    closePhotoSelfieFromParent(): void;
     convertImagePathToFile(imagePath: string, fileName: string): Promise<File>;
     DpiBackProccess(filePath: File): Promise<void>;
     VideoSelfieProcccess(file: File): Promise<void>;
@@ -72,10 +82,15 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     openCameraOverlayFrontal(): Promise<void>;
     closeOverlay(): Promise<void>;
     closeModalOverlay(): Promise<void>;
+    closePhotoSelfie(): Promise<void>;
     validateDPIBack(filePath: File): Promise<boolean>;
     openCameraOverlayTrasero(): Promise<void>;
     getBackModal(file: File): Promise<void>;
+    photoVideoSelfieFile(filePath: File): Promise<void>;
+    getAcuerdoVideo(file: File): Promise<void>;
     openAcuerdoVideo(): Promise<void>;
+    openVideoSelfie(): Promise<void>;
+    openPhotoSelfie(): Promise<void>;
     static ɵfac: i0.ɵɵFactoryDeclaration<IdVisionComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<IdVisionComponent, "app-id-vision", never, { "isSwipe": { "alias": "isSwipe"; "required": false; }; "dpiCode": { "alias": "dpiCode"; "required": false; }; "connection": { "alias": "connection"; "required": false; }; "apikey": { "alias": "apikey"; "required": false; }; "validationConfig": { "alias": "validationConfig"; "required": false; }; }, {}, never, never, true, never>;
 }

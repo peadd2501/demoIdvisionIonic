@@ -38,6 +38,9 @@ import {
   Swiper,
   SwiperOptions,
 } from './../../../swiper-wrapper';
+import { PhotoSelfieCameraComponent } from './components/photo-selfie-camera/photo-selfie-camera.component';
+import { PhotoSelfieServices } from './services/modal-services/photo-selfie-services';
+import { CamaraAcuerdoVideoComponent } from './components/camara-acuerdo-video/camara-acuerdo.video.component';
 
 register();
 
@@ -74,13 +77,16 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     private navController: NavController,
     private validateMetaGService: ValidateMetaGService,
     private cdRef: ChangeDetectorRef,
+    private photoSelfieServices: PhotoSelfieServices
   ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
     this.validateMetaG = {
+      acuerdoVideo: false,
       dpiFront: false,
       dpiBack: false,
       videoSelfie: false,
+      photoSelfie: false
     };
   }
 
@@ -91,20 +97,25 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dpiCode: string = '';
   @Input() connection: string = '';
   @Input() apikey: string = '';
-  @Input() validationConfig: any[] = []; // Luego se obtendrá del servicio
+  @Input() validationConfig: any[] = [];
 
   validateMetaG: {
+    acuerdoVideo: boolean;
     dpiFront: boolean;
     dpiBack: boolean;
     videoSelfie: boolean;
+    photoSelfie: boolean;
   };
   swiperRef: any;
 
+  simpleProcess: boolean = false;
+
   // Booleans para habilitar cada step
+  showAcuerdoVideo: boolean = false;
   showDpiFront: boolean = false;
   showDpiBack: boolean = false;
   showVideoSelfie: boolean = false;
-
+  showPhotoSelfie: boolean = false;
   isValid = false;
 
 
@@ -159,38 +170,79 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   // }
 
   async loadMockValidationConfig() {
-    this.dpiService.getConnectionById(this.connection).subscribe({
-      next: (connection: any) => {
-        if (connection?.details?.config && Array.isArray(connection.details.config)) {
-          console.log("Configuración obtenida:", connection.details.config);
+
+    let loader: HTMLIonLoadingElement | null = null;
+
+try {
+  loader = await this.loadingController.create({
+    message: 'Procesando...',
+    spinner: 'crescent',
+  });
+
+  await loader.present();
   
-          // 🔥 Transformamos la configuración y ordenamos los pasos
-          this.validationConfig = connection.details.config
-            .map((config: { id: number, type: number, order: string }) => ({
-              id: config.id,
-              type: config.type,
-              order: Number(config.order), // Convertimos `order` a número
-              action: this.getStepAction(config.type) // Asignamos acción específica
-            }))
-            .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos dinámicamente por `order`
-  
-          console.log("Configuración ordenada y lista:", this.validationConfig);
-          this.setValidationConfig();
-        } else {
-          console.warn("La configuración obtenida no es válida:", connection);
+  this.dpiService.getConnectionById(this.connection).subscribe({
+    next: (connection: any) => {
+
+
+      console.log(connection.details);
+      if (connection?.details?.config && Array.isArray(connection.details.config)) {
+        console.log("Configuración obtenida:", connection.details.config);
+
+        // this.simpleProcess = true; // ⚠️ CAMBIAR cuando el backend devuelva el valor real
+
+        // this.validationConfig = connection.details.config
+        //   .map((config: { id: number, type: number, order: string }) => ({
+        //     id: config.id,
+        //     type: config.type,
+        //     order: Number(config.order),
+        //     action: this.getStepAction(config.type)
+        //   }))
+        //   .sort((a: { order: number }, b: { order: number }) => a.order - b.order);
+
+        let configData = connection.details.config
+        .map((config: { id: number, type: number, order: string }) => ({
+          id: config.id,
+          type: config.type,
+          order: Number(config.order),
+          action: this.getStepAction(config.type)
+        }));
+
+      // 🔥 Si `simpleProcess` es true, solo incluimos el paso de Acuerdo de Video (type: 1)
+      if (this.simpleProcess) {
+        console.log("🔄 Modo simpleProcess activado, solo Acuerdo de Video.");
+        configData = configData.filter((config: { type: number; }) => config.type === 1);
+        if (loader) {
+          loader.dismiss();
         }
-      },
-      error: (err) => {
-        console.error("Error al obtener la conexión:", err);
+        this.InitProccess();
       }
-    });
+
+      // 🔥 Ordenamos la configuración filtrada
+      this.validationConfig = configData.sort((a: { order: number; }, b: { order: number; }) => a.order - b.order);
+      
+        console.log("Configuración ordenada y lista:", this.validationConfig);
+        this.setValidationConfig();
+      } else {
+        console.warn("La configuración obtenida no es válida:", connection);
+      }
+    },
+    error: (err) => {
+      console.error("Error al obtener la conexión:", err);
+    }
+  });
+} catch (error) {
+ console.log(error); 
+}
   }
   
   getStepAction(type: number): () => void {
     switch (type) {
+      case 1: return () => this.openAcuerdoVideo();
       case 2: return () => this.openCameraOverlayFrontal();
       case 3: return () => this.openCameraOverlayTrasero();
-      case 4: return () => this.openAcuerdoVideo();
+      case 4: return () => this.openVideoSelfie();
+      case 5: return () => this.openPhotoSelfie();
       default: return () => console.warn('Tipo de paso desconocido:', type);
     }
   }
@@ -204,6 +256,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   
     this.validationConfig.forEach(config => {
       switch (config.type) {
+        case 1:
+          this.showAcuerdoVideo = true;
+          break;
         case 2:
           this.showDpiFront = true;
           break;
@@ -213,13 +268,17 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         case 4:
           this.showVideoSelfie = true;
           break;
+        case 5:
+          this.showPhotoSelfie = true;
       }
     });
   
     console.log("Valores actualizados:", {
+      showAcuerdoVideo: this.showAcuerdoVideo,
       showDpiFront: this.showDpiFront,
       showDpiBack: this.showDpiBack,
-      showVideoSelfie: this.showVideoSelfie
+      showVideoSelfie: this.showVideoSelfie,
+      showPhotoSelfie: this.showPhotoSelfie
     });
   
     // 🔥 Forzar la detección de cambios para actualizar la UI
@@ -237,6 +296,16 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(() => {
       this.closeModalOverlay();
     });
+
+    this.modalDpiServices.closePhotoSelfieSubject$.subscribe(() => {
+      this.closePhotoSelfie();
+    });
+
+    this.modalDpiServices.closePhotoSelfieSubject$.subscribe(() => {
+      this.closeModalAcuerdoVideo();
+    });
+
+    
 
     // Selecciona el elemento de video
     const video: HTMLVideoElement | null = document.getElementById(
@@ -376,12 +445,14 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isAllValid(): boolean {
     console.log('🔎 Verificando estado de los pasos:');
+    console.log('showAcuerdoVideo:', this.showAcuerdoVideo, '| Validado:', this.validateMetaG.dpiFront);
     console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
     console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
     console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
-  
+    console.log('showPhotoSelfie:', this.showPhotoSelfie, '| Validado:', this.validateMetaG.photoSelfie);
+
     // Si NO hay pasos activados, devolvemos `false`
-    if (!this.showDpiFront && !this.showDpiBack && !this.showVideoSelfie) {
+    if (!this.showAcuerdoVideo && !this.showDpiFront && !this.showDpiBack && !this.showVideoSelfie && !this.showPhotoSelfie) {
       console.log('⚠️ No hay pasos activos, devolviendo `false`.');
       return false;
     }
@@ -389,6 +460,10 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     let isValid = true;
   
     // Evaluamos cada paso ACTIVADO y verificamos si fue completado
+    if (this.showAcuerdoVideo && !this.validateMetaG.acuerdoVideo) {
+      isValid = false;
+      console.log('Acuerdo de video NO completado.');
+    }
     if (this.showDpiFront && !this.validateMetaG.dpiFront) {
       isValid = false;
       console.log('DPI Frontal NO completado.');
@@ -401,6 +476,10 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       isValid = false;
       console.log('Video Selfie NO completado.');
     }
+    if(this.showPhotoSelfie && !this.validateMetaG.photoSelfie) {
+      isValid = false;
+      console.log('Photo selfie NO completado');
+    }
   
     console.log('Resultado final de validación:', isValid);
     return isValid;
@@ -411,16 +490,20 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('🔄 Actualizando validación...');
     
     console.log('Estado ANTES de validar:');
+    console.log('showAcuerdoVideo:', this.showAcuerdoVideo, '| Validado:', this.validateMetaG.acuerdoVideo);
     console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
     console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
     console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
-  
+    console.log('showPhotoSelfie:', this.showPhotoSelfie, '| Validado:', this.validateMetaG.photoSelfie);
+
     // Validamos los pasos visibles
+    const acuerdoVideo = this.showAcuerdoVideo ? this.validateMetaG.acuerdoVideo : true;
     const dpiFrontValid = this.showDpiFront ? this.validateMetaG.dpiFront : true;
     const dpiBackValid = this.showDpiBack ? this.validateMetaG.dpiBack : true;
     const videoSelfieValid = this.showVideoSelfie ? this.validateMetaG.videoSelfie : true;
+    const photoSelfieValid = this.showPhotoSelfie ? this.validateMetaG.photoSelfie : true;
   
-    this.isValid = dpiFrontValid && dpiBackValid && videoSelfieValid;
+    this.isValid = acuerdoVideo && dpiFrontValid && dpiBackValid && videoSelfieValid && photoSelfieValid;
   
     console.log('🚀 Estado FINAL de validación:', this.isValid);
   
@@ -476,7 +559,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       await loader.present();
 
       this.dpiService
-        .InitProccess(this.dpi.value + '',  this.connection, this.apikey)// '673259d3f027711b51e71202')
+        .InitProccess(this.dpiCode + '',  this.connection, this.apikey)// '673259d3f027711b51e71202')
         .subscribe({
           next: (response: any) => {
             if (loader) {
@@ -488,20 +571,32 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               console.log(response['completed']);
               const isCompleted = response['completed'];
 
-              if(isCompleted) { //TODO modo prueba, quitar !
+              if(isCompleted) {
                 console.log("Paso aca en el if")
+                this.validateMetaG.acuerdoVideo = true;
                 this.validateMetaG.dpiFront = true;
                 this.validateMetaG.dpiBack = true;
                 this.validateMetaG.videoSelfie = true;
+                this.validateMetaG.photoSelfie = true;
                 this.updateValidation();
 
                 this.handleSlide(this.validationConfig.length + 1);
               }else {
-                console.log("Paso aca en el else")
-                this.handleSlide(1);
+                if(!this.simpleProcess) {
+                  console.log("Paso aca en el else")
+                  this.handleSlide(1);
+                } else {
+                  this.openAcuerdoVideo();
+                  console.log("Simple process activado...")
+                }
               }
             } else {
-              const dpiValue = this.dpi.value as string;
+              if(this.dpi.value == null) {
+                this.showAlert('Error', 'El campo DPI no puede estar vacío', [], () => {
+                  this.handleExit();
+                });
+              }
+              const dpiValue = this.dpi.value as string ?? '';
               if (!dpiValue || dpiValue.trim().length === 0) {
                 this.showAlert(
                   'Error',
@@ -595,8 +690,25 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modalDpiServices.requestCloseModalAndBrightness();
   }
 
+  closeModalAcuerdoVideo() {
+    // this.modalVideoSelfieServices.requestCloseOverlayModal();
+
+    this.modalDpiServices.requestCloseModalAcuerdoVideo();
+  }
+
+
+  resumePhotoFromParent() {
+    this.modalDpiServices.requestResumePhotoSubject();
+  }
+
   resumeCameraFromParent() {
     this.modalDpiServices.requestResumeCamera();
+  }
+
+  closePhotoSelfieFromParent() {
+    // this.modalVideoSelfieServices.requestCloseOverlayModal();
+
+    this.modalDpiServices.requestClosePhotoSelfieSubject();
   }
 
   async convertImagePathToFile(
@@ -696,6 +808,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
         error: (error) => {
+          
           this.showAlert('Error', '', error, () => {
             this.resumeCameraFromParent();
           });
@@ -766,6 +879,10 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   async closeModalOverlay() {
     // console.log('test videoselfie');
   }
+  async closePhotoSelfie() {
+    // console.log('test videoselfie');
+  }
+
   //Trasero dpi services
   async validateDPIBack(filePath: File): Promise<boolean> {
     this.modalController.dismiss();
@@ -802,7 +919,136 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     await this.VideoSelfieProcccess(file);
   }
 
-  async openAcuerdoVideo() {
+  async photoVideoSelfieFile(filePath: File) {
+    if (!filePath || filePath.size === 0) {
+      return;
+    }
+
+    let loader: HTMLIonLoadingElement | null = null;
+
+    try {
+      loader = await this.loadingController.create({
+        message: 'Procesando...',
+        spinner: 'crescent',
+      });
+
+      await loader.present();
+      const codigo = localStorage.getItem('codigo') ?? '';
+
+      this.dpiService.photoSelfie(filePath, codigo, this.connection, this.apikey).subscribe({
+        next: (response: any) => {
+          if (loader) {
+            loader.dismiss();
+          }
+
+          if(!response['error']) {
+            this.showAlert('Éxito', 'Foto Selfie registrada correctamente', [], () => {
+              // this.closeModalFromParent();
+              this.closePhotoSelfieFromParent();
+              this.modalController.dismiss();
+    
+              this.validateMetaG.photoSelfie = true;
+              this.updateValidation();
+    
+              this.moveToNextStep(5);
+            });
+          }
+        },
+        error: (error: any) => {
+          if (loader) {
+            loader.dismiss();
+          }
+          this.showAlert('Error', '', error, () => {
+            this.resumePhotoFromParent();
+          });
+
+          console.error('Error al llamar al servicio:', error);
+        },
+      });
+    } catch (error) {
+      if (loader) {
+        loader.dismiss();
+      }
+      console.error("Error en el servicio: ", error);
+    }
+    // await this.VideoSelfieProcccess(file);
+  }
+
+
+  async getAcuerdoVideo(file: File) {
+    if (!file || file.size === 0) {
+      return;
+    }
+    let loader: HTMLIonLoadingElement | null = null;
+    try {
+      loader = await this.loadingController.create({
+        message: 'Procesando...',
+        spinner: 'crescent',
+      });
+      await loader.present();
+      const codigo = localStorage.getItem('codigo') ?? '';
+      this.dpiService.acuerdoVideo(file, codigo).subscribe({
+        next: (response: any) => {
+
+          if (loader) {
+            loader.dismiss();
+          }
+          if (!response['error']) {
+            this.showAlert('Éxito', response['message'], [], () => {
+              this.closeModalAcuerdoVideo();
+              this.modalController.dismiss();
+              this.validateMetaG.acuerdoVideo = true;
+              this.updateValidation();
+              // this.handleSlide(4);
+              // this.handleNext();
+              this.moveToNextStep(1);
+
+            });
+          } else {
+            this.showAlert('Error', response['message'], [], () => {
+              // this.closeModalAcuerdoVideo();
+            });
+            this.validateMetaG.acuerdoVideo = false;
+            this.updateValidation();
+          }
+        },
+        error: (error) => {
+          if (loader) {
+            loader.dismiss();
+          }
+          this.showAlert('Error', '', error, () => {
+            // this.resumeCameraFromParent();
+          });
+
+          console.error('Error al llamar al servicio:', error);
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+   }
+
+   async openAcuerdoVideo() {
+    const modal = await this.modalController.create({
+      component: CamaraAcuerdoVideoComponent,
+      componentProps: {
+      //   cssClass: 'my-custom-class',
+      //   text1: 'Video Selfie',
+      //   text2: 'Guatemala',
+      //   overlaySrc: 'assets/overlay-image.png',
+        backFunction: async (file: File) => {
+          await this.getAcuerdoVideo(file);
+        },
+        // closeRequested: () => this.closeModalOverlay(),
+      },
+      backdropDismiss: false,
+    });
+
+    await modal.present();
+  }
+
+
+  async openVideoSelfie() {
     const modal = await this.modalController.create({
       component: CamaraVideoSelfieComponent,
       componentProps: {
@@ -812,6 +1058,25 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         overlaySrc: 'assets/overlay-image.png',
         backFunction: async (file: File) => {
           await this.getBackModal(file);
+        },
+        closeRequested: () => this.closeModalOverlay(),
+      },
+      backdropDismiss: false,
+    });
+
+    await modal.present();
+  }
+
+  async openPhotoSelfie() {
+    const modal = await this.modalController.create({
+      component: PhotoSelfieCameraComponent,
+      componentProps: {
+        cssClass: 'my-custom-class',
+        text1: 'Foto Selfie',
+        text2: 'Guatemala',
+        overlaySrc: 'assets/overlay-image.png',
+        onTakePicture: async (file: File) => {
+          await this.photoVideoSelfieFile(file);
         },
         closeRequested: () => this.closeModalOverlay(),
       },

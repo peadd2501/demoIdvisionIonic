@@ -1,0 +1,29 @@
+<ion-content color="light" class="custom-content">
+    <div *ngIf="isLoading" class="loading-overlay">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    
+    <ion-header class="ion-no-border">
+      <ion-toolbar color="light">
+        <!-- <ion-title class="centered-title">Video Selfie</ion-title> -->
+        <ion-buttons slot="end">
+          <ion-button (click)="closeOverlay()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+  
+    <!-- Contenedor de la cámara y progresión -->
+    <div class="camera-container">
+      <div class="video-wrapper">
+        <video #videoElement muted autoplay playsinline style="transform: scaleX(-1)"></video>
+      </div>
+
+          <p class="text-center">Permanece quieto, con tu rostro en el centro del circulo</p>
+          <!-- Botones de grabación -->
+          <div class="fixed-footer">
+            <ion-button expand="block" (click)="capturePhoto()">Tomar foto</ion-button>
+          </div>
+    </div>
+  </ion-content>

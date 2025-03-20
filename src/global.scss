@@ -54,5 +54,5 @@
     --background: #ffffff; /* Fondo blanco */
     --header-color: #000000; /* Color del encabezado */
     --message-color: #333333; /* Color del mensaje */
-    --button-color: #0071ce; /* Color del botón */
+    --button-color: var(--purple-primary); /* Color del botón */
   }

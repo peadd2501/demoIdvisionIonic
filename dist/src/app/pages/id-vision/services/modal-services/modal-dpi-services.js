@@ -6,10 +6,16 @@ export class ModalDpiServices {
         this.closeOverlaySubject = new Subject();
         this.resumeCameraSubject = new Subject();
         this.closeModalAndChangeBrightness = new Subject();
+        this.closePhotoSelfieSubject = new Subject();
+        this.resumePhotoSubject = new Subject();
+        this.closeModalAcuerdoVideo = new Subject();
         // Observable para suscribirse al cierre
         this.closeOverlay$ = this.closeOverlaySubject.asObservable();
         this.resumeCameraSubject$ = this.resumeCameraSubject.asObservable();
         this.closeModalAndChangeBrightness$ = this.closeModalAndChangeBrightness.asObservable();
+        this.closePhotoSelfieSubject$ = this.closePhotoSelfieSubject.asObservable();
+        this.resumePhotoSubject$ = this.resumePhotoSubject.asObservable();
+        this.closeModalAcuerdoVideo$ = this.closeModalAcuerdoVideo.asObservable();
     }
     // Método para emitir el cierre
     requestCloseOverlay() {
@@ -20,6 +26,15 @@ export class ModalDpiServices {
     }
     requestCloseModalAndBrightness() {
         this.closeModalAndChangeBrightness.next();
+    }
+    requestCloseModalAcuerdoVideo() {
+        this.closeModalAcuerdoVideo.next();
+    }
+    requestClosePhotoSelfieSubject() {
+        this.closePhotoSelfieSubject.next();
+    }
+    requestResumePhotoSubject() {
+        this.resumePhotoSubject.next();
     }
 }
 ModalDpiServices.ɵfac = function ModalDpiServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalDpiServices)(); };

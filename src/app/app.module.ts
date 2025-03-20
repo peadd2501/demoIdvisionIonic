@@ -14,9 +14,11 @@ import {HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { CustomSlideComponent } from './pages/id-vision/components/custom-slide/custom-slide.component';
 import { DpiService } from './pages/id-vision/services/dpi/dpi-service.service';
+import { PhotoSelfieCameraComponent } from './pages/id-vision/components/photo-selfie-camera/photo-selfie-camera.component';
+import { CamaraAcuerdoVideoComponent } from './pages/id-vision/components/camara-acuerdo-video/camara-acuerdo.video.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/],
+  declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/, PhotoSelfieCameraComponent, CamaraAcuerdoVideoComponent],
   imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, IonicStorageModule.forRoot(), IdVisionComponent, CustomSlideComponent, HttpClientModule
   ],
   exports: [],
