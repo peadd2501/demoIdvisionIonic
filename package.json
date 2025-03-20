@@ -1,6 +1,6 @@
 {
   "name": "meta-g",
-  "version": "1.0.494998",
+  "version": "1.0.4951",
   "author": "FGE",
   "homepage": "https://ionicframework.com/",
   "license": "MIT",
@@ -51,6 +51,7 @@
     "@ionic/angular": "^8.0.0",
     "@ionic/storage-angular": "^4.0.0",
     "ionicons": "^7.0.0",
+    "meta-g": "^1.0.495",
     "rxjs": "~7.8.0",
     "swiper": "^11.1.15",
     "tslib": "^2.3.0",

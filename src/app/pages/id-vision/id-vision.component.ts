@@ -218,6 +218,10 @@ try {
         this.InitProccess();
       }
 
+      if (loader) {
+        loader.dismiss();
+      }
+
       // 🔥 Ordenamos la configuración filtrada
       this.validationConfig = configData.sort((a: { order: number; }, b: { order: number; }) => a.order - b.order);
       
