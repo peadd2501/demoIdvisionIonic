@@ -59,7 +59,6 @@ export class DpiService {
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
     acuerdoVideo(file, code) {
-        console.log("acuerdoVideo: ", file, code);
         const formData = new FormData();
         formData.append('file', file, file.name);
         formData.append('codigo', code);
@@ -95,8 +94,6 @@ export class DpiService {
         const formData = new FormData();
         formData.append('file', file, file.name);
         formData.append('codigo', code);
-        console.log("Connection: ", connection);
-        console.log("apikey: ", apikey);
         const headers = new HttpHeaders({
             'connection-mg': connection,
             'api-key': apikey,
@@ -105,7 +102,7 @@ export class DpiService {
         return this.http.post(`${this.apiUrl}selfieAuth/api/validate`, formData, { headers, responseType: 'text' }) // 🔹 Recibir como texto
             .pipe(map((response) => {
             try {
-                console.log("Respuesta recibida:", response);
+                // console.log("Respuesta recibida:", response);
                 return JSON.parse(response); // Intentar parsear JSON si es válido
             }
             catch (error) {

@@ -114,8 +114,6 @@ export class DpiService {
   }
 
   acuerdoVideo(file: File, code: string): Observable<DPIProcessResponse> {
-
-    console.log("acuerdoVideo: ", file, code);
     const formData = new FormData();
     formData.append('file', file, file.name);
     formData.append('codigo', code);
@@ -185,9 +183,6 @@ export class DpiService {
     formData.append('file', file, file.name);
     formData.append('codigo', code);
 
-    console.log("Connection: ", connection);
-    console.log("apikey: ", apikey);
-
     const headers = new HttpHeaders({
       'connection-mg': connection,
       'api-key': apikey,
@@ -199,7 +194,7 @@ export class DpiService {
     .pipe(
       map((response: string) => {
         try {
-          console.log("Respuesta recibida:", response);
+          // console.log("Respuesta recibida:", response);
           return JSON.parse(response); // Intentar parsear JSON si es válido
         } catch (error) {
           console.error("Error al parsear JSON:", error);

@@ -60,7 +60,7 @@ export class PhotoSelfieCameraComponent implements AfterViewInit, OnDestroy {
       this.closeOverlay();
     });
 
-    this.modalDpiServices.resumeCameraSubject$.subscribe(() => {
+    this.modalDpiServices.resumePhotoSubject$.subscribe(() => {
       this.resumeCamera();
     });
   }
@@ -83,7 +83,7 @@ export class PhotoSelfieCameraComponent implements AfterViewInit, OnDestroy {
         video: {
           width: { ideal: 1920 },
           height: { ideal: 1080 },
-          facingMode: 'environment'
+          facingMode: 'user'
         },
         audio: false
       };

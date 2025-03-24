@@ -185,9 +185,9 @@ try {
     next: (connection: any) => {
 
 
-      console.log(connection.details);
+      // console.log(connection.details);
       if (connection?.details?.config && Array.isArray(connection.details.config)) {
-        console.log("Configuración obtenida:", connection.details.config);
+        // console.log("Configuración obtenida:", connection.details.config);
 
         // this.simpleProcess = true; // ⚠️ CAMBIAR cuando el backend devuelva el valor real
 
@@ -210,7 +210,7 @@ try {
 
       // 🔥 Si `simpleProcess` es true, solo incluimos el paso de Acuerdo de Video (type: 1)
       if (this.simpleProcess) {
-        console.log("🔄 Modo simpleProcess activado, solo Acuerdo de Video.");
+        // console.log("🔄 Modo simpleProcess activado, solo Acuerdo de Video.");
         configData = configData.filter((config: { type: number; }) => config.type === 1);
         if (loader) {
           loader.dismiss();
@@ -225,7 +225,7 @@ try {
       // 🔥 Ordenamos la configuración filtrada
       this.validationConfig = configData.sort((a: { order: number; }, b: { order: number; }) => a.order - b.order);
       
-        console.log("Configuración ordenada y lista:", this.validationConfig);
+        // console.log("Configuración ordenada y lista:", this.validationConfig);
         this.setValidationConfig();
       } else {
         console.warn("La configuración obtenida no es válida:", connection);
@@ -256,7 +256,8 @@ try {
 
   setValidationConfig() {
     // 🔥 Depuración en consola
-    console.log("Ejecutando setValidationConfig con:", this.validationConfig);
+    
+    // console.log("Ejecutando setValidationConfig con:", this.validationConfig);
   
     this.validationConfig.forEach(config => {
       switch (config.type) {
@@ -277,13 +278,13 @@ try {
       }
     });
   
-    console.log("Valores actualizados:", {
-      showAcuerdoVideo: this.showAcuerdoVideo,
-      showDpiFront: this.showDpiFront,
-      showDpiBack: this.showDpiBack,
-      showVideoSelfie: this.showVideoSelfie,
-      showPhotoSelfie: this.showPhotoSelfie
-    });
+    // console.log("Valores actualizados:", {
+    //   showAcuerdoVideo: this.showAcuerdoVideo,
+    //   showDpiFront: this.showDpiFront,
+    //   showDpiBack: this.showDpiBack,
+    //   showVideoSelfie: this.showVideoSelfie,
+    //   showPhotoSelfie: this.showPhotoSelfie
+    // });
   
     // 🔥 Forzar la detección de cambios para actualizar la UI
     this.cdRef.detectChanges();
@@ -428,7 +429,8 @@ try {
   handleExit(): void {
     this.updateValidation();
     const result = this.isAllValid(); // Usamos la validación corregida
-    console.log("🚀 Resultado final de validación en handleExit:", result);
+    
+    // console.log("🚀 Resultado final de validación en handleExit:", result);
   
     this.sdkCommunicationService.emitExit(result);
     this.navController.back();
@@ -448,12 +450,12 @@ try {
   // }
 
   isAllValid(): boolean {
-    console.log('🔎 Verificando estado de los pasos:');
-    console.log('showAcuerdoVideo:', this.showAcuerdoVideo, '| Validado:', this.validateMetaG.dpiFront);
-    console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
-    console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
-    console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
-    console.log('showPhotoSelfie:', this.showPhotoSelfie, '| Validado:', this.validateMetaG.photoSelfie);
+    // console.log('🔎 Verificando estado de los pasos:');
+    // console.log('showAcuerdoVideo:', this.showAcuerdoVideo, '| Validado:', this.validateMetaG.dpiFront);
+    // console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
+    // console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
+    // console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
+    // console.log('showPhotoSelfie:', this.showPhotoSelfie, '| Validado:', this.validateMetaG.photoSelfie);
 
     // Si NO hay pasos activados, devolvemos `false`
     if (!this.showAcuerdoVideo && !this.showDpiFront && !this.showDpiBack && !this.showVideoSelfie && !this.showPhotoSelfie) {
@@ -491,14 +493,14 @@ try {
   
 
   updateValidation() {
-    console.log('🔄 Actualizando validación...');
+    // console.log('🔄 Actualizando validación...');
     
-    console.log('Estado ANTES de validar:');
-    console.log('showAcuerdoVideo:', this.showAcuerdoVideo, '| Validado:', this.validateMetaG.acuerdoVideo);
-    console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
-    console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
-    console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
-    console.log('showPhotoSelfie:', this.showPhotoSelfie, '| Validado:', this.validateMetaG.photoSelfie);
+    // console.log('Estado ANTES de validar:');
+    // console.log('showAcuerdoVideo:', this.showAcuerdoVideo, '| Validado:', this.validateMetaG.acuerdoVideo);
+    // console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
+    // console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
+    // console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
+    // console.log('showPhotoSelfie:', this.showPhotoSelfie, '| Validado:', this.validateMetaG.photoSelfie);
 
     // Validamos los pasos visibles
     const acuerdoVideo = this.showAcuerdoVideo ? this.validateMetaG.acuerdoVideo : true;
@@ -509,7 +511,7 @@ try {
   
     this.isValid = acuerdoVideo && dpiFrontValid && dpiBackValid && videoSelfieValid && photoSelfieValid;
   
-    console.log('🚀 Estado FINAL de validación:', this.isValid);
+    // console.log('🚀 Estado FINAL de validación:', this.isValid);
   
     // 🔥 Forzamos la actualización de la UI
     this.cdRef.detectChanges();
@@ -532,7 +534,7 @@ try {
   }
 
   moveToNextStep(currentType: number) {
-    console.log(`Buscando el siguiente paso después de Type ${currentType}`);
+    // console.log(`Buscando el siguiente paso después de Type ${currentType}`);
 
     const currentIndex = this.validationConfig.findIndex(step => step.type === currentType);
   
@@ -544,10 +546,10 @@ try {
     const nextStep = this.validationConfig[currentIndex + 1];
   
     if (nextStep) {
-      console.log(`Moviendo al siguiente paso: Type ${nextStep.type}, Order ${nextStep.order}`);
+      // console.log(`Moviendo al siguiente paso: Type ${nextStep.type}, Order ${nextStep.order}`);
       this.handleSlide(nextStep.order);
     } else {
-      console.log('No hay más pasos, proceso finalizado.');
+      // console.log('No hay más pasos, proceso finalizado.');
       this.handleSlide(this.validationConfig.length + 1);
     }
   }
@@ -571,12 +573,11 @@ try {
             }
             if (!response['error']) {
               localStorage.setItem('codigo', response['details']);
-              console.log('Codigo:', response);
-              console.log(response['completed']);
               const isCompleted = response['completed'];
 
               if(isCompleted) {
-                console.log("Paso aca en el if")
+                // console.log("Paso aca en el if")
+                
                 this.validateMetaG.acuerdoVideo = true;
                 this.validateMetaG.dpiFront = true;
                 this.validateMetaG.dpiBack = true;
@@ -587,11 +588,11 @@ try {
                 this.handleSlide(this.validationConfig.length + 1);
               }else {
                 if(!this.simpleProcess) {
-                  console.log("Paso aca en el else")
+                  // console.log("Paso aca en el else")
                   this.handleSlide(1);
                 } else {
                   this.openAcuerdoVideo();
-                  console.log("Simple process activado...")
+                  // console.log("Simple process activado...")
                 }
               }
             } else {
@@ -854,6 +855,7 @@ try {
               onConfirm();
             }
           },
+          cssClass: 'boton-personalizado'
         },
       ],
     });

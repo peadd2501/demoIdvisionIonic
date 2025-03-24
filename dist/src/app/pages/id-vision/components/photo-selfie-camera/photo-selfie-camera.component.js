@@ -48,7 +48,7 @@ export class PhotoSelfieCameraComponent {
             this.modalDpiServices.closePhotoSelfieSubject$.subscribe(() => {
                 this.closeOverlay();
             });
-            this.modalDpiServices.resumeCameraSubject$.subscribe(() => {
+            this.modalDpiServices.resumePhotoSubject$.subscribe(() => {
                 this.resumeCamera();
             });
         });
@@ -73,7 +73,7 @@ export class PhotoSelfieCameraComponent {
                     video: {
                         width: { ideal: 1920 },
                         height: { ideal: 1080 },
-                        facingMode: 'environment'
+                        facingMode: 'user'
                     },
                     audio: false
                 };
