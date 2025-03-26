@@ -1,6 +1,6 @@
 {
   "name": "meta-g",
-  "version": "1.0.502",
+  "version": "1.0.5025",
   "author": "FGE",
   "homepage": "https://ionicframework.com/",
   "license": "MIT",
@@ -39,6 +39,7 @@
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
     "@capacitor-community/screen-brightness": "^6.0.0",
+    "@capacitor-community/text-to-speech": "^6.0.0",
     "@capacitor/android": "6.1.2",
     "@capacitor/app": "6.0.1",
     "@capacitor/camera": "^6.1.0",

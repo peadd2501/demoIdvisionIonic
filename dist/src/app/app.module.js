@@ -15,6 +15,7 @@ import { CustomSlideComponent } from './pages/id-vision/components/custom-slide/
 import { DpiService } from './pages/id-vision/services/dpi/dpi-service.service';
 import { PhotoSelfieCameraComponent } from './pages/id-vision/components/photo-selfie-camera/photo-selfie-camera.component';
 import { CamaraAcuerdoVideoComponent } from './pages/id-vision/components/camara-acuerdo-video/camara-acuerdo.video.component';
+import { SimpleAcuerdoVideoComponent } from './pages/id-vision/components/simple-acuerdo-video/simple-acuerdo-video.component';
 import * as i0 from "@angular/core";
 import * as i1 from "@ionic/angular";
 import * as i2 from "@ionic/storage-angular";
@@ -26,7 +27,7 @@ AppModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [{ provide: R
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(AppModule, [{
         type: NgModule,
         args: [{
-                declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/, PhotoSelfieCameraComponent, CamaraAcuerdoVideoComponent],
+                declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/, PhotoSelfieCameraComponent, CamaraAcuerdoVideoComponent, SimpleAcuerdoVideoComponent],
                 imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, IonicStorageModule.forRoot(), IdVisionComponent, CustomSlideComponent, HttpClientModule
                 ],
                 exports: [],
@@ -34,5 +35,5 @@ AppModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [{ provide: R
                 bootstrap: [AppComponent],
             }]
     }], null, null); })();
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(AppModule, { declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/, PhotoSelfieCameraComponent, CamaraAcuerdoVideoComponent], imports: [BrowserModule, i1.IonicModule, CommonModule, AppRoutingModule, i2.IonicStorageModule, IdVisionComponent, CustomSlideComponent, HttpClientModule] }); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(AppModule, { declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/, PhotoSelfieCameraComponent, CamaraAcuerdoVideoComponent, SimpleAcuerdoVideoComponent], imports: [BrowserModule, i1.IonicModule, CommonModule, AppRoutingModule, i2.IonicStorageModule, IdVisionComponent, CustomSlideComponent, HttpClientModule] }); })();
 //# sourceMappingURL=app.module.js.map

@@ -110,17 +110,31 @@ export class CameraWithOverlayComponent {
             const context = canvas.getContext('2d');
             if (context) {
                 context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                let quality = 0.98;
                 // Convierte el contenido del canvas a un Blob
                 canvas.toBlob((blob) => {
                     if (blob && blob.size > 0) {
+                        if (blob.size > 2 * 1024 * 1024) {
+                            quality = 0.85;
+                        }
                         this.file = this.blobToFile(blob, 'dpi.jpeg');
                         videoElement.pause();
+                        // Mostrar el tamaño del archivo en bytes
+                        console.log(`Tamaño de la imagen: ${blob.size} bytes`);
+                        // O convertir a KB o MB para mayor legibilidad
+                        console.log(`Tamaño de la imagen: ${(blob.size / 1024).toFixed(2)} KB`);
+                        console.log(`Tamaño de la imagen: ${(blob.size / (1024 * 1024)).toFixed(2)} MB`);
+                        console.log(`Calidad: ${quality}`);
+                        // Crear una URL temporal para la imagen
+                        const imageUrl = URL.createObjectURL(blob);
+                        // Mostrar la URL en la terminal
+                        console.log('URL de la imagen capturada: ', imageUrl);
                         this.onTakePicture(this.file).catch((err) => console.error('Error en onTakePicture:', err));
                     }
                     else {
                         console.error('El Blob generado está vacío o no válido.');
                     }
-                }, 'image/jpeg', 0.75);
+                }, 'image/jpeg', quality);
                 //this.closeOverlay();
             }
         });

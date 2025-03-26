@@ -1002,19 +1002,29 @@ export class IdVisionComponent {
                                 this.moveToNextStep(5);
                             });
                         }
+                        else {
+                            this.showAlert('Error', response['message'], [], () => {
+                                this.resumePhotoFromParent();
+                            });
+                            this.validateMetaG.photoSelfie = false;
+                            this.updateValidation();
+                        }
                     },
                     error: (error) => {
-                        if (loader) {
-                            loader.dismiss();
-                        }
                         this.showAlert('Error', '', error, () => {
                             this.resumePhotoFromParent();
                         });
+                        if (loader) {
+                            loader.dismiss();
+                        }
                         console.error('Error al llamar al servicio:', error);
                     },
                 });
             }
             catch (error) {
+                this.showAlert('Error', '', error, () => {
+                    this.resumePhotoFromParent();
+                });
                 if (loader) {
                     loader.dismiss();
                 }

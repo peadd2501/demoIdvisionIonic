@@ -122,20 +122,26 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     const context = canvas.getContext('2d');
     if (context) {
       context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-      
+      let quality = 0.98;
+
       // Convierte el contenido del canvas a un Blob
       canvas.toBlob((blob) => {
-        if (blob && blob.size > 0) {      
+        if (blob && blob.size > 0) {   
+          
+
+          if (blob.size > 2 * 1024 * 1024) {
+            quality = 0.85;
+          }
 
           this.file = this.blobToFile(blob, 'dpi.jpeg');
           videoElement.pause();
-          this.onTakePicture(this.file).catch(
+              this.onTakePicture(this.file).catch(
             (err) => console.error('Error en onTakePicture:', err)
           );
         } else {
           console.error('El Blob generado está vacío o no válido.');
         }
-      }, 'image/jpeg', 0.75);
+      }, 'image/jpeg', quality);
 
       
       //this.closeOverlay();

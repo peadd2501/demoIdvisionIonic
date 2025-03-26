@@ -41,6 +41,7 @@ import {
 import { PhotoSelfieCameraComponent } from './components/photo-selfie-camera/photo-selfie-camera.component';
 import { PhotoSelfieServices } from './services/modal-services/photo-selfie-services';
 import { CamaraAcuerdoVideoComponent } from './components/camara-acuerdo-video/camara-acuerdo.video.component';
+import { SimpleAcuerdoVideoComponent } from './components/simple-acuerdo-video/simple-acuerdo-video.component';
 
 register();
 
@@ -242,11 +243,12 @@ try {
   
   getStepAction(type: number): () => void {
     switch (type) {
-      case 1: return () => this.openAcuerdoVideo();
+      case 1: return () => this.openSimpleAcuerdo(); //this.openAcuerdoVideo
       case 2: return () => this.openCameraOverlayFrontal();
       case 3: return () => this.openCameraOverlayTrasero();
       case 4: return () => this.openVideoSelfie();
       case 5: return () => this.openPhotoSelfie();
+      case 6: return () => this.openAcuerdoVideo(); //Provisional para pruebas
       default: return () => console.warn('Tipo de paso desconocido:', type);
     }
   }
@@ -591,7 +593,8 @@ try {
                   // console.log("Paso aca en el else")
                   this.handleSlide(1);
                 } else {
-                  this.openAcuerdoVideo();
+                  this.openSimpleAcuerdo();
+                  // this.openAcuerdoVideo();
                   // console.log("Simple process activado...")
                 }
               }
@@ -958,23 +961,36 @@ try {
     
               this.moveToNextStep(5);
             });
+          } else {
+            this.showAlert('Error', response['message'], [], () => {
+              this.resumePhotoFromParent();
+            });
+            this.validateMetaG.photoSelfie = false;
+            this.updateValidation();
           }
         },
         error: (error: any) => {
-          if (loader) {
-            loader.dismiss();
-          }
           this.showAlert('Error', '', error, () => {
             this.resumePhotoFromParent();
           });
 
+          if (loader) {
+            loader.dismiss();
+          }
+
           console.error('Error al llamar al servicio:', error);
         },
       });
-    } catch (error) {
+    } catch (error: any) {
+
+      this.showAlert('Error', '', error, () => {
+        this.resumePhotoFromParent();
+      });
+
       if (loader) {
         loader.dismiss();
       }
+
       console.error("Error en el servicio: ", error);
     }
     // await this.VideoSelfieProcccess(file);
@@ -1083,6 +1099,22 @@ try {
         overlaySrc: 'assets/overlay-image.png',
         onTakePicture: async (file: File) => {
           await this.photoVideoSelfieFile(file);
+        },
+        closeRequested: () => this.closeModalOverlay(),
+      },
+      backdropDismiss: false,
+    });
+
+    await modal.present();
+  }
+
+  async openSimpleAcuerdo() {
+    const modal = await this.modalController.create({
+      component: SimpleAcuerdoVideoComponent,
+      componentProps: {
+        cssClass: 'my-custom-class',
+        backFunction: async (file: File) => {
+          await this.getAcuerdoVideo(file);
         },
         closeRequested: () => this.closeModalOverlay(),
       },

@@ -16,9 +16,10 @@ import { CustomSlideComponent } from './pages/id-vision/components/custom-slide/
 import { DpiService } from './pages/id-vision/services/dpi/dpi-service.service';
 import { PhotoSelfieCameraComponent } from './pages/id-vision/components/photo-selfie-camera/photo-selfie-camera.component';
 import { CamaraAcuerdoVideoComponent } from './pages/id-vision/components/camara-acuerdo-video/camara-acuerdo.video.component';
+import { SimpleAcuerdoVideoComponent } from './pages/id-vision/components/simple-acuerdo-video/simple-acuerdo-video.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/, PhotoSelfieCameraComponent, CamaraAcuerdoVideoComponent],
+  declarations: [AppComponent, CustomButtonComponent, CameraWithOverlayComponent, CamaraVideoSelfieComponent /*,CustomSlideComponent, IdVisionComponent*/, PhotoSelfieCameraComponent, CamaraAcuerdoVideoComponent, SimpleAcuerdoVideoComponent],
   imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, IonicStorageModule.forRoot(), IdVisionComponent, CustomSlideComponent, HttpClientModule
   ],
   exports: [],
