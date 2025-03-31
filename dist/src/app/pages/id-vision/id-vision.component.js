@@ -15,6 +15,7 @@ import { register, } from './../../../swiper-wrapper';
 import { PhotoSelfieCameraComponent } from './components/photo-selfie-camera/photo-selfie-camera.component';
 import { PhotoSelfieServices } from './services/modal-services/photo-selfie-services';
 import { CamaraAcuerdoVideoComponent } from './components/camara-acuerdo-video/camara-acuerdo.video.component';
+import { SimpleAcuerdoVideoComponent } from './components/simple-acuerdo-video/simple-acuerdo-video.component';
 import * as i0 from "@angular/core";
 import * as i1 from "@ionic/angular";
 import * as i2 from "./services/dpi/dpi-service.service";
@@ -354,11 +355,12 @@ export class IdVisionComponent {
     }
     getStepAction(type) {
         switch (type) {
-            case 1: return () => this.openAcuerdoVideo();
+            case 1: return () => this.openSimpleAcuerdo(); //this.openAcuerdoVideo
             case 2: return () => this.openCameraOverlayFrontal();
             case 3: return () => this.openCameraOverlayTrasero();
             case 4: return () => this.openVideoSelfie();
             case 5: return () => this.openPhotoSelfie();
+            case 6: return () => this.openAcuerdoVideo(); //Provisional para pruebas
             default: return () => console.warn('Tipo de paso desconocido:', type);
         }
     }
@@ -652,7 +654,8 @@ export class IdVisionComponent {
                                     this.handleSlide(1);
                                 }
                                 else {
-                                    this.openAcuerdoVideo();
+                                    this.openSimpleAcuerdo();
+                                    // this.openAcuerdoVideo();
                                     // console.log("Simple process activado...")
                                 }
                             }
@@ -1136,6 +1139,22 @@ export class IdVisionComponent {
                     overlaySrc: 'assets/overlay-image.png',
                     onTakePicture: (file) => __awaiter(this, void 0, void 0, function* () {
                         yield this.photoVideoSelfieFile(file);
+                    }),
+                    closeRequested: () => this.closeModalOverlay(),
+                },
+                backdropDismiss: false,
+            });
+            yield modal.present();
+        });
+    }
+    openSimpleAcuerdo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const modal = yield this.modalController.create({
+                component: SimpleAcuerdoVideoComponent,
+                componentProps: {
+                    cssClass: 'my-custom-class',
+                    backFunction: (file) => __awaiter(this, void 0, void 0, function* () {
+                        yield this.getAcuerdoVideo(file);
                     }),
                     closeRequested: () => this.closeModalOverlay(),
                 },

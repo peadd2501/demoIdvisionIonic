@@ -1,8 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, Renderer2 } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ModalVideoSelfieServices } from '../../services/modal-services/modal-video-selfie-services';
-import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 import * as i0 from "@angular/core";
 export declare class SimpleAcuerdoVideoComponent implements AfterViewInit, OnDestroy {
     private platform;
@@ -11,12 +9,8 @@ export declare class SimpleAcuerdoVideoComponent implements AfterViewInit, OnDes
     private renderer;
     private alertController;
     private changeDetector;
-    private modalVideoSelfieServices;
-    private modalDpiServices;
     videoElement: ElementRef<HTMLVideoElement>;
     progressRing: ElementRef<HTMLElement>;
-    text1: string;
-    text2: string;
     backFunction: (filePath: File) => Promise<void>;
     closeRequested: EventEmitter<void>;
     capturedVideoUrl: any;
@@ -36,22 +30,38 @@ export declare class SimpleAcuerdoVideoComponent implements AfterViewInit, OnDes
     canStopRecording: boolean;
     isLoading: boolean;
     private defaultBrightness;
-    constructor(platform: Platform, modalController: ModalController, sanitizer: DomSanitizer, renderer: Renderer2, alertController: AlertController, changeDetector: ChangeDetectorRef, modalVideoSelfieServices: ModalVideoSelfieServices, modalDpiServices: ModalDpiServices);
+    isModalOpen: boolean;
+    isModalVoiceOpen: boolean;
+    text: string;
+    instructions: string;
+    words: string[];
+    instructionWords: string[];
+    currentIndex: number;
+    timePerWord: number;
+    isSpeaking: boolean;
+    showTextAcuerdo: boolean;
+    constructor(platform: Platform, modalController: ModalController, sanitizer: DomSanitizer, renderer: Renderer2, alertController: AlertController, changeDetector: ChangeDetectorRef);
     ngAfterViewInit(): Promise<void>;
     ngOnDestroy(): Promise<void>;
+    openModal(): void;
+    openModalVoice(): void;
+    closeModalVoice(): void;
+    closeModal(): void;
     waitForCameraReady(): Promise<void>;
     requestPermissions(): Promise<void>;
     initCamera(): Promise<void>;
     startRecording(): Promise<void>;
     blobToFile(blob: Blob, fileName: string): File;
-    recordVideo(): void;
+    recordVideo(): Promise<void>;
     startVideoRecord(): Promise<void>;
     updateTimeRemaining(): void;
     stopRecording(): Promise<void>;
     closeOverlayVideo(): Promise<void>;
     stopCamera(): void;
-    closeRequestedFunction(): void;
+    speakText(words: string[], text: string): Promise<void>;
+    speakSentenceWithHighlights(words: string[], text: string): Promise<void>;
+    highlightWord(index: number): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<SimpleAcuerdoVideoComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<SimpleAcuerdoVideoComponent, "app-simple-acuerdo-video", never, { "text1": { "alias": "text1"; "required": false; }; "text2": { "alias": "text2"; "required": false; }; "backFunction": { "alias": "backFunction"; "required": false; }; }, { "closeRequested": "closeRequested"; }, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<SimpleAcuerdoVideoComponent, "app-simple-acuerdo-video", never, { "backFunction": { "alias": "backFunction"; "required": false; }; }, { "closeRequested": "closeRequested"; }, never, never, false, never>;
 }
 //# sourceMappingURL=simple-acuerdo-video.component.d.ts.map

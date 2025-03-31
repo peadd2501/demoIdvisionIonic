@@ -41,7 +41,7 @@ export class DpiService {
     });
     return this.http
       .post<DPIProcessResponse>(
-        `${this.apiUrl}dpi/api/validateFrontDPIAWS`,
+        `${this.apiUrl}dpi/api/validateFrontDPIAWSV2`,
         formData,
         {
           headers
@@ -70,7 +70,7 @@ export class DpiService {
 
     return this.http
       .post<DPIProcessResponse>(
-        `${this.apiUrl}dpi/api/validateBackDPIAWS`,
+        `${this.apiUrl}dpi/api/validateBackDPIAWSV2`,
         formData,
         {
           headers

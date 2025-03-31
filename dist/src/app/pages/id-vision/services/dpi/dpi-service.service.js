@@ -24,7 +24,7 @@ export class DpiService {
             'api-key': apikey
         });
         return this.http
-            .post(`${this.apiUrl}dpi/api/validateFrontDPIAWS`, formData, {
+            .post(`${this.apiUrl}dpi/api/validateFrontDPIAWSV2`, formData, {
             headers
         })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
@@ -39,7 +39,7 @@ export class DpiService {
             'api-key': apikey
         });
         return this.http
-            .post(`${this.apiUrl}dpi/api/validateBackDPIAWS`, formData, {
+            .post(`${this.apiUrl}dpi/api/validateBackDPIAWSV2`, formData, {
             headers
         })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));

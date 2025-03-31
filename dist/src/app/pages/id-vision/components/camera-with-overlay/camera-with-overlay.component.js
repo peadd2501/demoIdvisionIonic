@@ -72,8 +72,8 @@ export class CameraWithOverlayComponent {
             try {
                 const constraints = {
                     video: {
-                        width: { ideal: 1920 },
-                        height: { ideal: 1080 },
+                        width: { ideal: 4096 },
+                        height: { ideal: 2160 },
                         facingMode: 'environment'
                     },
                     audio: false
@@ -119,16 +119,6 @@ export class CameraWithOverlayComponent {
                         }
                         this.file = this.blobToFile(blob, 'dpi.jpeg');
                         videoElement.pause();
-                        // Mostrar el tamaño del archivo en bytes
-                        console.log(`Tamaño de la imagen: ${blob.size} bytes`);
-                        // O convertir a KB o MB para mayor legibilidad
-                        console.log(`Tamaño de la imagen: ${(blob.size / 1024).toFixed(2)} KB`);
-                        console.log(`Tamaño de la imagen: ${(blob.size / (1024 * 1024)).toFixed(2)} MB`);
-                        console.log(`Calidad: ${quality}`);
-                        // Crear una URL temporal para la imagen
-                        const imageUrl = URL.createObjectURL(blob);
-                        // Mostrar la URL en la terminal
-                        console.log('URL de la imagen capturada: ', imageUrl);
                         this.onTakePicture(this.file).catch((err) => console.error('Error en onTakePicture:', err));
                     }
                     else {

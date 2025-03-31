@@ -80,8 +80,8 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     try {
       const constraints: MediaStreamConstraints = {
         video: {
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
+          width: { ideal: 4096 },
+          height: { ideal: 2160 },
           facingMode: 'environment'
         },
         audio: false

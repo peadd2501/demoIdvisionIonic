@@ -56,3 +56,9 @@
     --message-color: #333333; /* Color del mensaje */
     --button-color: var(--purple-primary); /* Color del botón */
   }
+
+  ion-modal {
+    --background: rgba(0, 0, 0, 0.3) !important;
+    --backdrop-opacity: 0.3 !important;
+    --box-shadow: none !important;
+  }

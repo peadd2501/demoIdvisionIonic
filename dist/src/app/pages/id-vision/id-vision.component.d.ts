@@ -91,6 +91,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     openAcuerdoVideo(): Promise<void>;
     openVideoSelfie(): Promise<void>;
     openPhotoSelfie(): Promise<void>;
+    openSimpleAcuerdo(): Promise<void>;
     static ɵfac: i0.ɵɵFactoryDeclaration<IdVisionComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<IdVisionComponent, "app-id-vision", never, { "isSwipe": { "alias": "isSwipe"; "required": false; }; "dpiCode": { "alias": "dpiCode"; "required": false; }; "connection": { "alias": "connection"; "required": false; }; "apikey": { "alias": "apikey"; "required": false; }; "validationConfig": { "alias": "validationConfig"; "required": false; }; }, {}, never, never, true, never>;
 }

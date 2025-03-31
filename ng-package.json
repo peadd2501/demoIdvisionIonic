@@ -1,0 +1,8 @@
+{
+    "lib": {
+      "styleIncludePaths": [
+        "src/styles.scss",
+        "src/global.scss"
+      ]
+    }
+  }
