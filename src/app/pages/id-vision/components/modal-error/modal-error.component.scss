@@ -2,7 +2,6 @@
     --background: transparent; // Para que el fondo del ion-content sea transparente
   }
   
-  /* Contenedor principal del modal */
   .modal-wrapper {
     background-color: #fff;
     margin: auto;
@@ -15,10 +14,9 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
   
-  /* Estilos para el ícono */
   .modal-icon {
     font-size: 3rem;
-    color: #F8AA00; /* Color naranja/amarillo que se ve en tu captura */
+    color: var(--orange-primary);
     margin-bottom: 8px;
   }
   
@@ -37,7 +35,6 @@
     margin-bottom: 16px;
   }
   
-/* Estilos para la lista de errores */
 .error-list {
     list-style-type: disc;
     padding-left: 20px;
@@ -50,7 +47,7 @@
   .error-list li {
     margin-bottom: 8px;
   }
-  /* Botón */
+
   .modal-button {
     // --background: #F8AA00; /* Mismo color del ícono */
     // --color: #fff;

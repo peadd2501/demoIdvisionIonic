@@ -10,13 +10,10 @@ export class ModalErrorComponent {
   @Input() title: string = '';
   @Input() variant: 'dpi' | 'video' = 'dpi';
 
-    // Propiedad para el mensaje único (en caso de no querer usar errorMessages)
     @Input() message: string = '';
 
-    // Internamente siempre se trabaja con un array
     public errorMessages: string[] = [];
   
-    // Setter para normalizar el input de errores
     @Input()
     set errors(value: string | string[]) {
       if (Array.isArray(value)) {
