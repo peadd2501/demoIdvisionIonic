@@ -16,6 +16,7 @@ import { PhotoSelfieCameraComponent } from './components/photo-selfie-camera/pho
 import { PhotoSelfieServices } from './services/modal-services/photo-selfie-services';
 import { CamaraAcuerdoVideoComponent } from './components/camara-acuerdo-video/camara-acuerdo.video.component';
 import { SimpleAcuerdoVideoComponent } from './components/simple-acuerdo-video/simple-acuerdo-video.component';
+import { MessageModalComponent } from './components/message-modal/message-modal.component';
 import * as i0 from "@angular/core";
 import * as i1 from "@ionic/angular";
 import * as i2 from "./services/dpi/dpi-service.service";
@@ -706,40 +707,85 @@ export class IdVisionComponent {
                 yield loader.present();
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : '';
                 yield this.dpiService.uploadFrontDPI(filePath /*file*/, codigo, this.connection, this.apikey).subscribe({
-                    next: (response) => {
+                    next: (response) => __awaiter(this, void 0, void 0, function* () {
                         if (loader) {
                             loader.dismiss();
                         }
                         if (!response['error']) {
-                            this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
+                            // this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
+                            //   this.closeModalFromParent();
+                            //   this.modalController.dismiss();
+                            //   this.validateMetaG.dpiFront = true;
+                            //   this.updateValidation();
+                            //   // this.handleSlide(2);
+                            //   // this.handleNext();
+                            //   this.moveToNextStep(2);
+                            // });
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Éxito',
+                                    message: 'DPI registrado correctamente',
+                                    variant: 'dpi'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
                                 this.closeModalFromParent();
                                 this.modalController.dismiss();
                                 this.validateMetaG.dpiFront = true;
                                 this.updateValidation();
-                                // this.handleSlide(2);
-                                // this.handleNext();
                                 this.moveToNextStep(2);
                             });
                         }
                         else {
-                            this.showAlert(response['mensage'], '', response['details'], () => {
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Error',
+                                    errors: response['errors'] || [],
+                                    variant: 'dpi'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
                                 this.resumeCameraFromParent();
                             });
+                            // this.showAlert(response['mensage'], '', response['details'], () => {
+                            //   this.resumeCameraFromParent();
+                            // });
                             this.validateMetaG.dpiFront = false;
                             this.updateValidation();
                         }
-                    },
-                    error: (error) => {
-                        this.showAlert('Error', '', error, () => {
+                    }),
+                    error: (error) => __awaiter(this, void 0, void 0, function* () {
+                        const modal = yield this.modalController.create({
+                            component: MessageModalComponent,
+                            componentProps: {
+                                title: 'Error',
+                                errors: error || [],
+                                variant: 'dpi'
+                            },
+                            backdropDismiss: false
+                        });
+                        yield modal.present();
+                        modal.onDidDismiss().then(() => {
                             this.resumeCameraFromParent();
                         });
                         this.validateMetaG.dpiFront = false;
                         this.updateValidation();
+                        // this.showAlert('Error', '', error, () => {
+                        //   this.resumeCameraFromParent();
+                        // });
+                        // this.validateMetaG.dpiFront = false;
+                        // this.updateValidation();
                         if (loader) {
                             loader.dismiss();
                         }
                         console.error('Error al llamar al servicio:', error);
-                    },
+                    }),
                 });
             }
             catch (error) {
@@ -789,40 +835,90 @@ export class IdVisionComponent {
                 yield loader.present();
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : '';
                 this.dpiService.uploadBackDPI(filePath /*file*/, codigo, this.connection, this.apikey).subscribe({
-                    next: (response) => {
+                    next: (response) => __awaiter(this, void 0, void 0, function* () {
                         if (loader) {
                             loader.dismiss();
                         }
                         if (!response['error']) {
-                            this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
+                            // this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
+                            //   this.closeModalFromParent();
+                            //   this.modalController.dismiss();
+                            //   this.validateMetaG.dpiBack = true;
+                            //   this.updateValidation();
+                            //   this.moveToNextStep(3);
+                            // });
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Éxito',
+                                    message: 'DPI registrado correctamente',
+                                    variant: 'dpi'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
                                 this.closeModalFromParent();
                                 this.modalController.dismiss();
                                 this.validateMetaG.dpiBack = true;
                                 this.updateValidation();
-                                // this.handleSlide(3);
-                                // this.handleNext();
                                 this.moveToNextStep(3);
                             });
                         }
                         else {
-                            this.showAlert(response['mensage'], '', response['details'], () => {
-                                this.resumeCameraFromParent();
+                            // this.showAlert(response['mensage'], '', response['details'], () => {
+                            //   this.resumeCameraFromParent();
+                            // });
+                            // this.validateMetaG.dpiBack = false;
+                            // this.updateValidation();
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: response['mensage'],
+                                    errors: response['details'],
+                                    variant: 'dpi'
+                                },
+                                backdropDismiss: false
                             });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
+                                this.resumeCameraFromParent();
+                                // this.modalController.dismiss();
+                                this.validateMetaG.dpiBack = false;
+                                this.updateValidation();
+                            });
+                        }
+                    }),
+                    error: (error) => __awaiter(this, void 0, void 0, function* () {
+                        const modal = yield this.modalController.create({
+                            component: MessageModalComponent,
+                            componentProps: {
+                                title: error['mensage'],
+                                message: error['details'],
+                                variant: 'dpi'
+                            },
+                            backdropDismiss: false
+                        });
+                        yield modal.present();
+                        modal.onDidDismiss().then(() => {
+                            this.resumeCameraFromParent();
                             this.validateMetaG.dpiBack = false;
                             this.updateValidation();
-                        }
-                    },
-                    error: (error) => {
-                        this.showAlert('Error', '', error, () => {
-                            this.resumeCameraFromParent();
+                            console.error('Error al llamar al servicio:', error);
                         });
                         if (loader) {
                             loader.dismiss();
                         }
-                        this.validateMetaG.dpiBack = false;
-                        this.updateValidation();
-                        console.error('Error al llamar al servicio:', error);
-                    },
+                        // this.showAlert('Error', '', error, () => {
+                        //   this.resumeCameraFromParent();
+                        // });
+                        // if (loader) {
+                        //   loader.dismiss();
+                        // }
+                        // this.validateMetaG.dpiBack = false;
+                        // this.updateValidation();
+                        // console.error('Error al llamar al servicio:', error);
+                    }),
                 });
             }
             catch (error) {
@@ -842,35 +938,80 @@ export class IdVisionComponent {
                 yield loader.present();
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : '';
                 this.dpiService.videoSelfie(file, codigo, this.connection, this.apikey).subscribe({
-                    next: (response) => {
+                    next: (response) => __awaiter(this, void 0, void 0, function* () {
                         if (loader) {
                             loader.dismiss();
                         }
                         if (!response['error']) {
-                            this.showAlert('Éxito', response['message'], [], () => {
+                            // this.showAlert('Éxito', response['message'], [], () => {
+                            //   this.closeModalVideoSelfie();
+                            //   this.modalController.dismiss();
+                            //   this.validateMetaG.videoSelfie = true;
+                            //   this.updateValidation();
+                            //   this.moveToNextStep(4);
+                            // });
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Éxito',
+                                    message: response['message'],
+                                    variant: 'video'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
                                 this.closeModalVideoSelfie();
                                 this.modalController.dismiss();
                                 this.validateMetaG.videoSelfie = true;
                                 this.updateValidation();
-                                // this.handleSlide(4);
-                                // this.handleNext();
                                 this.moveToNextStep(4);
                             });
                         }
                         else {
-                            this.showAlert('Error', response['message'], [], () => {
-                                this.closeModalVideoSelfie();
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Error',
+                                    errors: response['message'],
+                                    variant: 'video'
+                                },
+                                backdropDismiss: false
                             });
-                            this.validateMetaG.videoSelfie = false;
-                            this.updateValidation();
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
+                                this.closeModalVideoSelfie();
+                                // this.modalController.dismiss();
+                                this.validateMetaG.videoSelfie = false;
+                                this.updateValidation();
+                            });
+                            // this.showAlert('Error', response['message'], [], () => {
+                            //   this.closeModalVideoSelfie();
+                            // });
+                            // this.validateMetaG.videoSelfie = false;
+                            // this.updateValidation();
                         }
-                    },
-                    error: (error) => {
-                        this.showAlert('Error', '', error, () => {
-                            this.resumeCameraFromParent();
+                    }),
+                    error: (error) => __awaiter(this, void 0, void 0, function* () {
+                        const modal = yield this.modalController.create({
+                            component: MessageModalComponent,
+                            componentProps: {
+                                title: 'Error',
+                                errors: error['message'],
+                                variant: 'video'
+                            },
+                            backdropDismiss: false
                         });
+                        yield modal.present();
+                        modal.onDidDismiss().then(() => {
+                            this.resumeCameraFromParent();
+                            // this.modalController.dismiss();
+                        });
+                        // this.showAlert('Error', '', error, () => {
+                        //   this.resumeCameraFromParent();
+                        // });
                         console.error('Error al llamar al servicio:', error);
-                    },
+                    }),
                 });
             }
             catch (error) {
@@ -991,43 +1132,104 @@ export class IdVisionComponent {
                 yield loader.present();
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : '';
                 this.dpiService.photoSelfie(filePath, codigo, this.connection, this.apikey).subscribe({
-                    next: (response) => {
+                    next: (response) => __awaiter(this, void 0, void 0, function* () {
                         if (loader) {
                             loader.dismiss();
                         }
                         if (!response['error']) {
-                            this.showAlert('Éxito', 'Foto Selfie registrada correctamente', [], () => {
-                                // this.closeModalFromParent();
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Éxito',
+                                    message: 'Foto Selfie registrada correctamente',
+                                    variant: 'video'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
                                 this.closePhotoSelfieFromParent();
                                 this.modalController.dismiss();
                                 this.validateMetaG.photoSelfie = true;
                                 this.updateValidation();
                                 this.moveToNextStep(5);
                             });
+                            // this.showAlert('Éxito', 'Foto Selfie registrada correctamente', [], () => {
+                            //   // this.closeModalFromParent();
+                            //   this.closePhotoSelfieFromParent();
+                            //   this.modalController.dismiss();
+                            //   this.validateMetaG.photoSelfie = true;
+                            //   this.updateValidation();
+                            //   this.moveToNextStep(5);
+                            // });
                         }
                         else {
-                            this.showAlert('Error', response['message'], [], () => {
-                                this.resumePhotoFromParent();
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Error',
+                                    errors: response['message'],
+                                    variant: 'video'
+                                },
+                                backdropDismiss: false
                             });
-                            this.validateMetaG.photoSelfie = false;
-                            this.updateValidation();
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
+                                this.resumePhotoFromParent();
+                                // this.modalController.dismiss();
+                                this.validateMetaG.photoSelfie = false;
+                                this.updateValidation();
+                            });
+                            // this.showAlert('Error', response['message'], [], () => {
+                            //   this.resumePhotoFromParent();
+                            // });
+                            // this.validateMetaG.photoSelfie = false;
+                            // this.updateValidation();
                         }
-                    },
-                    error: (error) => {
-                        this.showAlert('Error', '', error, () => {
-                            this.resumePhotoFromParent();
+                    }),
+                    error: (error) => __awaiter(this, void 0, void 0, function* () {
+                        const modal = yield this.modalController.create({
+                            component: MessageModalComponent,
+                            componentProps: {
+                                title: 'Error',
+                                errors: error,
+                                variant: 'video'
+                            },
+                            backdropDismiss: false
                         });
+                        yield modal.present();
+                        modal.onDidDismiss().then(() => {
+                            this.resumePhotoFromParent();
+                            // this.modalController.dismiss();
+                        });
+                        // this.showAlert('Error', '', error, () => {
+                        //   this.resumePhotoFromParent();
+                        // });
                         if (loader) {
                             loader.dismiss();
                         }
                         console.error('Error al llamar al servicio:', error);
-                    },
+                    }),
                 });
             }
             catch (error) {
-                this.showAlert('Error', '', error, () => {
-                    this.resumePhotoFromParent();
+                const modal = yield this.modalController.create({
+                    component: MessageModalComponent,
+                    componentProps: {
+                        title: 'Error',
+                        errors: error,
+                        variant: 'video'
+                    },
+                    backdropDismiss: false
                 });
+                yield modal.present();
+                modal.onDidDismiss().then(() => {
+                    this.resumePhotoFromParent();
+                    this.modalController.dismiss();
+                });
+                // this.showAlert('Error', '', error, () => {
+                //   this.resumePhotoFromParent();
+                // });
                 if (loader) {
                     loader.dismiss();
                 }
@@ -1051,38 +1253,85 @@ export class IdVisionComponent {
                 yield loader.present();
                 const codigo = (_a = localStorage.getItem('codigo')) !== null && _a !== void 0 ? _a : '';
                 this.dpiService.acuerdoVideo(file, codigo).subscribe({
-                    next: (response) => {
+                    next: (response) => __awaiter(this, void 0, void 0, function* () {
                         if (loader) {
                             loader.dismiss();
                         }
                         if (!response['error']) {
-                            this.showAlert('Éxito', response['message'], [], () => {
+                            // this.showAlert('Éxito', response['message'], [], () => {
+                            //   this.closeModalAcuerdoVideo();
+                            //   this.modalController.dismiss();
+                            //   this.validateMetaG.acuerdoVideo = true;
+                            //   this.updateValidation();
+                            //   // this.handleSlide(4);
+                            //   // this.handleNext();
+                            //   this.moveToNextStep(1);
+                            // });
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Éxito',
+                                    message: response['message'],
+                                    variant: 'video'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
                                 this.closeModalAcuerdoVideo();
                                 this.modalController.dismiss();
                                 this.validateMetaG.acuerdoVideo = true;
                                 this.updateValidation();
-                                // this.handleSlide(4);
-                                // this.handleNext();
                                 this.moveToNextStep(1);
                             });
                         }
                         else {
-                            this.showAlert('Error', response['message'], [], () => {
-                                // this.closeModalAcuerdoVideo();
+                            // this.showAlert('Error', response['message'], [], () => {
+                            //   // this.closeModalAcuerdoVideo();
+                            // });
+                            // this.validateMetaG.acuerdoVideo = false;
+                            // this.updateValidation();
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Error',
+                                    errors: response['message'],
+                                    variant: 'video'
+                                },
+                                backdropDismiss: false
                             });
-                            this.validateMetaG.acuerdoVideo = false;
-                            this.updateValidation();
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
+                                // this.modalController.dismiss();
+                                this.validateMetaG.acuerdoVideo = false;
+                                this.updateValidation();
+                            });
                         }
-                    },
-                    error: (error) => {
+                    }),
+                    error: (error) => __awaiter(this, void 0, void 0, function* () {
                         if (loader) {
                             loader.dismiss();
                         }
-                        this.showAlert('Error', '', error, () => {
-                            // this.resumeCameraFromParent();
+                        const modal = yield this.modalController.create({
+                            component: MessageModalComponent,
+                            componentProps: {
+                                title: 'Error',
+                                errors: error['message'],
+                                variant: 'video'
+                            },
+                            backdropDismiss: false
                         });
+                        yield modal.present();
+                        modal.onDidDismiss().then(() => {
+                            // this.modalController.dismiss();
+                            //   this.validateMetaG.acuerdoVideo = false;
+                            // this.updateValidation();
+                        });
+                        // this.showAlert('Error', '', error, () => {
+                        //   // this.resumeCameraFromParent();
+                        // });
                         console.error('Error al llamar al servicio:', error);
-                    },
+                    }),
                 });
             }
             catch (error) {
