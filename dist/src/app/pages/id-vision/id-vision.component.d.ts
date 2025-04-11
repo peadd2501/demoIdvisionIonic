@@ -36,6 +36,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     connection: string;
     apikey: string;
     validationConfig: any[];
+    versionSDK: string;
     validateMetaG: {
         acuerdoVideo: boolean;
         dpiFront: boolean;

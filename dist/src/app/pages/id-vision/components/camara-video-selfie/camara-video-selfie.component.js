@@ -1,5 +1,5 @@
 import { __awaiter } from "tslib";
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild, ViewEncapsulation, } from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -64,13 +64,13 @@ export class CamaraVideoSelfieComponent {
         this.isRecording = false;
         this.mediaRecorder = null;
         this.recordedChunks = [];
-        this.countdown = 0; // Propiedad para la cuenta regresiva
-        this.minRecordingTime = 3000; // 3 seconds
-        this.maxRecordingTime = 5000; // 5 seconds
-        this.timeRemaining = this.maxRecordingTime / 1000; // Inicializar con el tiempo máximo en segundos
+        this.countdown = 0;
+        this.minRecordingTime = 3000;
+        this.maxRecordingTime = 5000;
+        this.timeRemaining = this.maxRecordingTime / 1000;
         this.canStopRecording = true;
-        this.isLoading = true; // Variable para mostrar el loader
-        this.defaultBrightness = null; // Para guardar el brillo original del dispositivo
+        this.isLoading = true;
+        this.defaultBrightness = null;
         this.isAndroid = this.platform.is('android');
         this.isIOS = this.platform.is('ios');
     }
@@ -88,7 +88,6 @@ export class CamaraVideoSelfieComponent {
                 yield this.requestPermissions();
             }
             yield this.initCamera();
-            // await this.startRecording();
             yield this.waitForCameraReady();
             this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(() => __awaiter(this, void 0, void 0, function* () {
                 yield this.closeOverlayVideo();
@@ -145,11 +144,9 @@ export class CamaraVideoSelfieComponent {
                 };
                 this.stream = yield navigator.mediaDevices.getUserMedia(constraints);
                 this.videoElement.nativeElement.srcObject = this.stream;
-                // Esperar hasta que la cámara esté lista
                 this.videoElement.nativeElement.onloadedmetadata = () => {
                     isCameraReady = true;
                 };
-                // Espera activa para asegurarte de que está lista
                 yield new Promise((resolve) => {
                     const interval = setInterval(() => {
                         if (isCameraReady) {
@@ -171,31 +168,34 @@ export class CamaraVideoSelfieComponent {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.stream)
                 return;
+            if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+                this.mediaRecorder.stop();
+            }
             const options = {
                 mimeType: this.isIOS ? 'video/mp4' : 'video/webm',
                 videoBitsPerSecond: 400000,
             };
+            this.recordedChunks = [];
             this.mediaRecorder = new MediaRecorder(this.stream, options);
-            let chunks = [];
             this.mediaRecorder.ondataavailable = (event) => {
                 if (event.data.size > 0) {
-                    chunks.push(event.data);
-                }
-                else {
+                    this.recordedChunks.push(event.data);
                 }
             };
             this.mediaRecorder.onstop = () => __awaiter(this, void 0, void 0, function* () {
-                if (chunks.length === 0) {
+                if (this.recordedChunks.length === 0) {
                     console.error('No se capturaron datos en la grabación.');
                     return;
                 }
                 const fileType = this.isIOS ? 'video/mp4' : 'video/webm';
                 const fileExtension = this.isIOS ? 'mp4' : 'webm';
-                const videoBlob = new Blob(chunks, { type: fileType });
+                const videoBlob = new Blob(this.recordedChunks, { type: fileType });
                 const videoFile = this.blobToFile(videoBlob, `video-selfie.${fileExtension}`);
+                this.capVideo = videoFile;
                 if (this.backFunction) {
                     yield this.backFunction(videoFile);
                 }
+                this.recordedChunks = [];
             });
         });
     }
@@ -204,19 +204,17 @@ export class CamaraVideoSelfieComponent {
         b.lastModified = new Date().getTime();
         b.lastModifiedDate = new Date();
         b.name = fileName;
-        //Cast to a File() type
         return b;
     }
     recordVideo() {
-        // Mostrar la cuenta regresiva antes de iniciar la grabación
         this.countdown = 3;
         const countdownInterval = setInterval(() => {
             this.countdown -= 1;
             if (this.countdown <= 0) {
                 clearInterval(countdownInterval);
-                this.startVideoRecord(); // Iniciar la grabación después de la cuenta regresiva
+                this.startVideoRecord();
             }
-            this.changeDetector.detectChanges(); // Actualizar la vista
+            this.changeDetector.detectChanges();
         }, 1000);
     }
     startVideoRecord() {
@@ -225,11 +223,10 @@ export class CamaraVideoSelfieComponent {
                 yield new Promise((resolve) => setTimeout(resolve, 500));
                 this.mediaRecorder.start(100);
                 this.isRecording = true;
-                this.canStopRecording = false; // Deshabilitar el botón de detener inicialmente
+                this.canStopRecording = false;
                 this.renderer.addClass(this.progressRing.nativeElement, 'progress-active');
-                this.timeRemaining = this.maxRecordingTime / 1000; // Reiniciar el tiempo restante
-                this.updateTimeRemaining(); // Iniciar la actualización del tiempo restante
-                // Habilitar el botón de detener después de minRecordingTime
+                this.timeRemaining = this.maxRecordingTime / 1000;
+                this.updateTimeRemaining();
                 setTimeout(() => {
                     this.canStopRecording = true;
                 }, this.minRecordingTime);
@@ -240,7 +237,7 @@ export class CamaraVideoSelfieComponent {
         });
     }
     updateTimeRemaining() {
-        const interval = 1000; // Actualizar cada segundo
+        const interval = 1000;
         const timer = setInterval(() => {
             if (this.isRecording) {
                 this.timeRemaining -= 1;
@@ -251,27 +248,24 @@ export class CamaraVideoSelfieComponent {
             else {
                 clearInterval(timer);
             }
-            this.changeDetector.detectChanges(); // Actualizar la vista
+            this.changeDetector.detectChanges();
         }, interval);
     }
     stopRecording() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.mediaRecorder && this.isRecording && this.canStopRecording) {
-                yield this.backFunction(this.capVideo);
                 this.mediaRecorder.stop();
                 this.isRecording = false;
             }
             if (this.scanTimeout) {
                 clearTimeout(this.scanTimeout);
             }
-            // Detiene la animación del borde circular
             this.renderer.removeClass(this.progressRing.nativeElement, 'progress-active');
         });
     }
     closeOverlayVideo() {
         return __awaiter(this, void 0, void 0, function* () {
             this.stopCamera();
-            // Restaura el brillo original si estaba guardado
             if (this.defaultBrightness !== null) {
                 yield ScreenBrightness.setBrightness({
                     brightness: this.defaultBrightness,
@@ -291,7 +285,6 @@ export class CamaraVideoSelfieComponent {
     closeRequestedFunction() {
         this.closeOverlayVideo();
         this.modalDpiServices.requestCloseModalAndBrightness();
-        // this.modalVideoSelfieServices.requestCloseOverlayModal();
     }
 }
 CamaraVideoSelfieComponent.ɵfac = function CamaraVideoSelfieComponent_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || CamaraVideoSelfieComponent)(i0.ɵɵdirectiveInject(i1.Platform), i0.ɵɵdirectiveInject(i1.ModalController), i0.ɵɵdirectiveInject(i2.DomSanitizer), i0.ɵɵdirectiveInject(i0.Renderer2), i0.ɵɵdirectiveInject(i1.AlertController), i0.ɵɵdirectiveInject(i0.ChangeDetectorRef), i0.ɵɵdirectiveInject(i3.ModalVideoSelfieServices), i0.ɵɵdirectiveInject(i4.ModalDpiServices)); };

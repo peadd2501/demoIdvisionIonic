@@ -26,16 +26,12 @@ import { CameraWithOverlayComponent } from './components/camera-with-overlay/cam
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
-import { CustomSlideComponent } from './components/custom-slide/custom-slide.component';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
-import { Router } from '@angular/router';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
-import { HttpClientModule } from '@angular/common/http';
 import {
   register,
   SwiperContainer,
-  Swiper,
   SwiperOptions,
 } from './../../../swiper-wrapper';
 import { PhotoSelfieCameraComponent } from './components/photo-selfie-camera/photo-selfie-camera.component';
@@ -43,7 +39,7 @@ import { PhotoSelfieServices } from './services/modal-services/photo-selfie-serv
 import { CamaraAcuerdoVideoComponent } from './components/camara-acuerdo-video/camara-acuerdo.video.component';
 import { SimpleAcuerdoVideoComponent } from './components/simple-acuerdo-video/simple-acuerdo-video.component';
 import { MessageModalComponent } from './components/message-modal/message-modal.component';
-
+import { App } from '@capacitor/app';
 register();
 
 @Component({
@@ -67,6 +63,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   tutoImage3: string = 'assets/imagesIdvision/56.png';
   tutoImage4: string = 'assets/imagesIdvision/57.png';
 
+
+
   constructor(
     private modalController: ModalController,
     private dpiService: DpiService,
@@ -89,7 +87,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       dpiBack: false,
       videoSelfie: false,
       photoSelfie: false
-    };
+    }
   }
 
   swiperElement = signal<SwiperContainer | null>(null);
@@ -100,6 +98,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() connection: string = '';
   @Input() apikey: string = '';
   @Input() validationConfig: any[] = [];
+  versionSDK: string = '';
 
   validateMetaG: {
     acuerdoVideo: boolean;
@@ -121,127 +120,66 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   isValid = false;
 
 
-  // async loadMockValidationConfig() {
-  //   this.dpiService.getConnectionById(this.connection).subscribe({
-  //     next: (connection: any) => {
-  //       console.log(connection.details);
-  //       console.log(connection.details.config);
-
-  //       this.validationConfig = [
-  //         { id: 1, type: 2, order: "1" }, // DPI Frontal
-  //         { id: 2, type: 3, order: "2" }, // DPI Trasero
-  //         { id: 3, type: 4, order: "3" }  // Video Selfie
-  //       ];
-
-  //     },
-  //     error: (err) => {
-  //       console.error("Error al obtener la conexión:", err);
-  //     }
-  //   });
-  // }
-  
-  //renderizado dinamico
-  // async loadMockValidationConfig() {
-  //   this.dpiService.getConnectionById(this.connection).subscribe({
-  //     next: (connection: any) => {
-  //       if (connection?.details?.config && Array.isArray(connection.details.config)) {
-  //         console.log("Configuración obtenida:", connection.details.config);
-  
-  //         // 🔥 Procesamos la configuración recibida
-  //         this.validationConfig = connection.details.config
-  //           .map((config: { id: number, type: number, order: string }) => ({
-  //             id: config.id,
-  //             type: config.type,
-  //             order: Number(config.order) // Convertimos `order` a número
-  //           }))
-  //           .sort((a: { order: number }, b: { order: number }) => a.order - b.order); // Ordenamos por `order`
-  
-  //         console.log("Configuración ordenada:", this.validationConfig);
-  
-  //         // 🔥 Asegurar que los flags de visibilidad se actualicen correctamente
-  //         this.setValidationConfig();
-  
-  //       } else {
-  //         console.warn("La configuración obtenida no es válida:", connection);
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error("Error al obtener la conexión:", err);
-  //     }
-  //   });
-  // }
 
   async loadMockValidationConfig() {
 
     let loader: HTMLIonLoadingElement | null = null;
 
-try {
-  loader = await this.loadingController.create({
-    message: 'Procesando...',
-    spinner: 'crescent',
-  });
+    try {
+      loader = await this.loadingController.create({
+        message: 'Procesando...',
+        spinner: 'crescent',
+      });
 
-  await loader.present();
-  
-  this.dpiService.getConnectionById(this.connection).subscribe({
-    next: (connection: any) => {
+      await loader.present();
+
+      this.dpiService.getConnectionById(this.connection).subscribe({
+        next: (connection: any) => {
 
 
-      // console.log(connection.details);
-      if (connection?.details?.config && Array.isArray(connection.details.config)) {
-        // console.log("Configuración obtenida:", connection.details.config);
+          // console.log(connection.details);
+          if (connection?.details?.config && Array.isArray(connection.details.config)) {
 
-        // this.simpleProcess = true; // ⚠️ CAMBIAR cuando el backend devuelva el valor real
+            let configData = connection.details.config
+              .map((config: { id: number, type: number, order: string }) => ({
+                id: config.id,
+                type: config.type,
+                order: Number(config.order),
+                action: this.getStepAction(config.type)
+              }));
 
-        // this.validationConfig = connection.details.config
-        //   .map((config: { id: number, type: number, order: string }) => ({
-        //     id: config.id,
-        //     type: config.type,
-        //     order: Number(config.order),
-        //     action: this.getStepAction(config.type)
-        //   }))
-        //   .sort((a: { order: number }, b: { order: number }) => a.order - b.order);
+            // 🔥 Si `simpleProcess` es true, solo incluimos el paso de Acuerdo de Video (type: 1)
+            if (this.simpleProcess) {
+              // console.log("🔄 Modo simpleProcess activado, solo Acuerdo de Video.");
+              configData = configData.filter((config: { type: number; }) => config.type === 1);
+              if (loader) {
+                loader.dismiss();
+              }
+              this.InitProccess();
+            }
 
-        let configData = connection.details.config
-        .map((config: { id: number, type: number, order: string }) => ({
-          id: config.id,
-          type: config.type,
-          order: Number(config.order),
-          action: this.getStepAction(config.type)
-        }));
+            if (loader) {
+              loader.dismiss();
+            }
 
-      // 🔥 Si `simpleProcess` es true, solo incluimos el paso de Acuerdo de Video (type: 1)
-      if (this.simpleProcess) {
-        // console.log("🔄 Modo simpleProcess activado, solo Acuerdo de Video.");
-        configData = configData.filter((config: { type: number; }) => config.type === 1);
-        if (loader) {
-          loader.dismiss();
+            // 🔥 Ordenamos la configuración filtrada
+            this.validationConfig = configData.sort((a: { order: number; }, b: { order: number; }) => a.order - b.order);
+
+            // console.log("Configuración ordenada y lista:", this.validationConfig);
+            this.setValidationConfig();
+          } else {
+            console.warn("La configuración obtenida no es válida:", connection);
+          }
+        },
+        error: (err) => {
+          console.error("Error al obtener la conexión:", err);
         }
-        this.InitProccess();
-      }
-
-      if (loader) {
-        loader.dismiss();
-      }
-
-      // 🔥 Ordenamos la configuración filtrada
-      this.validationConfig = configData.sort((a: { order: number; }, b: { order: number; }) => a.order - b.order);
-      
-        // console.log("Configuración ordenada y lista:", this.validationConfig);
-        this.setValidationConfig();
-      } else {
-        console.warn("La configuración obtenida no es válida:", connection);
-      }
-    },
-    error: (err) => {
-      console.error("Error al obtener la conexión:", err);
+      });
+    } catch (error) {
+      console.log(error);
     }
-  });
-} catch (error) {
- console.log(error); 
-}
   }
-  
+
   getStepAction(type: number): () => void {
     switch (type) {
       case 1: return () => this.openSimpleAcuerdo(); //this.openAcuerdoVideo
@@ -253,15 +191,15 @@ try {
       default: return () => console.warn('Tipo de paso desconocido:', type);
     }
   }
-  
-  
-  
+
+
+
 
   setValidationConfig() {
     // 🔥 Depuración en consola
-    
+
     // console.log("Ejecutando setValidationConfig con:", this.validationConfig);
-  
+
     this.validationConfig.forEach(config => {
       switch (config.type) {
         case 1:
@@ -280,7 +218,7 @@ try {
           this.showPhotoSelfie = true;
       }
     });
-  
+
     // console.log("Valores actualizados:", {
     //   showAcuerdoVideo: this.showAcuerdoVideo,
     //   showDpiFront: this.showDpiFront,
@@ -288,13 +226,20 @@ try {
     //   showVideoSelfie: this.showVideoSelfie,
     //   showPhotoSelfie: this.showPhotoSelfie
     // });
-  
+
     // 🔥 Forzar la detección de cambios para actualizar la UI
     this.cdRef.detectChanges();
   }
 
-  async ngOnInit () {
+  async ngOnInit() {
     await this.loadMockValidationConfig();
+
+    if (this.isAndroid || this.isIOS) {
+      const info = await App.getInfo();
+      this.versionSDK = info.version;
+    } else {
+      this.versionSDK = 'web'
+    }
 
 
     this.modalDpiServices.closeOverlay$.subscribe(() => {
@@ -313,7 +258,7 @@ try {
       this.closeModalAcuerdoVideo();
     });
 
-    
+
 
     // Selecciona el elemento de video
     const video: HTMLVideoElement | null = document.getElementById(
@@ -353,7 +298,8 @@ try {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {  
+
+    setTimeout(() => {
       const swiperElement = document.querySelector('.custom-swiper') as SwiperContainer;
 
       if (swiperElement) {
@@ -369,7 +315,7 @@ try {
           Object.assign(swiperElement, swiperOptions);
           this.swiperRef = swiperElement;
           this.swiperElement.set(swiperElement as SwiperContainer);
-          this.swiperElement()?.initialize();          
+          this.swiperElement()?.initialize();
         } catch (error) {
           console.warn('Error al inicializar swiper: ', error);
         }
@@ -378,7 +324,7 @@ try {
       }
     }, 100);
 
-    
+
     if (this.dpi) {
       this.dpi.value = this.dpiCode ?? '';
     } else {
@@ -425,24 +371,24 @@ try {
   //     (!this.showDpiFront || this.validateMetaG.dpiFront) &&
   //     (!this.showDpiBack || this.validateMetaG.dpiBack) &&
   //     (!this.showVideoSelfie || this.validateMetaG.videoSelfie);
-  
+
   //   this.sdkCommunicationService.emitExit(result);
   //   this.navController.back();
   // }
   handleExit(): void {
     this.updateValidation();
     const result = this.isAllValid(); // Usamos la validación corregida
-    
+
     // console.log("🚀 Resultado final de validación en handleExit:", result);
-  
+
     this.sdkCommunicationService.emitExit(result);
     this.navController.back();
   }
-  
-  
-  
 
-  
+
+
+
+
   // isAllValid(): boolean {
   //   let isValid =
   //     this.validateMetaG.dpiFront &&
@@ -465,9 +411,9 @@ try {
       console.log('⚠️ No hay pasos activos, devolviendo `false`.');
       return false;
     }
-  
+
     let isValid = true;
-  
+
     // Evaluamos cada paso ACTIVADO y verificamos si fue completado
     if (this.showAcuerdoVideo && !this.validateMetaG.acuerdoVideo) {
       isValid = false;
@@ -485,19 +431,19 @@ try {
       isValid = false;
       console.log('Video Selfie NO completado.');
     }
-    if(this.showPhotoSelfie && !this.validateMetaG.photoSelfie) {
+    if (this.showPhotoSelfie && !this.validateMetaG.photoSelfie) {
       isValid = false;
       console.log('Photo selfie NO completado');
     }
-  
+
     console.log('Resultado final de validación:', isValid);
     return isValid;
   }
-  
+
 
   updateValidation() {
     // console.log('🔄 Actualizando validación...');
-    
+
     // console.log('Estado ANTES de validar:');
     // console.log('showAcuerdoVideo:', this.showAcuerdoVideo, '| Validado:', this.validateMetaG.acuerdoVideo);
     // console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
@@ -511,15 +457,15 @@ try {
     const dpiBackValid = this.showDpiBack ? this.validateMetaG.dpiBack : true;
     const videoSelfieValid = this.showVideoSelfie ? this.validateMetaG.videoSelfie : true;
     const photoSelfieValid = this.showPhotoSelfie ? this.validateMetaG.photoSelfie : true;
-  
+
     this.isValid = acuerdoVideo && dpiFrontValid && dpiBackValid && videoSelfieValid && photoSelfieValid;
-  
+
     // console.log('🚀 Estado FINAL de validación:', this.isValid);
-  
+
     // 🔥 Forzamos la actualización de la UI
     this.cdRef.detectChanges();
   }
-  
+
 
 
 
@@ -540,14 +486,14 @@ try {
     // console.log(`Buscando el siguiente paso después de Type ${currentType}`);
 
     const currentIndex = this.validationConfig.findIndex(step => step.type === currentType);
-  
+
     if (currentIndex === -1) {
       console.warn('No se encontró el paso actual en validationConfig.');
       return;
     }
-  
+
     const nextStep = this.validationConfig[currentIndex + 1];
-  
+
     if (nextStep) {
       // console.log(`Moviendo al siguiente paso: Type ${nextStep.type}, Order ${nextStep.order}`);
       this.handleSlide(nextStep.order);
@@ -558,6 +504,8 @@ try {
   }
 
   async InitProccess() {
+
+
     let loader: HTMLIonLoadingElement | null = null;
     try {
       loader = await this.loadingController.create({
@@ -568,7 +516,7 @@ try {
       await loader.present();
 
       this.dpiService
-        .InitProccess(this.dpiCode + '',  this.connection, this.apikey)// '673259d3f027711b51e71202')
+        .InitProccess(this.dpiCode + '', this.connection, this.apikey, this.versionSDK)// '673259d3f027711b51e71202')
         .subscribe({
           next: (response: any) => {
             if (loader) {
@@ -578,9 +526,9 @@ try {
               localStorage.setItem('codigo', response['details']);
               const isCompleted = response['completed'];
 
-              if(isCompleted) {
+              if (isCompleted) {
                 // console.log("Paso aca en el if")
-                
+
                 this.validateMetaG.acuerdoVideo = true;
                 this.validateMetaG.dpiFront = true;
                 this.validateMetaG.dpiBack = true;
@@ -589,8 +537,8 @@ try {
                 this.updateValidation();
 
                 this.handleSlide(this.validationConfig.length + 1);
-              }else {
-                if(!this.simpleProcess) {
+              } else {
+                if (!this.simpleProcess) {
                   // console.log("Paso aca en el else")
                   this.handleSlide(1);
                 } else {
@@ -600,7 +548,7 @@ try {
                 }
               }
             } else {
-              if(this.dpi.value == null) {
+              if (this.dpi.value == null) {
                 this.showAlert('Error', 'El campo DPI no puede estar vacío', [], () => {
                   this.handleExit();
                 });
@@ -639,7 +587,7 @@ try {
     let loader: HTMLIonLoadingElement | null = null;
 
     try {
-      
+
       // Muestra el loader
       loader = await this.loadingController.create({
         message: 'Procesando...',
@@ -665,30 +613,30 @@ try {
             // });
 
 
-          const modal = await this.modalController.create({
-            component: MessageModalComponent,
-            componentProps: {
-              title: 'Éxito',
-              message: 'DPI registrado correctamente',
-              variant: 'dpi'
-            },
-            backdropDismiss: false
-          });
-          await modal.present();
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: 'Éxito',
+                message: 'DPI registrado correctamente',
+                variant: 'dpi'
+              },
+              backdropDismiss: false
+            });
+            await modal.present();
 
-          modal.onDidDismiss().then(() => {
-            this.closeModalFromParent();
-            this.modalController.dismiss();
-            this.validateMetaG.dpiFront = true;
-            this.updateValidation();
-            this.moveToNextStep(2);
-          });
+            modal.onDidDismiss().then(() => {
+              this.closeModalFromParent();
+              this.modalController.dismiss();
+              this.validateMetaG.dpiFront = true;
+              this.updateValidation();
+              this.moveToNextStep(2);
+            });
           } else {
             const modal = await this.modalController.create({
               component: MessageModalComponent,
               componentProps: {
-                title: 'Error',
-                errors: response['errors'] || [],
+                title: response['mensage'],
+                errors: response['details'],
                 variant: 'dpi'
               },
               backdropDismiss: false
@@ -708,7 +656,7 @@ try {
           }
         },
         error: async (error) => {
-           const modal = await this.modalController.create({
+          const modal = await this.modalController.create({
             component: MessageModalComponent,
             componentProps: {
               title: 'Error',
@@ -757,7 +705,6 @@ try {
 
     this.modalDpiServices.requestCloseModalAcuerdoVideo();
   }
-
 
   resumePhotoFromParent() {
     this.modalDpiServices.requestResumePhotoSubject();
@@ -817,7 +764,7 @@ try {
               backdropDismiss: false
             });
             await modal.present();
-  
+
             modal.onDidDismiss().then(() => {
               this.closeModalFromParent();
               this.modalController.dismiss();
@@ -842,7 +789,7 @@ try {
               backdropDismiss: false
             });
             await modal.present();
-  
+
             modal.onDidDismiss().then(() => {
               this.resumeCameraFromParent();
               // this.modalController.dismiss();
@@ -924,7 +871,7 @@ try {
               backdropDismiss: false
             });
             await modal.present();
-  
+
             modal.onDidDismiss().then(() => {
               this.closeModalVideoSelfie();
               this.modalController.dismiss();
@@ -944,7 +891,7 @@ try {
               backdropDismiss: false
             });
             await modal.present();
-  
+
             modal.onDidDismiss().then(() => {
               this.closeModalVideoSelfie();
               // this.modalController.dismiss();
@@ -1002,7 +949,7 @@ try {
     subMessage?: string
   ) {
     const detailsMessage = Array.isArray(details)
-    ? details.map((detail) => `${detail}           `).join('')
+      ? details.map((detail) => `${detail}           `).join('')
       : '';
     const fullMessage = message + (detailsMessage ? `${detailsMessage}` : '');
 
@@ -1048,6 +995,7 @@ try {
   async closeModalOverlay() {
     // console.log('test videoselfie');
   }
+
   async closePhotoSelfie() {
     // console.log('test videoselfie');
   }
@@ -1110,7 +1058,7 @@ try {
             loader.dismiss();
           }
 
-          if(!response['error']) {
+          if (!response['error']) {
 
             const modal = await this.modalController.create({
               component: MessageModalComponent,
@@ -1122,14 +1070,14 @@ try {
               backdropDismiss: false
             });
             await modal.present();
-  
+
             modal.onDidDismiss().then(() => {
               this.closePhotoSelfieFromParent();
               this.modalController.dismiss();
-    
+
               this.validateMetaG.photoSelfie = true;
               this.updateValidation();
-    
+
               this.moveToNextStep(5);
             });
 
@@ -1137,10 +1085,10 @@ try {
             //   // this.closeModalFromParent();
             //   this.closePhotoSelfieFromParent();
             //   this.modalController.dismiss();
-    
+
             //   this.validateMetaG.photoSelfie = true;
             //   this.updateValidation();
-    
+
             //   this.moveToNextStep(5);
             // });
           } else {
@@ -1155,11 +1103,11 @@ try {
               backdropDismiss: false
             });
             await modal.present();
-  
+
             modal.onDidDismiss().then(() => {
               this.resumePhotoFromParent();
               // this.modalController.dismiss();
-    
+
               this.validateMetaG.photoSelfie = false;
               this.updateValidation();
             });
@@ -1271,7 +1219,7 @@ try {
               backdropDismiss: false
             });
             await modal.present();
-      
+
             modal.onDidDismiss().then(() => {
               this.closeModalAcuerdoVideo();
               this.modalController.dismiss();
@@ -1296,15 +1244,15 @@ try {
               backdropDismiss: false
             });
             await modal.present();
-      
+
             modal.onDidDismiss().then(() => {
               // this.modalController.dismiss();
               this.validateMetaG.acuerdoVideo = false;
-            this.updateValidation();
+              this.updateValidation();
             });
           }
         },
-        error: async  (error) => {
+        error: async (error) => {
           if (loader) {
             loader.dismiss();
           }
@@ -1319,11 +1267,11 @@ try {
             backdropDismiss: false
           });
           await modal.present();
-    
+
           modal.onDidDismiss().then(() => {
             // this.modalController.dismiss();
-          //   this.validateMetaG.acuerdoVideo = false;
-          // this.updateValidation();
+            //   this.validateMetaG.acuerdoVideo = false;
+            // this.updateValidation();
           });
 
           // this.showAlert('Error', '', error, () => {
@@ -1336,16 +1284,16 @@ try {
     } catch (error) {
       console.log(error);
     }
-   }
+  }
 
-   async openAcuerdoVideo() {
+  async openAcuerdoVideo() {
     const modal = await this.modalController.create({
       component: CamaraAcuerdoVideoComponent,
       componentProps: {
-      //   cssClass: 'my-custom-class',
-      //   text1: 'Video Selfie',
-      //   text2: 'Guatemala',
-      //   overlaySrc: 'assets/overlay-image.png',
+        //   cssClass: 'my-custom-class',
+        //   text1: 'Video Selfie',
+        //   text2: 'Guatemala',
+        //   overlaySrc: 'assets/overlay-image.png',
         backFunction: async (file: File) => {
           await this.getAcuerdoVideo(file);
         },
@@ -1410,5 +1358,9 @@ try {
     });
 
     await modal.present();
+  }
+
+  copyProccess() {
+    const codigo = localStorage.getItem('codigo') ?? '';
   }
 }

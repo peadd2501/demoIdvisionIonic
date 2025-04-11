@@ -80,8 +80,8 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     try {
       const constraints: MediaStreamConstraints = {
         video: {
-          width: { ideal: 4096 },
-          height: { ideal: 2160 },
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
           facingMode: 'environment'
         },
         audio: false
@@ -110,43 +110,57 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     if (!this.stream) {
       console.error('La cámara no está inicializada.');
       return;
-    };
+    }
   
     const canvas = document.createElement('canvas');
     const videoElement = this.videoElement.nativeElement;
   
-    canvas.width =videoElement.videoWidth || 1920;
+    canvas.width = videoElement.videoWidth || 1920;
     canvas.height = videoElement.videoHeight || 1080;
   
-
     const context = canvas.getContext('2d');
-    if (context) {
-      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-      let quality = 0.98;
-
-      // Convierte el contenido del canvas a un Blob
-      canvas.toBlob((blob) => {
-        if (blob && blob.size > 0) {   
-          
-
-          if (blob.size > 2 * 1024 * 1024) {
-            quality = 0.85;
-          }
-
-          this.file = this.blobToFile(blob, 'dpi.jpeg');
-          videoElement.pause();
-              this.onTakePicture(this.file).catch(
-            (err) => console.error('Error en onTakePicture:', err)
-          );
-        } else {
-          console.error('El Blob generado está vacío o no válido.');
-        }
-      }, 'image/jpeg', quality);
-
-      
-      //this.closeOverlay();
+    if (!context) {
+      console.error('No se pudo obtener el contexto del canvas.');
+      return;
+    }
+  
+    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+  
+    let quality = 0.98;
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+    const minQuality = 0.4;
+  
+    const compressImage = (quality: number): Promise<Blob | null> => {
+      return new Promise((resolve) => {
+        canvas.toBlob(
+          (blob) => resolve(blob),
+          'image/jpeg',
+          quality
+        );
+      });
+    };
+  
+    let blob: Blob | null = await compressImage(quality);
+  
+    // Reducir calidad si excede tamaño
+    while (blob && blob.size > maxSizeInBytes && quality > minQuality) {
+      quality -= 0.05;
+      blob = await compressImage(quality);
+    }
+  
+    if (blob && blob.size <= maxSizeInBytes) {
+      this.file = this.blobToFile(blob, 'dpi.jpeg');
+      videoElement.pause();
+      try {
+        await this.onTakePicture(this.file);
+      } catch (err) {
+        console.error('Error en onTakePicture:', err);
+      }
+    } else {
+      console.error('No se pudo reducir el tamaño de la imagen por debajo de 5MB.');
     }
   }
+  
 
   blobToFile(blob: Blob, fileName: string): File { 
     const b: any = blob;
@@ -184,4 +198,3 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
   }
 
 }
-

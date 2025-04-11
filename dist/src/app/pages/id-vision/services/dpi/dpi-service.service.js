@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-// import { environments } from 'src/app/pages/constants/enviroments';
 import { environments } from './../../../constants/enviroments';
 import * as i0 from "@angular/core";
 import * as i1 from "@angular/common/http";
@@ -24,7 +23,7 @@ export class DpiService {
             'api-key': apikey
         });
         return this.http
-            .post(`${this.apiUrl}dpi/api/validateFrontDPIAWSV2`, formData, {
+            .post(`${this.apiUrl}dpi/api/validateFrontDPIAWSV1`, formData, {
             headers
         })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
@@ -39,7 +38,7 @@ export class DpiService {
             'api-key': apikey
         });
         return this.http
-            .post(`${this.apiUrl}dpi/api/validateBackDPIAWSV2`, formData, {
+            .post(`${this.apiUrl}dpi/api/validateBackDPIAWSV1`, formData, {
             headers
         })
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
@@ -66,15 +65,17 @@ export class DpiService {
             .post(`${this.apiUrl}acuerdoVideo/api/validate`, formData)
             .pipe(map((response) => response), catchError((error) => throwError(() => new Error(error.message))));
     }
-    InitProccess(identificador, connection, apikey) {
+    InitProccess(identificador, connection, apikey, versionSDk = "Sin data") {
         const requestBody = {
             identificador,
             connection,
-            apikey
+            apikey,
+            versionSDk
         };
         const headers = new HttpHeaders({
             'connection-mg': connection,
-            'api-key': apikey
+            'api-key': apikey,
+            'sdk-version': versionSDk,
         });
         return this.http
             .post(`${this.apiUrl}initProces/api/initWhitDPINumber`, requestBody, {

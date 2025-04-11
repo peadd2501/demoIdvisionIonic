@@ -1,7 +1,19 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  Renderer2,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ModalVideoSelfieServices } from '../../services/modal-services/modal-video-selfie-services';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
@@ -11,7 +23,7 @@ import { Capacitor } from '@capacitor/core';
   selector: 'app-camara-video-selfie',
   templateUrl: './camara-video-selfie.component.html',
   styleUrls: ['./camara-video-selfie.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
+  encapsulation: ViewEncapsulation.Emulated,
 })
 export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
@@ -31,17 +43,15 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
   isRecording = false;
   mediaRecorder: MediaRecorder | null = null;
   recordedChunks: Blob[] = [];
-  countdown: number = 0; // Propiedad para la cuenta regresiva
+  countdown: number = 0;
 
   private recordingTimer: any;
-  private minRecordingTime = 3000; // 3 seconds
-  private maxRecordingTime = 5000; // 5 seconds
-  timeRemaining: number = this.maxRecordingTime / 1000; // Inicializar con el tiempo máximo en segundos
+  private minRecordingTime = 3000;
+  private maxRecordingTime = 5000;
+  timeRemaining: number = this.maxRecordingTime / 1000;
   canStopRecording = true;
-
-  isLoading: boolean = true; // Variable para mostrar el loader
-
-  private defaultBrightness: number | null = null; // Para guardar el brillo original del dispositivo
+  isLoading: boolean = true;
+  private defaultBrightness: number | null = null;
 
   constructor(
     private platform: Platform,
@@ -58,25 +68,25 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
   }
 
   async ngAfterViewInit() {
-      if (this.isAndroid || this.isIOS) {
-        try {
-          const { brightness } = await ScreenBrightness.getBrightness();
-          this.defaultBrightness = brightness;
-          await ScreenBrightness.setBrightness({ brightness: 1.0 });
-        } catch (error) {
-         console.warn('Error al obtener el brillo de la pantalla:', error); 
-        }
-        await this.requestPermissions();
+    if (this.isAndroid || this.isIOS) {
+      try {
+        const { brightness } = await ScreenBrightness.getBrightness();
+        this.defaultBrightness = brightness;
+        await ScreenBrightness.setBrightness({ brightness: 1.0 });
+      } catch (error) {
+        console.warn('Error al obtener el brillo de la pantalla:', error);
       }
-    
+      await this.requestPermissions();
+    }
 
     await this.initCamera();
-    // await this.startRecording();
     await this.waitForCameraReady();
 
-    this.modalDpiServices.closeModalAndChangeBrightness$.subscribe( async () => {
-      await this.closeOverlayVideo();
-    });
+    this.modalDpiServices.closeModalAndChangeBrightness$.subscribe(
+      async () => {
+        await this.closeOverlayVideo();
+      }
+    );
   }
 
   async ngOnDestroy() {
@@ -90,7 +100,6 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
     } catch (error) {
       console.warn('Error al restaurar el brillo original:', error);
     }
-
   }
 
   async waitForCameraReady(): Promise<void> {
@@ -102,7 +111,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
   }
 
   async requestPermissions() {
-    if(Capacitor.getPlatform() !== 'web') {
+    if (Capacitor.getPlatform() !== 'web') {
       if (this.isAndroid || this.isIOS) {
         const permissions = await Camera.requestPermissions();
         if (permissions.camera === 'denied') {
@@ -128,12 +137,10 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
       this.stream = await navigator.mediaDevices.getUserMedia(constraints);
       this.videoElement.nativeElement.srcObject = this.stream;
 
-      // Esperar hasta que la cámara esté lista
       this.videoElement.nativeElement.onloadedmetadata = () => {
         isCameraReady = true;
       };
 
-      // Espera activa para asegurarte de que está lista
       await new Promise((resolve) => {
         const interval = setInterval(() => {
           if (isCameraReady) {
@@ -154,54 +161,64 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
 
   async startRecording() {
     if (!this.stream) return;
+
+    if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+      this.mediaRecorder.stop();
+    }
+
     const options = {
       mimeType: this.isIOS ? 'video/mp4' : 'video/webm',
       videoBitsPerSecond: 400000,
     };
+
+    this.recordedChunks = [];
+
     this.mediaRecorder = new MediaRecorder(this.stream, options);
-    let chunks: Blob[] = [];
 
     this.mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
-        chunks.push(event.data);
-      } else {
+        this.recordedChunks.push(event.data);
       }
     };
 
     this.mediaRecorder.onstop = async () => {
-      if (chunks.length === 0) {
+      if (this.recordedChunks.length === 0) {
         console.error('No se capturaron datos en la grabación.');
         return;
       }
+
       const fileType = this.isIOS ? 'video/mp4' : 'video/webm';
       const fileExtension = this.isIOS ? 'mp4' : 'webm';
-      const videoBlob = new Blob(chunks, { type: fileType });
+      const videoBlob = new Blob(this.recordedChunks, { type: fileType });
       const videoFile = this.blobToFile(videoBlob, `video-selfie.${fileExtension}`);
+
+      this.capVideo = videoFile;
+
       if (this.backFunction) {
         await this.backFunction(videoFile);
       }
+
+      this.recordedChunks = [];
     };
   }
 
-  blobToFile(blob: Blob, fileName: string): File { 
+  blobToFile(blob: Blob, fileName: string): File {
     const b: any = blob;
     b.lastModified = new Date().getTime();
     b.lastModifiedDate = new Date();
     b.name = fileName;
-    //Cast to a File() type
     return <File>b;
   }
 
   recordVideo() {
-    // Mostrar la cuenta regresiva antes de iniciar la grabación
     this.countdown = 3;
     const countdownInterval = setInterval(() => {
       this.countdown -= 1;
       if (this.countdown <= 0) {
         clearInterval(countdownInterval);
-        this.startVideoRecord(); // Iniciar la grabación después de la cuenta regresiva
+        this.startVideoRecord();
       }
-      this.changeDetector.detectChanges(); // Actualizar la vista
+      this.changeDetector.detectChanges();
     }, 1000);
   }
 
@@ -212,16 +229,15 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
       this.mediaRecorder.start(100);
       this.isRecording = true;
 
-      this.canStopRecording = false; // Deshabilitar el botón de detener inicialmente
+      this.canStopRecording = false;
 
       this.renderer.addClass(
         this.progressRing.nativeElement,
         'progress-active'
       );
-      this.timeRemaining = this.maxRecordingTime / 1000; // Reiniciar el tiempo restante
-      this.updateTimeRemaining(); // Iniciar la actualización del tiempo restante
+      this.timeRemaining = this.maxRecordingTime / 1000;
+      this.updateTimeRemaining();
 
-      // Habilitar el botón de detener después de minRecordingTime
       setTimeout(() => {
         this.canStopRecording = true;
       }, this.minRecordingTime);
@@ -233,7 +249,7 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
   }
 
   updateTimeRemaining() {
-    const interval = 1000; // Actualizar cada segundo
+    const interval = 1000;
     const timer = setInterval(() => {
       if (this.isRecording) {
         this.timeRemaining -= 1;
@@ -243,13 +259,12 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
       } else {
         clearInterval(timer);
       }
-      this.changeDetector.detectChanges(); // Actualizar la vista
+      this.changeDetector.detectChanges();
     }, interval);
   }
 
   async stopRecording() {
     if (this.mediaRecorder && this.isRecording && this.canStopRecording) {
-      await this.backFunction(this.capVideo!);
       this.mediaRecorder.stop();
       this.isRecording = false;
     }
@@ -258,18 +273,14 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
       clearTimeout(this.scanTimeout);
     }
 
-    // Detiene la animación del borde circular
     this.renderer.removeClass(
       this.progressRing.nativeElement,
       'progress-active'
     );
   }
 
-
-
   async closeOverlayVideo() {
     this.stopCamera();
-    // Restaura el brillo original si estaba guardado
     if (this.defaultBrightness !== null) {
       await ScreenBrightness.setBrightness({
         brightness: this.defaultBrightness,
@@ -289,6 +300,5 @@ export class CamaraVideoSelfieComponent implements AfterViewInit, OnDestroy {
   public closeRequestedFunction() {
     this.closeOverlayVideo();
     this.modalDpiServices.requestCloseModalAndBrightness();
-    // this.modalVideoSelfieServices.requestCloseOverlayModal();
   }
 }

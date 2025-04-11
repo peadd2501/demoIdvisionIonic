@@ -8,7 +8,7 @@ import {
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 // import { environments } from 'src/app/pages/constants/enviroments';
-
+import { App } from '@capacitor/app';
 import { environments } from './../../../constants/enviroments';
 
 interface DPIProcessResponse {
@@ -41,7 +41,7 @@ export class DpiService {
     });
     return this.http
       .post<DPIProcessResponse>(
-        `${this.apiUrl}dpi/api/validateFrontDPIAWSV2`,
+        `${this.apiUrl}dpi/api/validateFrontDPIAWSV1`,
         formData,
         {
           headers
@@ -70,7 +70,7 @@ export class DpiService {
 
     return this.http
       .post<DPIProcessResponse>(
-        `${this.apiUrl}dpi/api/validateBackDPIAWSV2`,
+        `${this.apiUrl}dpi/api/validateBackDPIAWSV1`,
         formData,
         {
           headers
@@ -134,17 +134,23 @@ export class DpiService {
   InitProccess(
     identificador: string,
     connection: string,
-    apikey: string
+    apikey: string,
+    versionSDk: string = "Sin data" 
   ): Observable<DPIProcessResponse> {
     const requestBody = {
       identificador,
       connection,
-      apikey
+      apikey, 
+      versionSDk
     };
+
+
+    
 
     const headers = new HttpHeaders({
       'connection-mg': connection,
-      'api-key': apikey
+      'api-key': apikey,
+      'sdk-version':  versionSDk,
     });
 
     return this.http
