@@ -27,7 +27,7 @@
     </div>
     <ion-label [ngClass]="{'red': isRecording}">00:{{ timeRemaining < 10 ? '0' + timeRemaining : timeRemaining
         }}</ion-label>
-        <p class="text-center">Permanece quieto, con tu rostro en el centro del circulo</p>
+        <p class="text-center">Permanece quieto, con tu rostro en el centro del círculo.</p>
         <!-- Botones de grabación -->
         <div class="fixed-footer">
           <ion-button *ngIf="!isRecording" expand="block" (click)="recordVideo()">Iniciar Grabación</ion-button>

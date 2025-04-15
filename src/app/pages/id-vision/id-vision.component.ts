@@ -19,9 +19,9 @@ import {
   ModalController,
   NavController,
   Platform,
+  ToastController
 } from '@ionic/angular';
-// import { register, SwiperContainer } from 'swiper/element/bundle';
-// import { Swiper, SwiperOptions } from 'swiper/types';
+import { Clipboard } from '@capacitor/clipboard';
 import { CameraWithOverlayComponent } from './components/camera-with-overlay/camera-with-overlay.component';
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
 import { DpiService } from './services/dpi/dpi-service.service';
@@ -29,6 +29,9 @@ import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
+import { Network, NetworkStatus } from '@capacitor/network';
+import { PluginListenerHandle } from '@capacitor/core';
+import { NgZone } from '@angular/core';
 import {
   register,
   SwiperContainer,
@@ -58,6 +61,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('dpi', { static: false }) dpi!: IonInput;
   private isAndroid: boolean;
   private isIOS: boolean;
+
   tutoImage1: string = 'assets/imagesIdvision/documentsImage.png';
   tutoImage2: string = 'assets/imagesIdvision/documentsImage.png';
   tutoImage3: string = 'assets/imagesIdvision/56.png';
@@ -66,6 +70,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   constructor(
+    private zone: NgZone,
     private modalController: ModalController,
     private dpiService: DpiService,
     private alertController: AlertController,
@@ -77,7 +82,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     private navController: NavController,
     private validateMetaGService: ValidateMetaGService,
     private cdRef: ChangeDetectorRef,
-    private photoSelfieServices: PhotoSelfieServices
+    private photoSelfieServices: PhotoSelfieServices,
+    private toastController: ToastController
   ) {
     this.isAndroid = this.platform.is('android');
     this.isIOS = this.platform.is('ios');
@@ -98,8 +104,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() connection: string = '';
   @Input() apikey: string = '';
   @Input() validationConfig: any[] = [];
+  showDebug: boolean = false;
   versionSDK: string = '';
-
+  hasInternet: boolean = true;
   validateMetaG: {
     acuerdoVideo: boolean;
     dpiFront: boolean;
@@ -118,7 +125,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   showVideoSelfie: boolean = false;
   showPhotoSelfie: boolean = false;
   isValid = false;
-
+  networkListener: PluginListenerHandle | undefined;
 
 
   async loadMockValidationConfig() {
@@ -191,9 +198,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
       default: return () => console.warn('Tipo de paso desconocido:', type);
     }
   }
-
-
-
 
   setValidationConfig() {
     // 🔥 Depuración en consola
@@ -295,6 +299,30 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       console.error("No se encontró el elemento de video con ID 'dpiBack'.");
     }
+
+
+    if (this.isAndroid || this.isIOS) {
+  
+
+      try {
+        const status = await Network.getStatus();
+        this.hasInternet = status.connected;
+       // console.log('Internet inicial:', this.hasInternet);
+       // alert(status.connected)
+
+        // Escucha cambios de conexión
+        this.networkListener = await Network.addListener('networkStatusChange', (status) => {
+          this.zone.run(() => {
+            this.hasInternet = status.connected;
+            console.log('Internet cambio:', this.hasInternet);
+          });
+        });
+      } catch (error:any) {
+        alert(error.message)
+      }
+
+    }
+
   }
 
   ngAfterViewInit() {
@@ -332,11 +360,14 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  async ngOnDestroy() {
     // this.swiperRef = null;
 
     if (this.swiperRef) {
       // this.swiperRef.destroy(true, true);
+    }
+    if ((this.isAndroid || this.isIOS) && this.networkListener) {
+      await this.networkListener.remove();
     }
   }
 
@@ -356,25 +387,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.swiperElement()?.swiper?.slideTo(0);
   }
 
-  // handleExit(): void {
-  //   const result =
-  //     this.validateMetaG.dpiBack &&
-  //     this.validateMetaG.dpiFront &&
-  //     this.validateMetaG.videoSelfie;
-  //   this.sdkCommunicationService.emitExit(result);
-  //   this.navController.back();
-  // }
-
-
-  // handleExit(): void {
-  //   const result =
-  //     (!this.showDpiFront || this.validateMetaG.dpiFront) &&
-  //     (!this.showDpiBack || this.validateMetaG.dpiBack) &&
-  //     (!this.showVideoSelfie || this.validateMetaG.videoSelfie);
-
-  //   this.sdkCommunicationService.emitExit(result);
-  //   this.navController.back();
-  // }
   handleExit(): void {
     this.updateValidation();
     const result = this.isAllValid(); // Usamos la validación corregida
@@ -385,27 +397,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.navController.back();
   }
 
-
-
-
-
-  // isAllValid(): boolean {
-  //   let isValid =
-  //     this.validateMetaG.dpiFront &&
-  //     this.validateMetaG.dpiBack &&
-  //     this.validateMetaG.videoSelfie;
-  //   this.validateMetaGService.setValidateMetaG(isValid);
-  //   return isValid;
-  // }
-
   isAllValid(): boolean {
-    // console.log('🔎 Verificando estado de los pasos:');
-    // console.log('showAcuerdoVideo:', this.showAcuerdoVideo, '| Validado:', this.validateMetaG.dpiFront);
-    // console.log('showDpiFront:', this.showDpiFront, '| Validado:', this.validateMetaG.dpiFront);
-    // console.log('showDpiBack:', this.showDpiBack, '| Validado:', this.validateMetaG.dpiBack);
-    // console.log('showVideoSelfie:', this.showVideoSelfie, '| Validado:', this.validateMetaG.videoSelfie);
-    // console.log('showPhotoSelfie:', this.showPhotoSelfie, '| Validado:', this.validateMetaG.photoSelfie);
-
     // Si NO hay pasos activados, devolvemos `false`
     if (!this.showAcuerdoVideo && !this.showDpiFront && !this.showDpiBack && !this.showVideoSelfie && !this.showPhotoSelfie) {
       console.log('⚠️ No hay pasos activos, devolviendo `false`.');
@@ -526,6 +518,8 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               localStorage.setItem('codigo', response['details']);
               const isCompleted = response['completed'];
 
+              this.showDebug = true;
+
               if (isCompleted) {
                 // console.log("Paso aca en el if")
 
@@ -539,12 +533,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.handleSlide(this.validationConfig.length + 1);
               } else {
                 if (!this.simpleProcess) {
-                  // console.log("Paso aca en el else")
                   this.handleSlide(1);
                 } else {
                   this.openSimpleAcuerdo();
-                  // this.openAcuerdoVideo();
-                  // console.log("Simple process activado...")
                 }
               }
             } else {
@@ -602,16 +593,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             loader.dismiss();
           }
           if (!response['error']) {
-            // this.showAlert('Éxito', 'DPI registrado correctamente', [], () => {
-            //   this.closeModalFromParent();
-            //   this.modalController.dismiss();
-            //   this.validateMetaG.dpiFront = true;
-            //   this.updateValidation();
-            //   // this.handleSlide(2);
-            //   // this.handleNext();
-            //   this.moveToNextStep(2);
-            // });
-
 
             const modal = await this.modalController.create({
               component: MessageModalComponent,
@@ -646,11 +627,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.resumeCameraFromParent();
             });
 
-
-            // this.showAlert(response['mensage'], '', response['details'], () => {
-            //   this.resumeCameraFromParent();
-            // });
-
             this.validateMetaG.dpiFront = false;
             this.updateValidation();
           }
@@ -673,12 +649,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           this.validateMetaG.dpiFront = false;
           this.updateValidation();
 
-          // this.showAlert('Error', '', error, () => {
-          //   this.resumeCameraFromParent();
-          // });
-
-          // this.validateMetaG.dpiFront = false;
-          // this.updateValidation();
           if (loader) {
             loader.dismiss();
           }
@@ -1360,7 +1330,22 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     await modal.present();
   }
 
-  copyProccess() {
+  async copyProccess() {
     const codigo = localStorage.getItem('codigo') ?? '';
+    this.copiarTexto(codigo);
+  }
+
+  async copiarTexto(texto: string) {
+    await Clipboard.write({
+      string: texto
+    });
+
+    const toast = await this.toastController.create({
+      message: 'Proceso copiado!',
+      duration: 2000,
+      color: 'success'
+    });
+
+    await toast.present();
   }
 }

@@ -307,3 +307,46 @@ ion-input {
   --background: #ff4081;
   --color: #fff;
 }
+
+
+.wrapper-no-internet {
+  background-color: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* centra en eje vertical */
+  align-items: center;     /* centra en eje horizontal */
+  padding: 40px;
+  background-image: url('assets/imagesIdvision/background.png') !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  
+}
+
+.content-no-internet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.title-no-internet{
+  color: #000;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.icon-no-internet {
+  width: 125px;
+  display: block;
+  margin-top: 25px;
+}
+
+.description-no-internet {
+  margin-top: 25px;
+  font-size: 22px;
+  color: #000;
+  line-height: 1.5;
+  text-align: center;
+}

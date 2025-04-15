@@ -1,14 +1,17 @@
 import { AfterViewInit, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
-import { AlertController, IonInput, LoadingController, ModalController, NavController, Platform } from '@ionic/angular';
+import { AlertController, IonInput, LoadingController, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
+import { PluginListenerHandle } from '@capacitor/core';
+import { NgZone } from '@angular/core';
 import { SwiperContainer } from './../../../swiper-wrapper';
 import { PhotoSelfieServices } from './services/modal-services/photo-selfie-services';
 import * as i0 from "@angular/core";
 export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
+    private zone;
     private modalController;
     private dpiService;
     private alertController;
@@ -21,6 +24,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     private validateMetaGService;
     private cdRef;
     private photoSelfieServices;
+    private toastController;
     dpi: IonInput;
     private isAndroid;
     private isIOS;
@@ -28,7 +32,7 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     tutoImage2: string;
     tutoImage3: string;
     tutoImage4: string;
-    constructor(modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController, validateMetaGService: ValidateMetaGService, cdRef: ChangeDetectorRef, photoSelfieServices: PhotoSelfieServices);
+    constructor(zone: NgZone, modalController: ModalController, dpiService: DpiService, alertController: AlertController, loadingController: LoadingController, platform: Platform, modalDpiServices: ModalDpiServices, modalVideoSelfieServices: ModalVideoSelfieServices, sdkCommunicationService: SdkCommunicationService, navController: NavController, validateMetaGService: ValidateMetaGService, cdRef: ChangeDetectorRef, photoSelfieServices: PhotoSelfieServices, toastController: ToastController);
     swiperElement: import("@angular/core").WritableSignal<SwiperContainer | null>;
     private modalRef;
     isSwipe: boolean;
@@ -36,7 +40,9 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     connection: string;
     apikey: string;
     validationConfig: any[];
+    showDebug: boolean;
     versionSDK: string;
+    hasInternet: boolean;
     validateMetaG: {
         acuerdoVideo: boolean;
         dpiFront: boolean;
@@ -52,12 +58,13 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     showVideoSelfie: boolean;
     showPhotoSelfie: boolean;
     isValid: boolean;
+    networkListener: PluginListenerHandle | undefined;
     loadMockValidationConfig(): Promise<void>;
     getStepAction(type: number): () => void;
     setValidationConfig(): void;
     ngOnInit(): Promise<void>;
     ngAfterViewInit(): void;
-    ngOnDestroy(): void;
+    ngOnDestroy(): Promise<void>;
     handleClick(): void;
     handleSlide(slide: number): Promise<void>;
     handleGetInit(): void;
@@ -93,6 +100,8 @@ export declare class IdVisionComponent implements OnInit, AfterViewInit, OnDestr
     openVideoSelfie(): Promise<void>;
     openPhotoSelfie(): Promise<void>;
     openSimpleAcuerdo(): Promise<void>;
+    copyProccess(): Promise<void>;
+    copiarTexto(texto: string): Promise<void>;
     static ɵfac: i0.ɵɵFactoryDeclaration<IdVisionComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<IdVisionComponent, "app-id-vision", never, { "isSwipe": { "alias": "isSwipe"; "required": false; }; "dpiCode": { "alias": "dpiCode"; "required": false; }; "connection": { "alias": "connection"; "required": false; }; "apikey": { "alias": "apikey"; "required": false; }; "validationConfig": { "alias": "validationConfig"; "required": false; }; }, {}, never, never, true, never>;
 }
