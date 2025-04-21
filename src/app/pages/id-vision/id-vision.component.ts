@@ -178,8 +178,45 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             console.warn("La configuración obtenida no es válida:", connection);
           }
         },
-        error: (err) => {
-          console.error("Error al obtener la conexión:", err);
+        error: async (err) => {
+          if (loader) {
+            loader.dismiss();
+          }
+          if (this.hasInternet) {
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: 'Error',
+                errors: ["Credenciales Ingresadas Invalidas"],
+                variant: 'dpi'
+              },
+              backdropDismiss: false
+            });
+
+            await modal.present();
+
+            modal.onDidDismiss().then(() => {
+              this.sdkCommunicationService.emitExit(false);
+              this.navController.back();
+            });
+          } else {
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: 'Error de conexión',
+                errors: ["No pudimos cargar la página. Verifica tu internet y prueba de nuevo."],
+                variant: 'dpi'
+              },
+              backdropDismiss: false
+            });
+
+            await modal.present();
+
+            modal.onDidDismiss().then(() => {
+              this.sdkCommunicationService.emitExit(false);
+              this.navController.back();
+            });
+          }
         }
       });
     } catch (error) {
@@ -236,6 +273,27 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit() {
+
+    if (this.isAndroid || this.isIOS) {
+
+
+      try {
+        const status = await Network.getStatus();
+        this.hasInternet = status.connected;
+
+        this.networkListener = await Network.addListener('networkStatusChange', (status) => {
+          this.zone.run(() => {
+            this.hasInternet = status.connected;
+            console.log('Internet cambio:', this.hasInternet);
+          });
+        });
+      } catch (error: any) {
+        alert(error.message)
+      }
+
+    }
+
+
     await this.loadMockValidationConfig();
 
     if (this.isAndroid || this.isIOS) {
@@ -301,27 +359,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-    if (this.isAndroid || this.isIOS) {
-  
 
-      try {
-        const status = await Network.getStatus();
-        this.hasInternet = status.connected;
-       // console.log('Internet inicial:', this.hasInternet);
-       // alert(status.connected)
-
-        // Escucha cambios de conexión
-        this.networkListener = await Network.addListener('networkStatusChange', (status) => {
-          this.zone.run(() => {
-            this.hasInternet = status.connected;
-            console.log('Internet cambio:', this.hasInternet);
-          });
-        });
-      } catch (error:any) {
-        alert(error.message)
-      }
-
-    }
 
   }
 
@@ -560,6 +598,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           },
           error: (error) => {
+            console.log('-----------------');
+            console.log(error)
+            console.log('-----------------');
             console.error('Error al llamar al servicio:', error);
           },
         });
@@ -632,19 +673,37 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
         error: async (error) => {
-          const modal = await this.modalController.create({
-            component: MessageModalComponent,
-            componentProps: {
-              title: 'Error',
-              errors: error || [],
-              variant: 'dpi'
-            },
-            backdropDismiss: false
-          });
-          await modal.present();
-          modal.onDidDismiss().then(() => {
-            this.resumeCameraFromParent();
-          });
+          if (this.hasInternet) {
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: 'Error',
+                errors: error || [],
+                variant: 'dpi'
+              },
+              backdropDismiss: false
+            });
+            await modal.present();
+            modal.onDidDismiss().then(() => {
+              this.resumeCameraFromParent();
+            });
+          }else {
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: 'Error de conexión',
+                errors: ["No pudimos cargar la página. Verifica tu internet y prueba de nuevo."],
+                variant: 'dpi'
+              },
+              backdropDismiss: false
+            });
+
+            await modal.present();
+            modal.onDidDismiss().then(() => {
+              this.resumeCameraFromParent();
+            });
+          }
+
 
           this.validateMetaG.dpiFront = false;
           this.updateValidation();

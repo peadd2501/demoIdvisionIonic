@@ -1,4 +1,4 @@
-<ion-content [hidden]=="hasInternet">
+<ion-content [style.display]="hasInternet ? 'block' : 'none'">
   <swiper-container init="false" class="custom-swiper">
 
     <!-- 🔹 PASO 1: Verificación de Identidad (Estático) -->
@@ -202,7 +202,7 @@
 
 </ion-content>
 <!-- pantalla para cuando no exista internet -->
-<ion-content [hidden]="!hasInternet"> 
+<ion-content [style.display]="!hasInternet ? 'block' : 'none'"> 
   <div class="wrapper-no-internet">
     <div class="content-no-internet">
       <h2 class="title-no-internet">Error de conexión</h2>
