@@ -687,7 +687,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             modal.onDidDismiss().then(() => {
               this.resumeCameraFromParent();
             });
-          }else {
+          } else {
             const modal = await this.modalController.create({
               component: MessageModalComponent,
               componentProps: {
@@ -828,37 +828,55 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
         error: async (error) => {
-          const modal = await this.modalController.create({
-            component: MessageModalComponent,
-            componentProps: {
-              title: error['mensage'],
-              message: error['details'],
-              variant: 'dpi'
-            },
-            backdropDismiss: false
-          });
-          await modal.present();
-
-          modal.onDidDismiss().then(() => {
-            this.resumeCameraFromParent();
-            this.validateMetaG.dpiBack = false;
-            this.updateValidation();
-            console.error('Error al llamar al servicio:', error);
-          });
-
           if (loader) {
             loader.dismiss();
           }
-          // this.showAlert('Error', '', error, () => {
-          //   this.resumeCameraFromParent();
-          // });
+          if (this.hasInternet) {
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: error['mensage'],
+                message: error['details'],
+                variant: 'dpi'
+              },
+              backdropDismiss: false
+            });
+            await modal.present();
 
-          // if (loader) {
-          //   loader.dismiss();
-          // }
-          // this.validateMetaG.dpiBack = false;
-          // this.updateValidation();
-          // console.error('Error al llamar al servicio:', error);
+            modal.onDidDismiss().then(() => {
+              this.resumeCameraFromParent();
+              this.validateMetaG.dpiBack = false;
+              this.updateValidation();
+              console.error('Error al llamar al servicio:', error);
+            });
+
+            if (loader) {
+              loader.dismiss();
+            }
+          } else {
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: 'Error de conexión',
+                errors: ["No pudimos cargar la página. Verifica tu internet y prueba de nuevo."],
+                variant: 'dpi'
+              },
+              backdropDismiss: false
+            });
+
+            await modal.present();
+
+            modal.onDidDismiss().then(() => {
+              this.sdkCommunicationService.emitExit(false);
+              this.navController.back();
+            });
+          }
+
+
+
+
+
+
         },
       });
     } catch (error) {
@@ -937,25 +955,44 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
         error: async (error) => {
-          const modal = await this.modalController.create({
-            component: MessageModalComponent,
-            componentProps: {
-              title: 'Error',
-              errors: error['message'],
-              variant: 'video'
-            },
-            backdropDismiss: false
-          });
-          await modal.present();
+          if (loader) {
+            loader.dismiss();
+          }
+          if (this.hasInternet) {
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: 'Error',
+                errors: error['message'],
+                variant: 'video'
+              },
+              backdropDismiss: false
+            });
+            await modal.present();
 
-          modal.onDidDismiss().then(() => {
-            this.resumeCameraFromParent();
-            // this.modalController.dismiss();
-          });
+            modal.onDidDismiss().then(() => {
+              this.resumeCameraFromParent();
+              // this.modalController.dismiss();
+            });
+          } else {
+            const modal = await this.modalController.create({
+              component: MessageModalComponent,
+              componentProps: {
+                title: 'Error de conexión',
+                errors: ["No pudimos cargar la página. Verifica tu internet y prueba de nuevo."],
+                variant: 'dpi'
+              },
+              backdropDismiss: false
+            });
 
-          // this.showAlert('Error', '', error, () => {
-          //   this.resumeCameraFromParent();
-          // });
+            await modal.present();
+
+            modal.onDidDismiss().then(() => {
+              this.sdkCommunicationService.emitExit(false);
+              this.navController.back();
+            });
+          }
+
 
           console.error('Error al llamar al servicio:', error);
         },

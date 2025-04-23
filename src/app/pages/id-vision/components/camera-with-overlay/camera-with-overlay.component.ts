@@ -1,7 +1,16 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Camera } from '@capacitor/camera';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Capacitor } from '@capacitor/core';
 import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 
@@ -13,188 +22,185 @@ import { ModalDpiServices } from '../../services/modal-services/modal-dpi-servic
 })
 export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
-  
 
-  @Input() text1: string = '';
-  @Input() text2: string = '';
-  @Input() overlaySrc: string = '';
-  @Input() onTakePicture!: (filePath: File) => Promise<boolean>;
+  /* ▸ Inputs / Outputs */
+  @Input() text1 = '';
+  @Input() text2 = '';
+  @Input() overlaySrc = '';
+  @Input() onTakePicture!: (file: File) => Promise<boolean>;
   @Output() closeRequested = new EventEmitter<void>();
 
-  capturedImage: SafeUrl | null = null;
+  /* ▸ Estado */
   stream: MediaStream | null = null;
+  isLoading = true;
 
-  private isAndroid: boolean;
-  private isIOS: boolean;
-
-  isLoading: boolean = true; // Variable para mostrar el loader
-
-  file?: File;
-  capturedImageUrl: string | null = null;
-
-  // overlaySrc: String = '';
+  /* ▸ Plataforma */
+  private readonly isAndroid = this.platform.is('android');
+  private readonly isIOS = this.platform.is('ios');
 
   constructor(
     private platform: Platform,
     private modalController: ModalController,
-    private sanitizer: DomSanitizer,
     private modaldpiServices: ModalDpiServices
-  ) {
-    this.isAndroid = this.platform.is('android');
-    this.isIOS = this.platform.is('ios');
+  ) {}
+
+  /* ─────────────── Life‑cycle ─────────────── */
+
+  async ngAfterViewInit() {
+    await this.requestPermissions();
+
+    /* DEBUG – muestra todas las cámaras halladas */
+    await this.logAvailableCams();
+
+    this.stream = await this.selectRearCamera();
+    if (this.stream) this.attachStream(this.stream);
+
+    this.isLoading = false;
+
+    /* Eventos externos */
+    this.modaldpiServices.closeOverlay$.subscribe(() => this.closeOverlay());
+    this.modaldpiServices.resumeCameraSubject$.subscribe(() => this.resumeCamera());
   }
 
-  async ngOnDestroy() {
+  ngOnDestroy() {
     this.stopCamera();
   }
 
-  async ngAfterViewInit() {
-    if (this.isAndroid || this.isIOS) {
-      await this.requestPermissions();
-    }
-    
-    await this.initCamera();
-    this.isLoading = false;
-    this.modaldpiServices.closeOverlay$.subscribe(() => {
-      this.closeOverlay();
-    });
+  /* ─────────────── Permisos ─────────────── */
 
-    this.modaldpiServices.resumeCameraSubject$.subscribe(() => {
-      this.resumeCamera();
-    });
-  }
-
-  async requestPermissions() {
-    if(Capacitor.getPlatform() !== 'web') {
-      if (this.isAndroid || this.isIOS) {
-        const permissions = await Camera.requestPermissions();
-        if (permissions.camera === 'denied') {
-          console.error('Permiso de cámara denegado');
-          return;
-        }
+  private async requestPermissions() {
+    if (Capacitor.getPlatform() !== 'web' && (this.isAndroid || this.isIOS)) {
+      const { camera } = await Camera.requestPermissions();
+      if (camera === 'denied') {
+        console.error('Permiso de cámara denegado');
       }
     }
   }
 
-  async initCamera() {
-    try {
-      const constraints: MediaStreamConstraints = {
-        video: {
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
-          facingMode: 'environment'
-        },
-        audio: false
-      };
+  /* ─────────────── Cámara trasera robusta ─────────────── */
 
-      this.stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-      const videoElement = this.videoElement.nativeElement;
-      videoElement.srcObject = this.stream;
-      videoElement.autoplay = true;
-      videoElement.playsInline = true;
-      videoElement.muted = true;
-
-      videoElement.onloadedmetadata = () => {
-        videoElement.play().catch((error) => {
-          console.error('Error al intentar reproducir el video:', error);
-        });
-      };
-    } catch (error) {
-      console.error('Error al inicializar la cámara:', error);
-      this.isLoading = false;
-    }
+  /** Muestra en consola cada videoinput encontrado (para debug). */
+  private async logAvailableCams() {
+    const devs = await navigator.mediaDevices.enumerateDevices();
+    devs
+      .filter(d => d.kind === 'videoinput')
+      .forEach((d, i) => console.log(`[${i}] "${d.label}" — id: ${d.deviceId}`));
   }
 
-  async capturePhoto() {
-    if (!this.stream) {
-      console.error('La cámara no está inicializada.');
-      return;
-    }
-  
-    const canvas = document.createElement('canvas');
-    const videoElement = this.videoElement.nativeElement;
-  
-    canvas.width = videoElement.videoWidth || 1920;
-    canvas.height = videoElement.videoHeight || 1080;
-  
-    const context = canvas.getContext('2d');
-    if (!context) {
-      console.error('No se pudo obtener el contexto del canvas.');
-      return;
-    }
-  
-    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-  
-    let quality = 0.98;
-    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-    const minQuality = 0.4;
-  
-    const compressImage = (quality: number): Promise<Blob | null> => {
-      return new Promise((resolve) => {
-        canvas.toBlob(
-          (blob) => resolve(blob),
-          'image/jpeg',
-          quality
-        );
+  /**
+   * Selecciona la cámara trasera con varios intentos:
+   * 1) facingMode:'environment' exact.
+   * 2) Recorre todas y acepta la primera cuyo facingMode !== 'user'.
+   * 3) Si hay ≥2 cámaras, prueba la segunda (suele ser trasera).
+   * 4) Fallback: primera cámara disponible.
+   */
+  private async selectRearCamera(): Promise<MediaStream | null> {
+    /* 1 — prueba facingMode exact estándar */
+    try {
+      const std = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { exact: 'environment' } },
+        audio: false
       });
-    };
-  
-    let blob: Blob | null = await compressImage(quality);
-  
-    // Reducir calidad si excede tamaño
-    while (blob && blob.size > maxSizeInBytes && quality > minQuality) {
-      quality -= 0.05;
-      blob = await compressImage(quality);
-    }
-  
-    if (blob && blob.size <= maxSizeInBytes) {
-      this.file = this.blobToFile(blob, 'dpi.jpeg');
-      videoElement.pause();
+      const fm = (std.getVideoTracks()[0].getSettings() as any).facingMode;
+      if (fm === 'environment') return std;
+      std.getTracks().forEach(t => t.stop());
+    } catch { /* ignoramos */ }
+
+    /* 2 — recorre cada lente buscando algo que no sea 'user' */
+    const devices = (await navigator.mediaDevices.enumerateDevices())
+      .filter(d => d.kind === 'videoinput');
+
+    for (const cam of devices) {
       try {
-        await this.onTakePicture(this.file);
+        const s = await navigator.mediaDevices.getUserMedia({
+          video: { deviceId: { exact: cam.deviceId }, width: 640, height: 480 },
+          audio: false
+        });
+        const mode = (s.getVideoTracks()[0].getSettings() as any).facingMode || '';
+        if (mode !== 'user') return s;               // aceptamos environment, back, vacío, etc.
+        s.getTracks().forEach(t => t.stop());
+      } catch { /* ignoramos */ }
+    }
+
+    /* 3 — plan C: prueba la segunda cámara si existe */
+    if (devices.length > 1) {
+      try {
+        return navigator.mediaDevices.getUserMedia({
+          video: { deviceId: { exact: devices[1].deviceId } },
+          audio: false
+        });
+      } catch { /* ignoramos */ }
+    }
+
+    /* 4 — último recurso */
+    console.warn('Usando cámara por defecto (puede ser frontal).');
+    return navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+  }
+
+  /* ─────────────── Preview en <video> ─────────────── */
+
+  private attachStream(stream: MediaStream) {
+    const video = this.videoElement.nativeElement;
+    video.srcObject = stream;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.muted = true;
+    video.onloadedmetadata = () => video.play().catch(console.error);
+  }
+
+  /* ─────────────── Captura de foto ─────────────── */
+
+  async capturePhoto() {
+    if (!this.stream) return console.error('La cámara no está inicializada.');
+
+    const video = this.videoElement.nativeElement;
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth || 1920;
+    canvas.height = video.videoHeight || 1080;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return console.error('No se pudo obtener el contexto del canvas.');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    /* compresión hasta ≤5 MB */
+    let quality = 0.98;
+    const maxBytes = 5 * 1024 * 1024;
+    const toBlob = (q: number) =>
+      new Promise<Blob | null>(res => canvas.toBlob(b => res(b), 'image/jpeg', q));
+
+    let blob = await toBlob(quality);
+    while (blob && blob.size > maxBytes && quality > 0.4) {
+      quality -= 0.05;
+      blob = await toBlob(quality);
+    }
+
+    if (blob && blob.size <= maxBytes) {
+      const file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
+      video.pause();
+      try {
+        await this.onTakePicture(file);
       } catch (err) {
         console.error('Error en onTakePicture:', err);
       }
     } else {
-      console.error('No se pudo reducir el tamaño de la imagen por debajo de 5MB.');
+      console.error('No se pudo reducir la imagen por debajo de 5 MB.');
     }
   }
-  
 
-  blobToFile(blob: Blob, fileName: string): File { 
-    const b: any = blob;
-    b.lastModified = new Date().getTime();
-    b.lastModifiedDate = new Date();
-    b.name = fileName;
-    //Cast to a File() type
-    return <File>b;
+  /* ─────────────── Utilidades de cierre ─────────────── */
+
+  private stopCamera() {
+    this.stream?.getTracks().forEach(t => t.stop());
+    this.stream = null;
   }
-  
-  stopCamera() {
-    if (this.stream) {
-      this.stream.getTracks().forEach(track => track.stop());
-      this.stream = null;
-    }
-  }
-  
+
   closeOverlay() {
     this.stopCamera();
     this.modalController.dismiss();
   }
 
-  public closeRequestedFunction() {
-    this.closeOverlay();
-    this.modaldpiServices.requestCloseOverlay();
-  }
-
   resumeCamera() {
-    const videoElement = this.videoElement?.nativeElement;
-    if (videoElement && videoElement.paused) {
-      videoElement.play().catch((error) => {
-        console.error('Error al intentar reanudar el video:', error);
-      });
-    }
+    const video = this.videoElement?.nativeElement;
+    if (video && video.paused) video.play().catch(console.error);
   }
-
 }

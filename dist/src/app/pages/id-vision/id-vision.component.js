@@ -884,34 +884,46 @@ export class IdVisionComponent {
                         }
                     }),
                     error: (error) => __awaiter(this, void 0, void 0, function* () {
-                        const modal = yield this.modalController.create({
-                            component: MessageModalComponent,
-                            componentProps: {
-                                title: error['mensage'],
-                                message: error['details'],
-                                variant: 'dpi'
-                            },
-                            backdropDismiss: false
-                        });
-                        yield modal.present();
-                        modal.onDidDismiss().then(() => {
-                            this.resumeCameraFromParent();
-                            this.validateMetaG.dpiBack = false;
-                            this.updateValidation();
-                            console.error('Error al llamar al servicio:', error);
-                        });
                         if (loader) {
                             loader.dismiss();
                         }
-                        // this.showAlert('Error', '', error, () => {
-                        //   this.resumeCameraFromParent();
-                        // });
-                        // if (loader) {
-                        //   loader.dismiss();
-                        // }
-                        // this.validateMetaG.dpiBack = false;
-                        // this.updateValidation();
-                        // console.error('Error al llamar al servicio:', error);
+                        if (this.hasInternet) {
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: error['mensage'],
+                                    message: error['details'],
+                                    variant: 'dpi'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
+                                this.resumeCameraFromParent();
+                                this.validateMetaG.dpiBack = false;
+                                this.updateValidation();
+                                console.error('Error al llamar al servicio:', error);
+                            });
+                            if (loader) {
+                                loader.dismiss();
+                            }
+                        }
+                        else {
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Error de conexión',
+                                    errors: ["No pudimos cargar la página. Verifica tu internet y prueba de nuevo."],
+                                    variant: 'dpi'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
+                                this.sdkCommunicationService.emitExit(false);
+                                this.navController.back();
+                            });
+                        }
                     }),
                 });
             }
@@ -987,23 +999,41 @@ export class IdVisionComponent {
                         }
                     }),
                     error: (error) => __awaiter(this, void 0, void 0, function* () {
-                        const modal = yield this.modalController.create({
-                            component: MessageModalComponent,
-                            componentProps: {
-                                title: 'Error',
-                                errors: error['message'],
-                                variant: 'video'
-                            },
-                            backdropDismiss: false
-                        });
-                        yield modal.present();
-                        modal.onDidDismiss().then(() => {
-                            this.resumeCameraFromParent();
-                            // this.modalController.dismiss();
-                        });
-                        // this.showAlert('Error', '', error, () => {
-                        //   this.resumeCameraFromParent();
-                        // });
+                        if (loader) {
+                            loader.dismiss();
+                        }
+                        if (this.hasInternet) {
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Error',
+                                    errors: error['message'],
+                                    variant: 'video'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
+                                this.resumeCameraFromParent();
+                                // this.modalController.dismiss();
+                            });
+                        }
+                        else {
+                            const modal = yield this.modalController.create({
+                                component: MessageModalComponent,
+                                componentProps: {
+                                    title: 'Error de conexión',
+                                    errors: ["No pudimos cargar la página. Verifica tu internet y prueba de nuevo."],
+                                    variant: 'dpi'
+                                },
+                                backdropDismiss: false
+                            });
+                            yield modal.present();
+                            modal.onDidDismiss().then(() => {
+                                this.sdkCommunicationService.emitExit(false);
+                                this.navController.back();
+                            });
+                        }
                         console.error('Error al llamar al servicio:', error);
                     }),
                 });
