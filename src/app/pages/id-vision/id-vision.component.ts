@@ -29,7 +29,6 @@ import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
 import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
 import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
-import { Network, NetworkStatus } from '@capacitor/network';
 import { PluginListenerHandle } from '@capacitor/core';
 import { NgZone } from '@angular/core';
 import {
@@ -70,19 +69,15 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   constructor(
-    private zone: NgZone,
     private modalController: ModalController,
     private dpiService: DpiService,
     private alertController: AlertController,
     private loadingController: LoadingController,
     private platform: Platform,
     private modalDpiServices: ModalDpiServices,
-    private modalVideoSelfieServices: ModalVideoSelfieServices,
     private sdkCommunicationService: SdkCommunicationService,
     private navController: NavController,
-    private validateMetaGService: ValidateMetaGService,
     private cdRef: ChangeDetectorRef,
-    private photoSelfieServices: PhotoSelfieServices,
     private toastController: ToastController
   ) {
     this.isAndroid = this.platform.is('android');
@@ -178,7 +173,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             console.warn("La configuración obtenida no es válida:", connection);
           }
         },
-        error: async (err) => {
+        error: async () => {
           if (loader) {
             loader.dismiss();
           }
@@ -274,26 +269,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit() {
 
-    if (this.isAndroid || this.isIOS) {
-
-
-      try {
-        const status = await Network.getStatus();
-        this.hasInternet = status.connected;
-
-        this.networkListener = await Network.addListener('networkStatusChange', (status) => {
-          this.zone.run(() => {
-            this.hasInternet = status.connected;
-            console.log('Internet cambio:', this.hasInternet);
-          });
-        });
-      } catch (error: any) {
-        alert(error.message)
-      }
-
-    }
-
-
     await this.loadMockValidationConfig();
 
     if (this.isAndroid || this.isIOS) {
@@ -375,7 +350,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           navigation: {
             enabled: false,
           },
-          allowTouchMove: this.isSwipe,
+          allowTouchMove: false,
         };
         try {
           Object.assign(swiperElement, swiperOptions);
@@ -556,7 +531,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               localStorage.setItem('codigo', response['details']);
               const isCompleted = response['completed'];
 
-              this.showDebug = true;
+              this.showDebug = false;
 
               if (isCompleted) {
                 // console.log("Paso aca en el if")
@@ -654,6 +629,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.moveToNextStep(2);
             });
           } else {
+            
             const modal = await this.modalController.create({
               component: MessageModalComponent,
               componentProps: {
@@ -899,15 +875,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             loader.dismiss();
           }
           if (!response['error']) {
-            // this.showAlert('Éxito', response['message'], [], () => {
-            //   this.closeModalVideoSelfie();
-            //   this.modalController.dismiss();
-            //   this.validateMetaG.videoSelfie = true;
-            //   this.updateValidation();
-            //   this.moveToNextStep(4);
-
-            // });
-
+          
             const modal = await this.modalController.create({
               component: MessageModalComponent,
               componentProps: {
@@ -1011,9 +979,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     header: string,
     message: string,
     details?: string[],
-    onConfirm?: () => void,
-    subMessage?: string
-  ) {
+    onConfirm?: () => void  ) {
     const detailsMessage = Array.isArray(details)
       ? details.map((detail) => `${detail}           `).join('')
       : '';

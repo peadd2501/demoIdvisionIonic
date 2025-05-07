@@ -4,7 +4,7 @@ import { Camera } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { Capacitor } from '@capacitor/core';
-import { TextToSpeech } from '@capacitor-community/text-to-speech';
+//import { TextToSpeech } from '@capacitor-community/text-to-speech';
 
 @Component({
   selector: 'app-simple-acuerdo-video',
@@ -350,13 +350,13 @@ export class SimpleAcuerdoVideoComponent implements AfterViewInit, OnDestroy {
       }, this.timePerWord * index); // Sincroniza con el tiempo de la palabra
     });
 
-    await TextToSpeech.speak({
-      text: text,
-      lang: 'es-MX',
-      rate: 0.85,
-      volume: 1.0,
-      pitch: 1.2,
-    });
+    // await TextToSpeech.speak({
+    //   text: text,
+    //   lang: 'es-MX',
+    //   rate: 0.85,
+    //   volume: 1.0,
+    //   pitch: 1.2,
+    // });
 
     // Una vez que se termine, habilitar nuevamente el botón
     this.isSpeaking = false;

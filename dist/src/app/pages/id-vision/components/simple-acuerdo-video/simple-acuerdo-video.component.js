@@ -5,7 +5,6 @@ import { Camera } from '@capacitor/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { Capacitor } from '@capacitor/core';
-import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import * as i0 from "@angular/core";
 import * as i1 from "@ionic/angular";
 import * as i2 from "@angular/platform-browser";
@@ -109,6 +108,7 @@ function SimpleAcuerdoVideoComponent_ng_template_31_Template(rf, ctx) { if (rf &
     i0.ɵɵtext(16, "No");
     i0.ɵɵelementEnd()()()()()();
 } }
+//import { TextToSpeech } from '@capacitor-community/text-to-speech';
 export class SimpleAcuerdoVideoComponent {
     constructor(platform, modalController, sanitizer, renderer, alertController, changeDetector) {
         this.platform = platform;
@@ -405,13 +405,13 @@ export class SimpleAcuerdoVideoComponent {
                     this.highlightWord(this.currentIndex); // Resaltar la palabra
                 }, this.timePerWord * index); // Sincroniza con el tiempo de la palabra
             });
-            yield TextToSpeech.speak({
-                text: text,
-                lang: 'es-MX',
-                rate: 0.85,
-                volume: 1.0,
-                pitch: 1.2,
-            });
+            // await TextToSpeech.speak({
+            //   text: text,
+            //   lang: 'es-MX',
+            //   rate: 0.85,
+            //   volume: 1.0,
+            //   pitch: 1.2,
+            // });
             // Una vez que se termine, habilitar nuevamente el botón
             this.isSpeaking = false;
         });

@@ -14,6 +14,11 @@ import { Camera } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 import { ModalDpiServices } from '../../services/modal-services/modal-dpi-services';
 
+interface CamInfo {
+  label: string;
+  deviceId: string;
+}
+
 @Component({
   selector: 'app-camera-overlay',
   templateUrl: './camera-with-overlay.component.html',
@@ -23,41 +28,35 @@ import { ModalDpiServices } from '../../services/modal-services/modal-dpi-servic
 export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
 
-  /* ▸ Inputs / Outputs */
+  /* ─── Inputs / Outputs ─── */
   @Input() text1 = '';
   @Input() text2 = '';
   @Input() overlaySrc = '';
   @Input() onTakePicture!: (file: File) => Promise<boolean>;
   @Output() closeRequested = new EventEmitter<void>();
 
-  /* ▸ Estado */
+  /* ─── Estado ─── */
   stream: MediaStream | null = null;
   isLoading = true;
+  rearCams: CamInfo[] = [];
+  selectedCamId: string | null = null;
+  currentRearIndex = 0;               // ← índice de la lente trasera activa
 
-  /* ▸ Plataforma */
-  private readonly isAndroid = this.platform.is('android');
-  private readonly isIOS = this.platform.is('ios');
+  private readonly isMobile = this.platform.is('android') || this.platform.is('ios');
 
   constructor(
     private platform: Platform,
     private modalController: ModalController,
     private modaldpiServices: ModalDpiServices
-  ) {}
+  ) { }
 
-  /* ─────────────── Life‑cycle ─────────────── */
+  /* ═════════ LIFE-CYCLE ═════════ */
 
   async ngAfterViewInit() {
-    await this.requestPermissions();
-
-    /* DEBUG – muestra todas las cámaras halladas */
-    await this.logAvailableCams();
-
-    this.stream = await this.selectRearCamera();
-    if (this.stream) this.attachStream(this.stream);
-
+    if (this.isMobile) await this.requestPermissions();
+    await this.enumerateRearCams();              // llena rearCams y abre cámara por defecto
     this.isLoading = false;
 
-    /* Eventos externos */
     this.modaldpiServices.closeOverlay$.subscribe(() => this.closeOverlay());
     this.modaldpiServices.resumeCameraSubject$.subscribe(() => this.resumeCamera());
   }
@@ -66,78 +65,86 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     this.stopCamera();
   }
 
-  /* ─────────────── Permisos ─────────────── */
+  /* ═════════ Permisos ═════════ */
 
   private async requestPermissions() {
-    if (Capacitor.getPlatform() !== 'web' && (this.isAndroid || this.isIOS)) {
+    if (Capacitor.getPlatform() !== 'web') {
       const { camera } = await Camera.requestPermissions();
-      if (camera === 'denied') {
-        console.error('Permiso de cámara denegado');
-      }
+      if (camera === 'denied') console.error('Permiso de cámara denegado');
     }
   }
 
-  /* ─────────────── Cámara trasera robusta ─────────────── */
+  /* ═════════ Enumerar cámaras traseras ═════════ */
 
-  /** Muestra en consola cada videoinput encontrado (para debug). */
-  private async logAvailableCams() {
-    const devs = await navigator.mediaDevices.enumerateDevices();
-    devs
-      .filter(d => d.kind === 'videoinput')
-      .forEach((d, i) => console.log(`[${i}] "${d.label}" — id: ${d.deviceId}`));
+  private async enumerateRearCams() {
+    let devices = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'videoinput');
+
+    /* Si los labels vienen vacíos, pedimos un stream corto para que aparezcan. */
+    if (!devices.some(d => d.label)) {
+      try {
+        const tmp = await navigator.mediaDevices.getUserMedia({ video: true });
+        tmp.getTracks().forEach(t => t.stop());
+        devices = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'videoinput');
+      } catch { /* ignorar */ }
+    }
+
+    this.rearCams = devices
+      .filter(d => /back|rear|environment/i.test(d.label))
+      .map((d, i) => ({ label: d.label || `Cámara trasera ${i + 1}`, deviceId: d.deviceId }));
+
+    if (!this.rearCams.length && devices.length > 1) {
+      /* plan B – todo menos la primera (suele ser frontal) */
+      this.rearCams = devices.slice(1).map((d, i) => ({
+        label: d.label || `Cámara ${i + 1}`,
+        deviceId: d.deviceId
+      }));
+    }
+
+    /* ─── Elegir la cámara por defecto ─── */
+    if (this.rearCams.length) {
+      let preferred = this.rearCams.find(c => /camera2\s?0/i.test(c.label));     // 1) “camera2 0…”
+      if (!preferred) preferred = this.rearCams.find(c => /back/i.test(c.label)); // 2) cualquier “back”
+      const chosen = preferred ?? this.rearCams[0];                               // 3) primera
+
+      this.selectedCamId = chosen.deviceId;
+      this.currentRearIndex = this.rearCams.findIndex(c => c.deviceId === chosen.deviceId);
+      await this.openCamera(this.selectedCamId);
+    } else if (devices.length) {
+      /* Fallback final: primera cámara disponible */
+      await this.openCamera(devices[0].deviceId);
+    }
   }
 
-  /**
-   * Selecciona la cámara trasera con varios intentos:
-   * 1) facingMode:'environment' exact.
-   * 2) Recorre todas y acepta la primera cuyo facingMode !== 'user'.
-   * 3) Si hay ≥2 cámaras, prueba la segunda (suele ser trasera).
-   * 4) Fallback: primera cámara disponible.
-   */
-  private async selectRearCamera(): Promise<MediaStream | null> {
-    /* 1 — prueba facingMode exact estándar */
+  /* ═════════ Abrir / cambiar cámara ═════════ */
+
+  async openCamera(deviceId?: string) {
+    this.stopCamera();
+    if (!deviceId) return;
     try {
-      const std = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { exact: 'environment' } },
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          deviceId: { exact: deviceId },
+          width: { ideal: 1920 },   // ◄── full-HD
+          height: { ideal: 1080 },
+          aspectRatio: 1.7777778
+        },
         audio: false
       });
-      const fm = (std.getVideoTracks()[0].getSettings() as any).facingMode;
-      if (fm === 'environment') return std;
-      std.getTracks().forEach(t => t.stop());
-    } catch { /* ignoramos */ }
-
-    /* 2 — recorre cada lente buscando algo que no sea 'user' */
-    const devices = (await navigator.mediaDevices.enumerateDevices())
-      .filter(d => d.kind === 'videoinput');
-
-    for (const cam of devices) {
-      try {
-        const s = await navigator.mediaDevices.getUserMedia({
-          video: { deviceId: { exact: cam.deviceId }, width: 640, height: 480 },
-          audio: false
-        });
-        const mode = (s.getVideoTracks()[0].getSettings() as any).facingMode || '';
-        if (mode !== 'user') return s;               // aceptamos environment, back, vacío, etc.
-        s.getTracks().forEach(t => t.stop());
-      } catch { /* ignoramos */ }
+      this.attachStream(this.stream);
+    } catch (err) {
+      console.error('No se pudo abrir la cámara:', err);
     }
-
-    /* 3 — plan C: prueba la segunda cámara si existe */
-    if (devices.length > 1) {
-      try {
-        return navigator.mediaDevices.getUserMedia({
-          video: { deviceId: { exact: devices[1].deviceId } },
-          audio: false
-        });
-      } catch { /* ignoramos */ }
-    }
-
-    /* 4 — último recurso */
-    console.warn('Usando cámara por defecto (puede ser frontal).');
-    return navigator.mediaDevices.getUserMedia({ video: true, audio: false });
   }
 
-  /* ─────────────── Preview en <video> ─────────────── */
+  /** Avanza al siguiente sensor trasero en modo carrusel */
+  toggleRearCam() {
+    if (!this.rearCams.length) return;
+
+    this.currentRearIndex = (this.currentRearIndex + 1) % this.rearCams.length;
+    const nextCam = this.rearCams[this.currentRearIndex];
+    this.selectedCamId = nextCam.deviceId;
+    this.openCamera(nextCam.deviceId);
+  }
 
   private attachStream(stream: MediaStream) {
     const video = this.videoElement.nativeElement;
@@ -148,10 +155,10 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     video.onloadedmetadata = () => video.play().catch(console.error);
   }
 
-  /* ─────────────── Captura de foto ─────────────── */
+  /* ═════════ Captura de foto ═════════ */
 
   async capturePhoto() {
-    if (!this.stream) return console.error('La cámara no está inicializada.');
+    if (!this.stream) return console.error('Cámara no inicializada.');
 
     const video = this.videoElement.nativeElement;
     const canvas = document.createElement('canvas');
@@ -159,16 +166,16 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     canvas.height = video.videoHeight || 1080;
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return console.error('No se pudo obtener el contexto del canvas.');
+    if (!ctx) return;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    /* compresión hasta ≤5 MB */
-    let quality = 0.98;
-    const maxBytes = 5 * 1024 * 1024;
     const toBlob = (q: number) =>
       new Promise<Blob | null>(res => canvas.toBlob(b => res(b), 'image/jpeg', q));
 
+    let quality = 0.98;
     let blob = await toBlob(quality);
+    const maxBytes = 3 * 1024 * 1024;
+
     while (blob && blob.size > maxBytes && quality > 0.4) {
       quality -= 0.05;
       blob = await toBlob(quality);
@@ -177,17 +184,13 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
     if (blob && blob.size <= maxBytes) {
       const file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
       video.pause();
-      try {
-        await this.onTakePicture(file);
-      } catch (err) {
-        console.error('Error en onTakePicture:', err);
-      }
+      await this.onTakePicture?.(file);
     } else {
-      console.error('No se pudo reducir la imagen por debajo de 5 MB.');
+      console.error('Imagen > 3 MB.');
     }
   }
 
-  /* ─────────────── Utilidades de cierre ─────────────── */
+  /* ═════════ Utilidades ─ cierre / reanudar ═════════ */
 
   private stopCamera() {
     this.stream?.getTracks().forEach(t => t.stop());

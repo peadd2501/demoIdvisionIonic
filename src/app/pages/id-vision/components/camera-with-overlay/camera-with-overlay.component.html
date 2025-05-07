@@ -1,42 +1,63 @@
 <ion-content color="dark">
   <div class="camera-overlay">
+    <ion-fab vertical="top" horizontal="start" slot="fixed" *ngIf="rearCams.length > 1">
+      <ion-fab-button
+        class="buttonfabCameraChange"
+        size="small"
+        (click)="toggleRearCam()">
+        <ion-icon name="camera-reverse-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <!-- ▸ Encabezado ---------------------------------------------------- -->
     <div class="header-text">
       <div class="text-help">
-        <p>{{text1}}</p>
+        <p>{{ text1 }}</p>
       </div>
-      <p class="country">{{text2}}</p>
-    </div>
+      <p class="country">{{ text2 }}</p>
 
+      <!-- ▸ Selector de cámaras traseras (solo se muestra si hay varias) -->
+      <!-- <ion-item  class="cam-picker" lines="none">
+        <ion-label>Elegir cámara</ion-label>
+        <ion-select interface="popover"
+                    [value]="selectedCamId"
+                    (ionChange)="onSelectCam($event)">
+          <ion-select-option *ngFor="let cam of rearCams"
+                             [value]="cam.deviceId">
+            {{ cam.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>-->
+    </div> 
 
+    <!-- ▸ Loader mientras inicializa ------------------------------------ -->
     <div *ngIf="isLoading" class="loading-overlay">
       <ion-spinner name="crescent"></ion-spinner>
     </div>
-    
-    <!-- Capa oscura con recorte en el centro -->
+
+    <!-- ▸ Capa oscura con recorte (tu ventana de enfoque) --------------- -->
     <div class="visible-window"></div>
 
-    <!-- Video de la cámara con el overlay centrado -->
-    <div class="camera-container" >
+    <!-- ▸ Contenedor del vídeo + overlay -------------------------------- -->
+    <div class="camera-container">
       <video #videoElement autoplay muted playsinline></video>
       <!-- <img [src]="overlaySrc" alt="Overlay" class="overlay-frame" /> -->
     </div>
 
-    <!-- Botón de captura centrado en la parte inferior -->
+    <!-- ▸ Botón de captura ---------------------------------------------- -->
     <div class="button-container">
-      <ion-button (click)="capturePhoto()" class="capture-button" shape="round" expand="block">
+      <ion-button (click)="capturePhoto()"
+                  class="capture-button"
+                  shape="round"
+                  expand="block">
         <ion-icon name="camera-outline"></ion-icon>
       </ion-button>
     </div>
 
-    <!-- Botón de cerrar en la esquina superior derecha -->
-    <ion-button fill="clear" (click)="closeOverlay()" class="close-button">
+    <!-- ▸ Botón de cerrar ------------------------------------------------ -->
+    <ion-button fill="clear"
+                (click)="closeOverlay()"
+                class="close-button">
       <ion-icon name="close-outline"></ion-icon>
     </ion-button>
   </div>
-
-  <!-- Mostrar la imagen capturada si existe
-  <div *ngIf="capturedImageUrl">
-    <h3>Imagen Capturada:</h3>
-    <img [src]="capturedImageUrl" alt="Foto capturada" />
-  </div> -->
 </ion-content>

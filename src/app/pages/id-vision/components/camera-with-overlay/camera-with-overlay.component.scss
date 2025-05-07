@@ -195,3 +195,11 @@ ion-spinner {
     padding: 0.2rem;
   }
 }
+
+.buttonfabCameraChange {
+  --background: rgba(0, 0, 0, 0.6);
+  --color: #fff;
+  //box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  /* ajusta posición extra si lo necesitas */
+  /* margin-top: 8px; margin-left: 8px; */
+}
