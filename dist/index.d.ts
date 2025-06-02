@@ -8,4 +8,3 @@ export * from './src/app/pages/id-vision/services/modal-services/modal-dpi-servi
 export * from './src/app/pages/id-vision/services/modal-services/modal-video-selfie-services';
 export * from './src/app/pages/id-vision/services/modal-services/sdk-communication-services';
 export * from './src/app/pages/id-vision/services/validate-meta-g/validate-meta-g';
-//# sourceMappingURL=index.d.ts.map

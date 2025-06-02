@@ -32,6 +32,7 @@ export declare class CameraWithOverlayComponent implements AfterViewInit, OnDest
     toggleRearCam(): void;
     private attachStream;
     capturePhoto(): Promise<void>;
+    blobToFile(blob: Blob, fileName: string): File;
     private stopCamera;
     closeOverlay(): void;
     resumeCamera(): void;
@@ -39,4 +40,3 @@ export declare class CameraWithOverlayComponent implements AfterViewInit, OnDest
     static ɵcmp: i0.ɵɵComponentDeclaration<CameraWithOverlayComponent, "app-camera-overlay", never, { "text1": { "alias": "text1"; "required": false; }; "text2": { "alias": "text2"; "required": false; }; "overlaySrc": { "alias": "overlaySrc"; "required": false; }; "onTakePicture": { "alias": "onTakePicture"; "required": false; }; }, { "closeRequested": "closeRequested"; }, never, never, false, never>;
 }
 export {};
-//# sourceMappingURL=camera-with-overlay.component.d.ts.map

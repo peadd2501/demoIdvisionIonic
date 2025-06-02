@@ -6,4 +6,3 @@ export declare class SdkCommunicationService {
     static ɵfac: i0.ɵɵFactoryDeclaration<SdkCommunicationService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<SdkCommunicationService>;
 }
-//# sourceMappingURL=sdk-communication-services.d.ts.map

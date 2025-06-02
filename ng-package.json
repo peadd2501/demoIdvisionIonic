@@ -1,8 +1,11 @@
 {
-    "lib": {
-      "styleIncludePaths": [
-        "src/styles.scss",
-        "src/global.scss"
-      ]
-    }
-  }
+  "lib": {
+    "styleIncludePaths": [
+      "src/styles.scss",
+      "src/global.scss"
+    ]
+  },
+  "assets": [
+    "src/assets"
+  ]
+}

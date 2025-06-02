@@ -3,7 +3,7 @@ if (typeof process !== 'undefined' && process.versions && process.versions.node)
   const fse = require('fs-extra');
 
   const distImagesPath = path.resolve(__dirname, '../dist/assets/imagesIdvision');
-  const projectAssetsPath = path.resolve(process.cwd(), './src/assets/imagesIdvision');
+  const projectAssetsPath = path.resolve(process.cwd(), '../src/assets/imagesIdvision');
   const distThemePath = path.resolve(__dirname, '../src/theme/variables.scss');
   const projectThemePath = path.resolve(process.cwd(), './src/theme/variables.scss');
 

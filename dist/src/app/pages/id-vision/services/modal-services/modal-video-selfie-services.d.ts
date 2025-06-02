@@ -6,4 +6,3 @@ export declare class ModalVideoSelfieServices {
     static ɵfac: i0.ɵɵFactoryDeclaration<ModalVideoSelfieServices, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ModalVideoSelfieServices>;
 }
-//# sourceMappingURL=modal-video-selfie-services.d.ts.map

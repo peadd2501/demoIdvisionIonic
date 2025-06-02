@@ -64,4 +64,3 @@ export declare class SimpleAcuerdoVideoComponent implements AfterViewInit, OnDes
     static ɵfac: i0.ɵɵFactoryDeclaration<SimpleAcuerdoVideoComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<SimpleAcuerdoVideoComponent, "app-simple-acuerdo-video", never, { "backFunction": { "alias": "backFunction"; "required": false; }; }, { "closeRequested": "closeRequested"; }, never, never, false, never>;
 }
-//# sourceMappingURL=simple-acuerdo-video.component.d.ts.map

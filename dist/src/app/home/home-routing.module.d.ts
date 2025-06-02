@@ -5,4 +5,3 @@ export declare class HomePageRoutingModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<HomePageRoutingModule, never, [typeof i1.RouterModule], [typeof i1.RouterModule]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<HomePageRoutingModule>;
 }
-//# sourceMappingURL=home-routing.module.d.ts.map

@@ -15,10 +15,10 @@ const routes = [
     { path: 'id-vision', loadComponent: () => import('./pages/id-vision/id-vision.component').then(m => m.IdVisionComponent) }
 ];
 export class AppRoutingModule {
+    static { this.ɵfac = function AppRoutingModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || AppRoutingModule)(); }; }
+    static { this.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: AppRoutingModule }); }
+    static { this.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }), RouterModule] }); }
 }
-AppRoutingModule.ɵfac = function AppRoutingModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || AppRoutingModule)(); };
-AppRoutingModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: AppRoutingModule });
-AppRoutingModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }), RouterModule] });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(AppRoutingModule, [{
         type: NgModule,
         args: [{

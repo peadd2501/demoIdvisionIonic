@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import * as i0 from "@angular/core";
 export class IdVisionModule {
+    static { this.ɵfac = function IdVisionModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || IdVisionModule)(); }; }
+    static { this.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: IdVisionModule }); }
+    static { this.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [CommonModule, IonicModule] }); }
 }
-IdVisionModule.ɵfac = function IdVisionModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || IdVisionModule)(); };
-IdVisionModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: IdVisionModule });
-IdVisionModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [CommonModule, IonicModule] });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(IdVisionModule, [{
         type: NgModule,
         args: [{

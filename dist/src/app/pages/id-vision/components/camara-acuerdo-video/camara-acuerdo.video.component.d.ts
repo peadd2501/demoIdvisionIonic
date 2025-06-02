@@ -35,4 +35,3 @@ export declare class CamaraAcuerdoVideoComponent implements OnInit, AfterViewIni
     static ɵfac: i0.ɵɵFactoryDeclaration<CamaraAcuerdoVideoComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<CamaraAcuerdoVideoComponent, "app-acuerdo-video", never, { "backFunction": { "alias": "backFunction"; "required": false; }; }, {}, never, never, false, never>;
 }
-//# sourceMappingURL=camara-acuerdo.video.component.d.ts.map

@@ -10,10 +10,10 @@ const routes = [
     }
 ];
 export class HomePageRoutingModule {
+    static { this.ɵfac = function HomePageRoutingModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || HomePageRoutingModule)(); }; }
+    static { this.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: HomePageRoutingModule }); }
+    static { this.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [RouterModule.forChild(routes), RouterModule] }); }
 }
-HomePageRoutingModule.ɵfac = function HomePageRoutingModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || HomePageRoutingModule)(); };
-HomePageRoutingModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: HomePageRoutingModule });
-HomePageRoutingModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [RouterModule.forChild(routes), RouterModule] });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(HomePageRoutingModule, [{
         type: NgModule,
         args: [{

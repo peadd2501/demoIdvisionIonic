@@ -9,4 +9,3 @@ export declare class PhotoSelfieServices {
     static ɵfac: i0.ɵɵFactoryDeclaration<PhotoSelfieServices, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<PhotoSelfieServices>;
 }
-//# sourceMappingURL=photo-selfie-services.d.ts.map

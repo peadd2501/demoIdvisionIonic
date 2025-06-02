@@ -8,4 +8,3 @@ export declare class FrontDpiComponent {
     static ɵfac: i0.ɵɵFactoryDeclaration<FrontDpiComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<FrontDpiComponent, "app-front-dpi", never, {}, {}, never, never, false, never>;
 }
-//# sourceMappingURL=front-dpi.component.d.ts.map

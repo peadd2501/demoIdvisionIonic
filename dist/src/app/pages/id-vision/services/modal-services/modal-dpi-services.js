@@ -36,9 +36,9 @@ export class ModalDpiServices {
     requestResumePhotoSubject() {
         this.resumePhotoSubject.next();
     }
+    static { this.ɵfac = function ModalDpiServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalDpiServices)(); }; }
+    static { this.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: ModalDpiServices, factory: ModalDpiServices.ɵfac, providedIn: 'root' }); }
 }
-ModalDpiServices.ɵfac = function ModalDpiServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalDpiServices)(); };
-ModalDpiServices.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: ModalDpiServices, factory: ModalDpiServices.ɵfac, providedIn: 'root' });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ModalDpiServices, [{
         type: Injectable,
         args: [{

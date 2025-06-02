@@ -5,7 +5,7 @@
     <swiper-slide *ngIf="!simpleProcess">
       <div class="content">
         <div class="head">
-          <h2 class="p-justify">Verifiquemos tu identidad</h2>
+          <h2 class="h-title">Verifiquemos tu identidad</h2>
           <p class="p-justify">Para completar tu verificación, por favor ingresa tu número de identificación (DPI).</p>
           <ion-item class="rounded-input">
             <ion-input #dpi type="number" disabled="true" placeholder="Digita tu número de DPI"></ion-input>
@@ -41,7 +41,7 @@
         <!--Acuerdo de video-->
         <div *ngSwitchCase="1" [ngClass]="{'blur-effect': simpleProcess}">
           <div class="head">
-            <h2>Acuerdo de vídeo</h2>
+            <h2 class="h-title">Acuerdo de vídeo</h2>
             <p class="p-justify">Graba un breve video para completar tu proceso de identificación.</p>
           </div>
           <ion-grid class="verify-container">
@@ -69,7 +69,7 @@
         <!-- 🔹 DPI Frontal -->
         <div *ngSwitchCase="2">
           <div class="head">
-            <h2>Coloca la parte frontal de tu DPI</h2>
+            <h2 class="h-title">Coloca la parte frontal de tu DPI</h2>
             <p class="p-center p-info">Evita sombras, reflejos y coloca tu documento dentro del recuadro.</p>
           </div>
           <div class="dpi-container">
@@ -85,7 +85,7 @@
         <!-- 🔹 DPI Trasero -->
         <div *ngSwitchCase="3">
           <div class="head">
-            <h2>Coloca el reverso de tu DPI</h2>
+            <h2 class="h-title">Coloca el reverso de tu DPI</h2>
             <p class="p-center p-info">Evita sombras, reflejos y coloca tu documento dentro del recuadro.</p>
           </div>
           <div class="dpi-container">
@@ -101,7 +101,7 @@
         <!-- 🔹 Video Selfie -->
         <div *ngSwitchCase="4">
           <div class="head">
-            <h2>Video Selfie</h2>
+            <h2 class="h-title">Video Selfie</h2>
             <p class="p-justify">Graba un breve video para completar tu proceso de identificación.</p>
           </div>
           <ion-grid class="verify-container">
@@ -132,7 +132,7 @@
         <!-- TODO Se debera cambiar a 5, se dejo 1 por acuerdo de video -->
         <div *ngSwitchCase="5">
           <div class="head">
-            <h2>Foto Selfie</h2>
+            <h2 class="h-title">Foto Selfie</h2>
             <p class="p-justify">Toma una foto para completar tu proceso de identificación.</p>
           </div>
           <ion-grid class="verify-container">
@@ -159,37 +159,31 @@
             <ion-button class="custom-button" expand="block" (click)="step.action()">Abrir la cámara</ion-button>
           </div>
         </div>
-        <!-- 🔹 Caso por defecto (Error en configuración) -->
         <div *ngSwitchDefault>
           <h2>Paso desconocido</h2>
         </div>
       </div>
     </swiper-slide>
-    <!-- 🔹 PASO FINAL: Confirmación (Estático) -->
     <swiper-slide>
-      <div class="content">
-        <ion-col class="col-confirmation" *ngIf="isValid">
-          <ion-item color="white">
-            <p class="font-confirmation">Información procesada de manera correcta</p>
-          </ion-item>
-          <ion-item color="white" class="image-item">
-            <img src="assets/imagesIdvision/blue-check.png" alt="" />
-          </ion-item>
-        </ion-col>
-        <ion-col class="col-confirmation" *ngIf="!isValid">
-          <ion-item color="white">
-            <p class="font-confirmation">Ocurrió un error al procesar la información</p>
-          </ion-item>
-          <ion-item color="white" class="image-item">
-            <img src="assets/imagesIdvision/blue-check.png" alt="" />
-          </ion-item>
-        </ion-col>
-        <ion-item color="white">
-          <div class="fixed-footer">
-            <ion-button class="custom-button" expand="block" (click)="handleExit()">Salir</ion-button>
-          </div>
-        </ion-item>
+
+      <div class="confirmation-screen">
+        <!-- Título arriba -->
+        <div class="font-confirmation" *ngIf="isValid">
+          <p class="font-confirmation">Información procesada de manera correcta</p>
+        </div>
+        <div class="font-confirmation" *ngIf="!isValid">
+          <p class="font-confirmation">Ocurrió un error al procesar la información</p>
+        </div>
+        <!-- Imagen al centro -->
+        <div class="image-confirmation">
+          <img src="assets/imagesIdvision/blue-check.png" alt="Check morado" />
+        </div>
+        <div class="button-container">
+          <ion-button class="custom-button" expand="block" (click)="handleExit()">Salir</ion-button>
+        </div>
       </div>
+
+
     </swiper-slide>
 
   </swiper-container>
@@ -202,11 +196,11 @@
 
 </ion-content>
 <!-- pantalla para cuando no exista internet -->
-<ion-content [style.display]="!hasInternet ? 'block' : 'none'"> 
+<ion-content [style.display]="!hasInternet ? 'block' : 'none'">
   <div class="wrapper-no-internet">
     <div class="content-no-internet">
       <h2 class="title-no-internet">Error de conexión</h2>
-      <img src="assets/imagesIdvision/no-internet.svg" alt="Error conexión img" class="icon-no-internet"/>
+      <img src="assets/imagesIdvision/no-internet.svg" alt="Error conexión img" class="icon-no-internet" />
       <p class="description-no-internet">
         No pudimos cargar la página. <br>
         Verifica tu internet y prueba de nuevo.

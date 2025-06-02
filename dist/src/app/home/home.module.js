@@ -6,13 +6,13 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import * as i0 from "@angular/core";
 export class HomePageModule {
+    static { this.ɵfac = function HomePageModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || HomePageModule)(); }; }
+    static { this.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: HomePageModule }); }
+    static { this.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [CommonModule,
+            FormsModule,
+            IonicModule,
+            HomePageRoutingModule] }); }
 }
-HomePageModule.ɵfac = function HomePageModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || HomePageModule)(); };
-HomePageModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: HomePageModule });
-HomePageModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ imports: [CommonModule,
-        FormsModule,
-        IonicModule,
-        HomePageRoutingModule] });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(HomePageModule, [{
         type: NgModule,
         args: [{

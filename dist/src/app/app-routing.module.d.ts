@@ -5,4 +5,3 @@ export declare class AppRoutingModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<AppRoutingModule, never, [typeof i1.RouterModule], [typeof i1.RouterModule]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<AppRoutingModule>;
 }
-//# sourceMappingURL=app-routing.module.d.ts.map

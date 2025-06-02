@@ -54,4 +54,3 @@ export declare class CamaraVideoSelfieComponent implements AfterViewInit, OnDest
     static ɵfac: i0.ɵɵFactoryDeclaration<CamaraVideoSelfieComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<CamaraVideoSelfieComponent, "app-camara-video-selfie", never, { "text1": { "alias": "text1"; "required": false; }; "text2": { "alias": "text2"; "required": false; }; "backFunction": { "alias": "backFunction"; "required": false; }; }, { "closeRequested": "closeRequested"; }, never, never, false, never>;
 }
-//# sourceMappingURL=camara-video-selfie.component.d.ts.map

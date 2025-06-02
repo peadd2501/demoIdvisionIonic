@@ -9,9 +9,9 @@ export class ModalVideoSelfieServices {
     requestCloseOverlayModal() {
         this.closeOverlaySubjectModal.next();
     }
+    static { this.ɵfac = function ModalVideoSelfieServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalVideoSelfieServices)(); }; }
+    static { this.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: ModalVideoSelfieServices, factory: ModalVideoSelfieServices.ɵfac, providedIn: 'root' }); }
 }
-ModalVideoSelfieServices.ɵfac = function ModalVideoSelfieServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || ModalVideoSelfieServices)(); };
-ModalVideoSelfieServices.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: ModalVideoSelfieServices, factory: ModalVideoSelfieServices.ɵfac, providedIn: 'root' });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ModalVideoSelfieServices, [{
         type: Injectable,
         args: [{

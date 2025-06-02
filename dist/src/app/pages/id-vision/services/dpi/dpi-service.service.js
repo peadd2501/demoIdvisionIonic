@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, } from '@angular/common/http';
+import { HttpHeaders, } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { environments } from './../../../constants/enviroments';
@@ -129,9 +129,9 @@ export class DpiService {
         //     )
         //   );  
     }
+    static { this.ɵfac = function DpiService_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || DpiService)(i0.ɵɵinject(i1.HttpClient)); }; }
+    static { this.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: DpiService, factory: DpiService.ɵfac, providedIn: 'root' }); }
 }
-DpiService.ɵfac = function DpiService_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || DpiService)(i0.ɵɵinject(i1.HttpClient)); };
-DpiService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: DpiService, factory: DpiService.ɵfac, providedIn: 'root' });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(DpiService, [{
         type: Injectable,
         args: [{

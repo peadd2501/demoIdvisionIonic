@@ -14,10 +14,10 @@
 }
 
 
-h2 {
+.h-title {
   font-size: 1.5em;
   font-weight: bold;
-  color: var(--orange-primary, orange);
+  color: #F38301;
   text-align: center;
   margin-top: 20px;
 }
@@ -151,7 +151,7 @@ p {
   font-size: 26px;
   text-align: center;
   // color: #005da9;
-  color: var(--purple-primary);
+  color: #82298F;
   font-weight: bold;
 }
 
@@ -172,7 +172,7 @@ p {
 
 ion-input {
   text-align: center;
-  color: var(--orange-primary);
+  color: #F38301;
   --padding-start: 8px;
 }
 
@@ -201,7 +201,7 @@ ion-input {
 
   --background: white;
 
-  --color: var(--purple-primary);
+  --color: #82298F;
 
   --border-radius: 20px;
   --border-color: white;
@@ -349,4 +349,45 @@ ion-input {
   color: #000;
   line-height: 1.5;
   text-align: center;
+}
+.no-border{
+  --border-width: 0 !important;
+}
+
+.confirmation-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh; 
+  padding: 25px;
+  box-sizing: border-box;
+  background-image: url('assets/imagesIdvision/background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+}
+
+.image-confirmation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.image-confirmation img {
+  max-width: 500px;
+  width: 80%;
+  height: auto;
+}
+
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px; 
+  z-index: 1000;
+  font-size: 15px;
+  --color: #888; 
 }

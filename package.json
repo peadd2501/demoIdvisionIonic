@@ -1,6 +1,6 @@
 {
   "name": "metag-sdk-ionic",
-  "version": "1.1.17",
+  "version": "1.1.57",
   "author": "FGE",
   "description": "SDK de MetaG para validación de documentos y prueba de vida con Angular e Ionic.",
   "homepage": "https://ionicframework.com/",
@@ -10,8 +10,7 @@
   "style": "src/theme/global.scss",
   "files": [
     "dist",
-    "src/theme/variables.scss",
-    "scripts/postinstall.js"
+    "src/theme/variables.scss"
   ],
   "scripts": {
     "ng": "ng",
@@ -19,9 +18,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "build": "ngc tsconfig.lib.json && mkdir -p ./dist/assets/imagesIdVision && cp -R ./src/assets/imagesIdVision/* ./dist/assets/imagesIdVision/",
+    "build": "ngc tsconfig.lib.json",
     "prepare": "node scripts/postinstall.js",
-    "postinstall": "node scripts/postinstall.js",
+    "postinstall": "",
     "publish:npm": "npm run build && npm publish --access=public"
   },
   "keywords": [

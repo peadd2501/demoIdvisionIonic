@@ -9,9 +9,9 @@ export class SdkCommunicationService {
     emitExit(result) {
         this.exitSubject.next(result);
     }
+    static { this.ɵfac = function SdkCommunicationService_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || SdkCommunicationService)(); }; }
+    static { this.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: SdkCommunicationService, factory: SdkCommunicationService.ɵfac, providedIn: 'root' }); }
 }
-SdkCommunicationService.ɵfac = function SdkCommunicationService_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || SdkCommunicationService)(); };
-SdkCommunicationService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: SdkCommunicationService, factory: SdkCommunicationService.ɵfac, providedIn: 'root' });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(SdkCommunicationService, [{
         type: Injectable,
         args: [{ providedIn: 'root' }]

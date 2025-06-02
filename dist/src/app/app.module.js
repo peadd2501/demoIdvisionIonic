@@ -21,10 +21,10 @@ import * as i0 from "@angular/core";
 import * as i1 from "@ionic/angular";
 import * as i2 from "@ionic/storage-angular";
 export class AppModule {
+    static { this.ɵfac = function AppModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || AppModule)(); }; }
+    static { this.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: AppModule, bootstrap: [AppComponent] }); }
+    static { this.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(), DpiService], imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, IonicStorageModule.forRoot(), IdVisionComponent, HttpClientModule] }); }
 }
-AppModule.ɵfac = function AppModule_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || AppModule)(); };
-AppModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: AppModule, bootstrap: [AppComponent] });
-AppModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(), DpiService], imports: [BrowserModule, IonicModule.forRoot(), CommonModule, AppRoutingModule, IonicStorageModule.forRoot(), IdVisionComponent, HttpClientModule] });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(AppModule, [{
         type: NgModule,
         args: [{

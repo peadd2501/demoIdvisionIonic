@@ -34,4 +34,3 @@ export declare class PhotoSelfieCameraComponent implements AfterViewInit, OnDest
     static ɵfac: i0.ɵɵFactoryDeclaration<PhotoSelfieCameraComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<PhotoSelfieCameraComponent, "app-photo-selfie-camera", never, { "text1": { "alias": "text1"; "required": false; }; "text2": { "alias": "text2"; "required": false; }; "onTakePicture": { "alias": "onTakePicture"; "required": false; }; }, { "closeRequested": "closeRequested"; }, never, never, false, never>;
 }
-//# sourceMappingURL=photo-selfie-camera.component.d.ts.map

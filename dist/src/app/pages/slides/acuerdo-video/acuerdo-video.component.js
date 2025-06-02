@@ -9,23 +9,23 @@ export class DpiBackComponent {
     openCamera() {
         this.onPressed();
     }
+    static { this.ɵfac = function DpiBackComponent_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || DpiBackComponent)(i0.ɵɵdirectiveInject('onPressed')); }; }
+    static { this.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: DpiBackComponent, selectors: [["app-dpi-back"]], standalone: true, features: [i0.ɵɵStandaloneFeature], decls: 12, vars: 0, consts: [[1, "content"], [1, "head"], [1, "p-center", "p-info"], [1, "dpi-container"], ["autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-back-1.mp4", "type", "video/mp4"], [1, "fixed-footer"], ["expand", "block", 1, "custom-button", 3, "click"]], template: function DpiBackComponent_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵelementStart(0, "div", 0)(1, "div", 1)(2, "h2");
+            i0.ɵɵtext(3, "Acuerdo de video");
+            i0.ɵɵelementEnd();
+            i0.ɵɵelementStart(4, "p", 2);
+            i0.ɵɵtext(5, "Evita sombras, reflejos y coloca tu documento dentro del recuadro.");
+            i0.ɵɵelementEnd()();
+            i0.ɵɵelementStart(6, "div", 3)(7, "video", 4);
+            i0.ɵɵelement(8, "source", 5);
+            i0.ɵɵelementEnd()();
+            i0.ɵɵelementStart(9, "div", 6)(10, "ion-button", 7);
+            i0.ɵɵlistener("click", function DpiBackComponent_Template_ion_button_click_10_listener() { return ctx.openCamera(); });
+            i0.ɵɵtext(11, "Tomar una foto");
+            i0.ɵɵelementEnd()()();
+        } }, dependencies: [IonicModule, i1.IonButton] }); }
 }
-DpiBackComponent.ɵfac = function DpiBackComponent_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || DpiBackComponent)(i0.ɵɵdirectiveInject('onPressed')); };
-DpiBackComponent.ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: DpiBackComponent, selectors: [["app-dpi-back"]], standalone: true, features: [i0.ɵɵStandaloneFeature], decls: 12, vars: 0, consts: [[1, "content"], [1, "head"], [1, "p-center", "p-info"], [1, "dpi-container"], ["autoplay", "", "loop", "", "muted", "", "playsinline", "", "width", "1280", "height", "300"], ["src", "assets/imagesIdvision/Dpi-back-1.mp4", "type", "video/mp4"], [1, "fixed-footer"], ["expand", "block", 1, "custom-button", 3, "click"]], template: function DpiBackComponent_Template(rf, ctx) { if (rf & 1) {
-        i0.ɵɵelementStart(0, "div", 0)(1, "div", 1)(2, "h2");
-        i0.ɵɵtext(3, "Acuerdo de video");
-        i0.ɵɵelementEnd();
-        i0.ɵɵelementStart(4, "p", 2);
-        i0.ɵɵtext(5, "Evita sombras, reflejos y coloca tu documento dentro del recuadro.");
-        i0.ɵɵelementEnd()();
-        i0.ɵɵelementStart(6, "div", 3)(7, "video", 4);
-        i0.ɵɵelement(8, "source", 5);
-        i0.ɵɵelementEnd()();
-        i0.ɵɵelementStart(9, "div", 6)(10, "ion-button", 7);
-        i0.ɵɵlistener("click", function DpiBackComponent_Template_ion_button_click_10_listener() { return ctx.openCamera(); });
-        i0.ɵɵtext(11, "Tomar una foto");
-        i0.ɵɵelementEnd()()();
-    } }, dependencies: [IonicModule, i1.IonButton] });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(DpiBackComponent, [{
         type: Component,
         args: [{ selector: 'app-dpi-back', standalone: true, imports: [IonicModule], template: `

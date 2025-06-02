@@ -4,4 +4,3 @@ export declare class AppComponent {
     static ɵfac: i0.ɵɵFactoryDeclaration<AppComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<AppComponent, "app-root", never, {}, {}, never, never, false, never>;
 }
-//# sourceMappingURL=app.component.d.ts.map

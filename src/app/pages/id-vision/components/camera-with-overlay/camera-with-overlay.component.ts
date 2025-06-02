@@ -124,7 +124,7 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
       this.stream = await navigator.mediaDevices.getUserMedia({
         video: {
           deviceId: { exact: deviceId },
-          width: { ideal: 1920 },   // ◄── full-HD
+          width: { ideal: 1920 },
           height: { ideal: 1080 },
           aspectRatio: 1.7777778
         },
@@ -160,34 +160,52 @@ export class CameraWithOverlayComponent implements AfterViewInit, OnDestroy {
   async capturePhoto() {
     if (!this.stream) return console.error('Cámara no inicializada.');
 
-    const video = this.videoElement.nativeElement;
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth || 1920;
-    canvas.height = video.videoHeight || 1080;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    try {
+      const video = this.videoElement.nativeElement;
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth || 1920;
+      canvas.height = video.videoHeight || 1080;
 
-    const toBlob = (q: number) =>
-      new Promise<Blob | null>(res => canvas.toBlob(b => res(b), 'image/jpeg', q));
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    let quality = 0.98;
-    let blob = await toBlob(quality);
-    const maxBytes = 3 * 1024 * 1024;
+      const toBlob = (q: number) =>
+        new Promise<Blob | null>(res => canvas.toBlob(b => res(b), 'image/jpeg', q));
 
-    while (blob && blob.size > maxBytes && quality > 0.4) {
-      quality -= 0.05;
-      blob = await toBlob(quality);
+      let quality = 0.98;
+      let blob = await toBlob(quality);
+      //console.log('blob', blob);
+      const maxBytes = 3 * 1024 * 1024;
+      while (blob && blob.size > maxBytes && quality > 0.4) {
+        quality -= 0.05;
+        blob = await toBlob(quality);
+      }
+
+      if (blob && blob.size <= maxBytes) {
+        //const file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
+        // const newBlob = new Blob([blob], { type: 'video/jpeg' });
+        const file = this.blobToFile(blob, 'dpi.jpeg');
+        video.pause();
+        await this.onTakePicture?.(file);
+      } else {
+        alert('Imagen mayor a 5 MEGAS')
+        console.error('Imagen > 3 MB.');
+      }
+    } catch (error) {
+      console.error(error)
     }
+  }
 
-    if (blob && blob.size <= maxBytes) {
-      const file = new File([blob], 'dpi.jpeg', { type: 'image/jpeg' });
-      video.pause();
-      await this.onTakePicture?.(file);
-    } else {
-      console.error('Imagen > 3 MB.');
-    }
+
+  blobToFile(blob: Blob, fileName: string): File { 
+    const b: any = blob;
+    b.lastModified = new Date().getTime();
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+    //Cast to a File() type
+    return <File>b;
   }
 
   /* ═════════ Utilidades ─ cierre / reanudar ═════════ */

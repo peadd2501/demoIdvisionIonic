@@ -26,18 +26,13 @@ import { CameraWithOverlayComponent } from './components/camera-with-overlay/cam
 import { CamaraVideoSelfieComponent } from './components/camara-video-selfie/camara-video-selfie.component';
 import { DpiService } from './services/dpi/dpi-service.service';
 import { ModalDpiServices } from './services/modal-services/modal-dpi-services';
-import { ModalVideoSelfieServices } from './services/modal-services/modal-video-selfie-services';
 import { SdkCommunicationService } from './services/modal-services/sdk-communication-services';
-import { ValidateMetaGService } from './services/validate-meta-g/validate-meta-g';
-import { PluginListenerHandle } from '@capacitor/core';
-import { NgZone } from '@angular/core';
 import {
   register,
   SwiperContainer,
   SwiperOptions,
 } from './../../../swiper-wrapper';
 import { PhotoSelfieCameraComponent } from './components/photo-selfie-camera/photo-selfie-camera.component';
-import { PhotoSelfieServices } from './services/modal-services/photo-selfie-services';
 import { CamaraAcuerdoVideoComponent } from './components/camara-acuerdo-video/camara-acuerdo.video.component';
 import { SimpleAcuerdoVideoComponent } from './components/simple-acuerdo-video/simple-acuerdo-video.component';
 import { MessageModalComponent } from './components/message-modal/message-modal.component';
@@ -120,7 +115,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
   showVideoSelfie: boolean = false;
   showPhotoSelfie: boolean = false;
   isValid = false;
-  networkListener: PluginListenerHandle | undefined;
+  //networkListener: PluginListenerHandle | undefined;
 
 
   async loadMockValidationConfig() {
@@ -217,6 +212,10 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  handleClose() {
+    this.handleExit();
   }
 
   getStepAction(type: number): () => void {
@@ -379,9 +378,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.swiperRef) {
       // this.swiperRef.destroy(true, true);
     }
-    if ((this.isAndroid || this.isIOS) && this.networkListener) {
-      await this.networkListener.remove();
-    }
+  
   }
 
   handleClick() {
@@ -545,6 +542,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
                 this.handleSlide(this.validationConfig.length + 1);
               } else {
+                if (loader) {
+                  loader.dismiss();
+                }
                 if (!this.simpleProcess) {
                   this.handleSlide(1);
                 } else {
@@ -552,6 +552,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
               }
             } else {
+              if (loader) {
+                loader.dismiss();
+              }
               if (this.dpi.value == null) {
                 this.showAlert('Error', 'El campo DPI no puede estar vacío', [], () => {
                   this.handleExit();
@@ -573,6 +576,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           },
           error: (error) => {
+            if (loader) {
+              loader.dismiss();
+            }
             console.log('-----------------');
             console.log(error)
             console.log('-----------------');
@@ -580,6 +586,9 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
           },
         });
     } catch (error) {
+      if (loader) {
+        loader.dismiss();
+      }
       console.log(error);
     }
   }
@@ -639,6 +648,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               },
               backdropDismiss: false
             });
+
             await modal.present();
             modal.onDidDismiss().then(() => {
               this.resumeCameraFromParent();
@@ -691,6 +701,7 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       });
     } catch (error) {
+      alert(error)
       console.log(error);
     }
   }
@@ -847,12 +858,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.navController.back();
             });
           }
-
-
-
-
-
-
         },
       });
     } catch (error) {
@@ -914,12 +919,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.updateValidation();
             });
 
-
-            // this.showAlert('Error', response['message'], [], () => {
-            //   this.closeModalVideoSelfie();
-            // });
-            // this.validateMetaG.videoSelfie = false;
-            // this.updateValidation();
           }
         },
         error: async (error) => {
@@ -1336,7 +1335,6 @@ export class IdVisionComponent implements OnInit, AfterViewInit, OnDestroy {
 
     await modal.present();
   }
-
 
   async openVideoSelfie() {
     const modal = await this.modalController.create({

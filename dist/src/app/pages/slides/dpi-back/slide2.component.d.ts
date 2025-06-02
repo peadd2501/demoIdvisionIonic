@@ -6,4 +6,3 @@ export declare class DpiBackComponent {
     static ɵfac: i0.ɵɵFactoryDeclaration<DpiBackComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<DpiBackComponent, "app-dpi-back", never, {}, {}, never, never, true, never>;
 }
-//# sourceMappingURL=slide2.component.d.ts.map

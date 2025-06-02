@@ -15,9 +15,9 @@ export class PhotoSelfieServices {
     requestClosePhotoSelfieSubject() {
         this.closePhotoSelfieSubject.next();
     }
+    static { this.ɵfac = function PhotoSelfieServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || PhotoSelfieServices)(); }; }
+    static { this.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: PhotoSelfieServices, factory: PhotoSelfieServices.ɵfac, providedIn: 'root' }); }
 }
-PhotoSelfieServices.ɵfac = function PhotoSelfieServices_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || PhotoSelfieServices)(); };
-PhotoSelfieServices.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: PhotoSelfieServices, factory: PhotoSelfieServices.ɵfac, providedIn: 'root' });
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(PhotoSelfieServices, [{
         type: Injectable,
         args: [{

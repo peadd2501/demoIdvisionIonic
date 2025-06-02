@@ -9,4 +9,3 @@ export declare class HomePageModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<HomePageModule, [typeof i1.HomePage], [typeof i2.CommonModule, typeof i3.FormsModule, typeof i4.IonicModule, typeof i5.HomePageRoutingModule], never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<HomePageModule>;
 }
-//# sourceMappingURL=home.module.d.ts.map

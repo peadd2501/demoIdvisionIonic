@@ -20,4 +20,3 @@ export declare class AppModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<AppModule, [typeof i1.AppComponent, typeof i2.CustomButtonComponent, typeof i3.CameraWithOverlayComponent, typeof i4.CamaraVideoSelfieComponent, typeof i5.PhotoSelfieCameraComponent, typeof i6.CamaraAcuerdoVideoComponent, typeof i7.SimpleAcuerdoVideoComponent, typeof i8.MessageModalComponent], [typeof i9.BrowserModule, typeof i10.IonicModule, typeof i11.CommonModule, typeof i12.AppRoutingModule, typeof i13.IonicStorageModule, typeof i14.IdVisionComponent, typeof i15.CustomSlideComponent, typeof i16.HttpClientModule], never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<AppModule>;
 }
-//# sourceMappingURL=app.module.d.ts.map
